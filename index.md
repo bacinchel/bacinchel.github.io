@@ -1,2 +1,0 @@
-# bacinchel.github.io
-Homepage
