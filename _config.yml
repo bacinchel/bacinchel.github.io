@@ -9,8 +9,8 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: Test Hompage
-subtitle: "My blog"
+title: IT Climber
+subtitle: "IT, Climbing, Hobby or Somthing usefull"
 email: bacinchel@nate.com
 name: Inchul Baek
 description: >
