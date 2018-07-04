@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "임베디드 SW 개발 패턴 "
@@ -7,5 +6,7 @@ author: Inchul Baek
 categories: Embedded
 tags: PTTES
 ---
+
+
 Patterns for Time-Triggered Embedded Systems
 http://www.safetty.net/publications/pttes
