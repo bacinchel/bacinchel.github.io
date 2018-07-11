@@ -8,3 +8,6 @@ tags:
 ---
 알고리즘 문제, 코딩스킬 연습
 https://www.hackerrank.com/
+
+영어단어가 자주 쓰이는 표현인지 검색한다.
+https://books.google.com/ngrams/
