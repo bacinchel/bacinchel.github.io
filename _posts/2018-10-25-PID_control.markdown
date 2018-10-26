@@ -10,3 +10,5 @@ tags: PID, 제어
 PID 제어에 관한 EDX 강의
 https://www.edx.org/course/introduction-control-system-design-first-mitx-6-302-0x
 
+PID 제어에 관한 국내 대학강의 
+http://www.kocw.net/home/search/kemView.do?kemId=1188855
