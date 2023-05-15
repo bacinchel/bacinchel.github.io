@@ -99,13 +99,11 @@ chatGPT 답변
     
 ### 8,카라비너 의 종류 에대해 설명하시오
 
-O형 카라비너 Oval Carabiner
+#### O형 카라비너 Oval Carabiner
 
 다목적 용도로 사용하는 가장 기본적인 형태의 카라비너입니다. 대칭형이라 다양한 용도로 쓸 수 있어요.
 
-
-
-D형 카라비너 D Shape Carabiner
+#### D형 카라비너 D Shape Carabiner
 
 여러 용도에 적합하고, 긴 축으로 하중이 더 많이 전달되기 때문에 O형보다 강도가 높아요.
 
@@ -113,9 +111,7 @@ D형 카라비너 D Shape Carabiner
 
 D형의 장점을 갖고 있고 개폐구가 더 넓어 조작이 쉽습니다. 
 
-
-
-밴트게이트 카라비너 Bentgate Carabiner
+#### 밴트게이트 카라비너 Bentgate Carabiner
 
 밴트게이트 카라비너는 손가락을 걸어 열기 쉽게 개폐구를 휘어놓은 카라비너예요.
 
@@ -125,16 +121,13 @@ D형의 장점을 갖고 있고 개폐구가 더 넓어 조작이 쉽습니다.
 
 • (주사용목적) 퀵드로 연결
 
-
-와이어게이트 카라비너 Wiregate Carabiner
+#### 와이어게이트 카라비너 Wiregate Carabiner
 
 다른 카라비너에 비해 가볍고 강도도 높은 카라비너입니다.
 
 한 연구에 의하면 이 카라비너는 로프가 카라비너를 빠르게 통과할 때 개폐구의 떨림 현상이 다른 카라비너에 비해 덜하다고 해요.
 
-
-
-잠금 카라비너 Locking Carabiner
+#### 잠금 카라비너 Locking Carabiner
 
 잠금카라비너는 개폐구의 한쪽 끝 위에 스크류 덥개가 있어 개폐구가 우연히 열리는 것을 최소화해주는 카라비너예요.
 
@@ -144,9 +137,7 @@ D형의 장점을 갖고 있고 개폐구가 더 넓어 조작이 쉽습니다.
 
 • (주사용목적) 빌레이/확보 시
 
-
-
-HMS 카라비너 Halbmast Wurf Sicherung Carabiner
+#### HMS 카라비너 Halbmast Wurf Sicherung Carabiner
 
 서양 배 모양을 한 이 카라비너는 개폐구 한 쪽 끝에 잠금장치가 달려 카라비너가 열리는 것을 방지해주고, 
 
@@ -154,9 +145,7 @@ HMS 카라비너 Halbmast Wurf Sicherung Carabiner
 
 안전을 요하는 곳에서 2개의 카라비너를 개폐구가 반대 방향이 되도록 겹치게 사용하면 잠금 카라비너의 역할을 하게 됩니다.
 
-
-
-트윈게이트 카라비너 Twingate Carabiner
+#### 트윈게이트 카라비너 Twingate Carabiner
 
 개폐구가 이중으로 되어있어 보다 안전한 형태의 카라비너
 
