@@ -10,6 +10,7 @@ tags: Climbing
 ## 스포츠지도사 2급 등산 구술 정리 
 ### 1.KAF 컴피티션 에어리어 대해 설명하시오
 경기지역(Competition Area)은 경기장의 일부를 스포츠 활동에 배정하는 것을 의미하며 다음과 같이 구성된다. 
+
   a) 모든 격리구역(Isolation Zone)/준비운동지역(Warm-up Area)
   
   b) 모든 대기구역(Call Zone)/트렌짓존(Transit Zone)
