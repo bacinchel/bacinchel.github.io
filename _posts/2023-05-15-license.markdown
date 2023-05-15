@@ -1,2 +1,10 @@
+---
+layout: post
+title:  "생활체육지도자 2급 등산 구술 정리"
+date:   2023-05-15 08:43:59
+author: Inchul Baek
+categories: Climbing
+tags: Climbing
+---
 
 테스트
