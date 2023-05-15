@@ -7,7 +7,7 @@ categories: Embedded
 tags: PTTES
 ---
 
-
+123 
 Patterns for Time-Triggered Embedded Systems
 http://www.safetty.net/publications/pttes
 
