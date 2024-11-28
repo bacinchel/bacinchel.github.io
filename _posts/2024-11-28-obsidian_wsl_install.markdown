@@ -1,10 +1,10 @@
 ---
 layout: post
 title:  "Obisian을 wsl2에서 실행시키는법"
-date:   2024-11-28 16:00:00
+date:   2024-11-28 11:00:00
 author: Inchul Baek
 categories: Obisidian
-tags: PID, 제어
+tags: Misc
 ---
 
 Obisidian을 wsl2 에 설치하는 방법
