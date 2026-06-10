@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 최신 AI 특강 기말고사 예상문제 110제</title>
+<style>
+  :root {
+    --primary: #2563eb; --primary-dark: #1e40af;
+    --correct: #16a34a; --correct-bg: #f0fdf4;
+    --wrong: #dc2626; --wrong-bg: #fef2f2;
+    --gray: #6b7280; --border: #e5e7eb; --bg: #f8fafc;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", "Malgun Gothic", sans-serif; background: var(--bg); margin: 0; color: #1f2937; line-height: 1.6; }
+  header { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 26px 20px; text-align: center; }
+  header h1 { margin: 0 0 6px; font-size: 1.45rem; }
+  header p { margin: 0; opacity: 0.85; font-size: 0.92rem; }
+  .container { max-width: 880px; margin: 0 auto; padding: 20px 16px 80px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--border);
+    background: white; cursor: pointer; font-size: 0.88rem; font-weight: 600; color: #475569;
+  }
+  .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .tab .cnt { opacity: 0.7; font-weight: 400; }
+
+  .scoreboard {
+    background: white; border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 18px; margin-bottom: 18px; display: flex; justify-content: space-between;
+    align-items: center; position: sticky; top: 10px; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    flex-wrap: wrap; gap: 8px;
+  }
+  .scoreboard .score { font-weight: 700; font-size: 1.05rem; }
+  .scoreboard .score .num { color: var(--primary); }
+  .sb-btns { display: flex; gap: 8px; }
+
+  .question-card {
+    background: white; border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 22px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .q-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .q-num { background: var(--primary); color: white; font-weight: 700; padding: 2px 12px; border-radius: 999px; font-size: 0.85rem; }
+  .q-type { background: #eef2ff; color: #4338ca; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+  .q-week { background: #fef9c3; color: #854d0e; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; }
+  .star { color: #d97706; font-size: 0.83rem; font-weight: 600; }
+  .q-text { font-weight: 600; font-size: 1.0rem; margin-bottom: 14px; white-space: pre-line; }
+  .q-text table { border-collapse: collapse; margin: 8px 0; font-weight: 400; }
+  .q-text th, .q-text td { border: 1px solid var(--border); padding: 4px 12px; text-align: center; font-size: 0.9rem; }
+  .q-text th { background: #f1f5f9; }
+
+  .options label {
+    display: flex; gap: 10px; align-items: flex-start; padding: 9px 13px;
+    border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 7px;
+    cursor: pointer; transition: all 0.15s; font-size: 0.94rem;
+  }
+  .options label:hover { border-color: var(--primary); background: #f0f6ff; }
+  .options input { margin-top: 4px; accent-color: var(--primary); }
+  .options label.opt-correct { border-color: var(--correct); background: var(--correct-bg); }
+  .options label.opt-wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+  .options label.disabled { pointer-events: none; opacity: 0.92; }
+
+  .match-row { display: flex; gap: 10px; align-items: center; margin-bottom: 9px; flex-wrap: wrap; }
+  .match-row .desc { flex: 1; min-width: 240px; font-size: 0.94rem; }
+  .match-row select, .calc-row input {
+    padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.94rem; background: white;
+  }
+  .match-row select.sel-correct, .calc-row input.sel-correct { border-color: var(--correct); background: var(--correct-bg); }
+  .match-row select.sel-wrong, .calc-row input.sel-wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+  .calc-row { display: flex; gap: 10px; align-items: center; margin-bottom: 9px; flex-wrap: wrap; }
+  .calc-row .calc-label { min-width: 180px; font-size: 0.94rem; }
+  .calc-hint { color: var(--gray); font-size: 0.83rem; margin: 4px 0 10px; }
+
+  .btn-row { margin-top: 13px; display: flex; gap: 10px; flex-wrap: wrap; }
+  button { padding: 8px 18px; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-check { background: var(--primary); color: white; }
+  .btn-check:hover { background: var(--primary-dark); }
+  .btn-check:disabled { background: #cbd5e1; cursor: default; }
+  .btn-show { background: white; color: var(--primary); border: 1.5px solid var(--primary); }
+  .btn-show:hover { background: #f0f6ff; }
+  .btn-reset-all { background: #f1f5f9; color: #475569; border: 1.5px solid var(--border); }
+
+  .result-badge { font-weight: 700; margin-top: 12px; padding: 9px 13px; border-radius: 8px; display: none; }
+  .result-badge.correct { display: block; background: var(--correct-bg); color: var(--correct); border: 1px solid #bbf7d0; }
+  .result-badge.wrong { display: block; background: var(--wrong-bg); color: var(--wrong); border: 1px solid #fecaca; }
+
+  .explanation {
+    display: none; margin-top: 14px; background: #fffdf5; border: 1px solid #fde68a;
+    border-left: 5px solid #f59e0b; border-radius: 8px; padding: 15px 17px; font-size: 0.92rem;
+  }
+  .explanation.show { display: block; }
+  .exp-answer {
+    font-weight: 800; font-size: 0.98rem; color: #166534; background: var(--correct-bg);
+    border: 1px solid #bbf7d0; border-radius: 8px; padding: 7px 13px; margin-bottom: 12px; display: inline-block;
+  }
+  .exp-section-title { font-weight: 700; color: #92400e; margin: 13px 0 8px; padding-bottom: 4px; border-bottom: 1px dashed #fcd34d; font-size: 0.94rem; }
+  .exp-item { display: flex; gap: 8px; margin-bottom: 9px; padding: 8px 12px; border-radius: 8px; line-height: 1.55; }
+  .exp-item.ok { background: #f0fdf4; border: 1px solid #d1fae5; }
+  .exp-item.no { background: #fef2f2; border: 1px solid #fee2e2; }
+  .exp-item .mark { font-weight: 800; flex-shrink: 0; }
+  .exp-item.ok .mark { color: var(--correct); }
+  .exp-item.no .mark { color: var(--wrong); }
+  .exp-item b.opt-tag { color: #1e40af; }
+  .exp-tip { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 9px 13px; margin-top: 11px; color: #1e3a8a; font-size: 0.89rem; }
+  .exp-src { color: var(--gray); font-size: 0.84rem; margin-top: 9px; }
+  .exp-calc { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; margin-bottom: 8px; font-size: 0.91rem; }
+  .exp-calc .formula { font-family: Consolas, monospace; background: #eef2ff; padding: 1px 6px; border-radius: 4px; }
+
+  footer { text-align: center; color: var(--gray); font-size: 0.85rem; padding: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📝 2026 최신 AI 특강 기말고사 예상문제 110제</h1>
+  <p id="stage-info">전체 110문제 수록 완료 — Week 6·7·9·10·11·12·13·14 + 보충 (상세 해설 포함)</p>
+</header>
+
+<div class="container">
+  <div class="tabs" id="tabs"></div>
+
+  <div class="scoreboard">
+    <div class="score">점수: <span class="num" id="score">0</span> / <span id="answered">0</span> 푼 문제 (전체 <span id="total">0</span>)</div>
+    <div class="sb-btns">
+      <button class="btn-show" onclick="showWrongOnly()">틀린 문제만</button>
+      <button class="btn-reset-all" onclick="location.reload()">전체 다시 풀기</button>
+    </div>
+  </div>
+
+  <div id="quiz"></div>
+
+  <footer>
+    근거: 기말고사_예상문제_100제.md · RecentAI Week6~14 강의자료 (박지훈 교수)<br>
+    유형: 모두 고르기(체크박스) · 고르기(라디오) · 매칭(드롭다운) · 계산(직접 입력)
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   문제 데이터 — 단계적으로 추가
+   type: multi(모두 고르기) | single(하나 고르기) | match(매칭) | calc(계산)
+   ============================================================ */
+const QUESTIONS = [
+
+/* ==================== Week 6 — Transformer/NLP (1~14) ==================== */
+{
+  num: 1, week: "Week 6", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "RNN과 Transformer의 비교에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","Transformer는 recurrence가 없어 긴 시퀀스 입력을 병렬로 처리할 수 있다."],
+    ["b","Transformer는 autoregressive 생성(inference)도 항상 병렬로 처리할 수 있다."],
+    ["c","Teacher forcing은 학습 시 모델의 이전 예측 대신 ground truth 토큰을 다음 입력으로 주는 기법으로, 더 빠르고 안정적인 수렴이 가능하다."],
+    ["d","RNN은 recurrence 구조 덕분에 긴 시퀀스 입력도 병렬로 학습할 수 있다."],
+    ["e","Transformer는 teacher forcing 학습 시 masked self-attention으로 미래 토큰 참조를 막아 병렬 학습이 가능하다."]
+  ],
+  answer: ["a","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>RNN은 h<sub>t</sub>를 계산하려면 h<sub>t−1</sub>이 먼저 필요해 토큰을 순차 처리할 수밖에 없다. Transformer는 recurrence 없이 self-attention으로 <b>모든 토큰 쌍의 관계를 한 번의 행렬 연산</b>으로 계산하므로 긴 시퀀스도 병렬 처리된다. 이것이 Transformer가 RNN을 대체한 핵심 이유.</span></div>
+<div class="exp-item no"><span class="mark">❌ (b)</span><span><b>"학습은 병렬, 생성은 순차"</b>가 핵심 구분. autoregressive 생성은 y₁을 만들어야 그걸 입력으로 y₂를 만들 수 있으므로 순차적이다. 슬라이드에도 "Autoregressive inference should be done sequentially"라고 명시. 병렬화 장점이 모든 상황에 적용된다고 착각하게 만드는 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>Teacher forcing은 모델이 직전에 <i>잘못 예측</i>했더라도 다음 입력으로 <b>정답 토큰</b>을 넣는 학습 기법. 예: 정답 "I LOVE YOU"에서 모델이 "I AM…"으로 빗나가도 다음 입력은 정답 "LOVE". 장점: ① 빠르고 안정적인 수렴 ② 항상 올바른 문맥에서 학습.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>(a)와 정반대 서술. recurrence는 병렬화를 <b>막는 원인</b>이지 가능하게 하는 구조가 아니다. "recurrence 덕분에 병렬"은 표현 자체가 모순.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>Transformer가 teacher forcing을 <b>병렬로</b> 할 수 있는 비결이 masked self-attention. 정답 시퀀스 전체를 한 번에 넣되 각 위치가 미래 토큰을 못 보게 마스킹한다. 미래 참조를 막는 이유: ① 학습 시 정답을 미리 보는 cheating ② 테스트 시 의미 없는 값 참조.</span></div>
+<div class="exp-tip">💡 "Transformer = 무조건 병렬"로 외우면 (b)에 낚인다. <b>학습(teacher forcing+masking)=병렬 / autoregressive 추론=순차</b>로 구분 암기.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.7~10</div>`
+},
+{
+  num: 2, week: "Week 6", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Masked self-attention에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","학습 시 미래 토큰을 참조하는 것은 cheating이므로 마스킹한다."],
+    ["2","테스트 시 미래 위치의 값은 의미 없는 값이므로 참조하면 안 된다."],
+    ["3","마스킹 덕분에 Transformer는 teacher forcing 학습을 병렬화할 수 있다."],
+    ["4","마스킹은 인코더 전용 모델(BERT)의 핵심 학습 기법이다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 학습 단계에서는 정답 시퀀스 전체가 입력되므로, 마스킹이 없으면 각 위치가 "다음에 올 정답"을 미리 훔쳐볼 수 있다. 이는 cheating이며, 그렇게 학습된 모델은 실제 생성 시 무력해진다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. 테스트(생성) 시 미래 토큰은 아직 생성되지도 않았으므로, 참조한다면 의미 없는(meaningless) 값을 참조하는 셈이다. 학습-테스트 일관성을 위해서도 마스킹이 필요.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. 마스킹 덕분에 정답 시퀀스를 통째로 넣고 모든 위치의 next-token 예측을 <b>동시에</b> 학습할 수 있다(병렬 teacher forcing). RNN은 이게 안 돼서 한 토큰씩 학습한다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 그래서 정답. 미래 참조를 막는 causal masking은 <b>디코더 계열(GPT)</b>의 기법이다. BERT(인코더 전용)가 쓰는 것은 <b>Masked Language Model</b>(토큰 15%를 [MASK]로 가리고 맞히기, Cloze task)로, 이름에 같은 "mask"가 들어가지만 완전히 다른 개념. 용어 혼동을 노린 함정.</span></div>
+<div class="exp-tip">💡 같은 "mask"라도: <b>causal mask(GPT) = 미래 차단</b> vs <b>[MASK] 토큰(BERT) = 빈칸 채우기</b>. 이 구분이 출제 포인트.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.10, p.64</div>`
+},
+{
+  num: 3, week: "Week 6", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Transformer 추론 시 KV-caching에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","이전 디코딩 단계에서 계산한 key, value 텐서를 재사용하여 중복 계산을 피한다."],
+    ["b","이전 query 벡터도 모두 캐싱해야 한다."],
+    ["c","KV-caching을 적용하면 디코딩 step당 복잡도가 O(n²)에서 O(n)으로 줄어든다."],
+    ["d","KV-caching은 추론(inference)이 아니라 학습(training) 단계에서 사용되는 기법이다."],
+    ["e","KV-cache 메모리를 절약하기 위해 GQA, MQA 같은 key/value 공유 기법이 제안되었다."]
+  ],
+  answer: ["a","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>autoregressive 생성에서 step마다 이전 모든 토큰의 K, V가 다시 필요하다. 이를 매번 재계산하지 않고 <b>캐시에 저장해 재사용</b>하는 것이 KV-caching의 본질.</span></div>
+<div class="exp-item no"><span class="mark">❌ (b)</span><span>새 토큰의 attention 계산에는 "<b>새 query</b> × 모든 K × 모든 V"만 필요하다. 이전 step의 query는 다시는 사용되지 않으므로 캐싱할 이유가 없다. 슬라이드의 "Why don't we use previous queries? → We don't need it." 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>캐시가 없으면 step마다 전체 K/V를 재계산해 step당 O(n²), 캐시가 있으면 새 토큰 분량만 계산하면 되므로 step당 <b>O(n)</b>. 슬라이드에 명시된 수치.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>반대다. 학습은 teacher forcing으로 전체 시퀀스를 한 번에 병렬 처리하므로 캐시가 필요 없다. KV-caching은 <b>한 토큰씩 생성하는 추론 단계</b>의 최적화 기법.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>시퀀스가 길어지면 KV-cache가 GPU 메모리를 크게 차지한다. 그래서 K/V를 head 간에 공유해 캐시를 줄이는 <b>GQA(그룹 공유), MQA(전체 공유)</b>가 제안되었다 (문제 4와 연결).</span></div>
+<div class="exp-tip">💡 암기 포인트 3개: ① K/V만 캐싱, query는 안 함 ② O(n²)→O(n) ③ 추론 전용 기법.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.11~12</div>`
+},
+{
+  num: 4, week: "Week 6", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 attention 방식을 보기에서 고르시오.\n보기: (a) MHA  (b) GQA  (c) MQA",
+  choices: [["a","(a) MHA"],["b","(b) GQA"],["c","(c) MQA"]],
+  rows: [
+    "모든 head가 key/value 벡터를 공유하고, query만 head별로 계산한다",
+    "head별로 query, key, value를 모두 따로 계산·캐싱한다",
+    "head들을 그룹으로 묶어 그룹 단위로 key/value를 공유한다"
+  ],
+  answer: ["c","a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (c) MQA, (a) MHA, (b) GQA</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">MQA (Multi-Query Attention)</b> — head가 4개라면 query는 4벌이지만 key/value는 <b>한 벌만 만들어 모든 head가 공유</b>. 캐싱할 K/V가 1/head수로 줄어 KV-cache 메모리가 가장 적다. 대신 표현력은 다소 손해.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">MHA (Multi-Head Attention)</b> — 원조 Transformer 방식. head마다 W<sub>q</sub>, W<sub>k</sub>, W<sub>v</sub>가 전부 따로라 표현력은 최고지만, 모든 head의 K/V를 캐싱해야 해서 <b>메모리를 가장 많이</b> 쓴다.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">GQA (Grouped-Query Attention)</b> — 절충안. head를 그룹으로 묶어 그룹마다 K/V 한 벌씩 공유. 메모리와 표현력의 균형으로, 최신 LLM이 널리 채택.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>왜 K/V만 공유하나? — KV-cache 절약이 목적이고, <b>query는 캐싱하지 않으므로</b>(이전 query는 재사용 안 됨) 공유할 이유가 없다. 이 비대칭이 시험 포인트.</span></div>
+<div class="exp-tip">💡 암기법: KV-cache 메모리 = <b>MHA &gt; GQA &gt; MQA</b> ("K/V를 몇 벌 캐싱? head수 → 그룹수 → 1벌")</div>
+<div class="exp-src">📖 Week6 슬라이드 p.12~14</div>`
+},
+{
+  num: 5, week: "Week 6", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Tokenization에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","Character-level tokenization은 OOV(out-of-vocabulary) 문제 없이 어떤 입력도 처리할 수 있지만, 시퀀스 길이가 길어져 계산 비용이 증가한다."],
+    ["b","Word-level tokenization은 의미를 보존하고 효율적이지만 OOV 문제가 발생한다."],
+    ["c","Word-level tokenization은 \"open\", \"opened\", \"opens\"를 같은 임베딩으로 처리한다."],
+    ["d","Character-level tokenization은 시제·접미사·접두사 같은 형태소(morphological) 정보를 다룰 수 있다."],
+    ["e","Character-level tokenization은 시퀀스가 짧아져 학습 시간을 줄여준다."]
+  ],
+  answer: ["a","b","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>글자 단위로 쪼개면 어떤 새로운 단어도 글자들의 조합으로 표현 가능 → OOV가 원천적으로 없다. 대신 "students"가 8토큰이 되는 식으로 <b>시퀀스가 길어져</b> 계산 비용·학습 시간이 증가.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>단어 단위는 의미 보존·해석성·효율이 좋지만, 학습 때 못 본 단어(희귀어, 도메인 특화 단어)는 인덱스를 부여할 수 없는 <b>OOV 문제</b>가 발생한다. 이를 보완하는 것이 subword(BPE) 방식.</span></div>
+<div class="exp-item no"><span class="mark">❌ (c)</span><span>반대. word-level은 "open/opened/opens"를 <b>서로 다른 타입</b>으로 취급해 각각 별도 임베딩을 만든다. 같은 단어의 변형이 흩어지는 것이 word-level의 단점(inflexibility).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>글자 단위라 "-ed", "-s" 같은 <b>접미사·시제 패턴</b>을 글자 시퀀스로 포착할 수 있다. 슬라이드에서 character-level의 장점으로 "Morphological information – tense, number (suffix and prefixes)"를 명시.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>반대. character-level은 시퀀스가 <b>길어져 학습 시간이 증가</b>한다. (a)의 단점을 뒤집어 만든 함정 보기.</span></div>
+<div class="exp-tip">💡 표로 암기: char-level = OOV 없음·형태소 OK / 길어짐·느림·의미 손실. word-level = 의미·효율 OK / OOV·변형 비유연. → 절충 = subword(BPE).</div>
+<div class="exp-src">📖 Week6 슬라이드 p.16, p.18</div>`
+},
+{
+  num: 6, week: "Week 6", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"학습 데이터의 저빈도 단어를 특수 토큰으로 치환해 두고, 테스트 시 처음 보는 단어도 이 토큰으로 처리한다.\" 이 설명이 말하는 것은?",
+  opts: [
+    ["1","<CLS> 토큰"],["2","<UNK> 토큰"],["3","<START> 토큰"],["4","<MASK> 토큰"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② &lt;UNK&gt; 토큰</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>&lt;CLS&gt;는 <b>BERT의 분류용 첫 토큰</b>. 문장 전체의 표현을 모으는 자리로, 미등록 단어 처리와 무관.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>&lt;UNK&gt;(unknown)가 정답. word-level tokenization은 학습 때 못 본 단어에 인덱스를 줄 수 없으므로, <b>학습 데이터의 저빈도 단어를 미리 &lt;UNK&gt;로 바꿔서 학습</b>해 두고, 테스트의 미등록 단어도 &lt;UNK&gt;로 처리한다. 학습 때 미리 바꿔두는 이유: 모델이 &lt;UNK&gt;의 임베딩을 학습할 기회를 만들기 위해.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>&lt;START&gt;는 디코더 생성의 <b>시작 신호</b> 토큰. teacher forcing 그림에서 첫 입력으로 등장하는 그 토큰이다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>&lt;MASK&gt;는 <b>BERT 사전학습</b>에서 토큰 15%를 가릴 때 쓰는 토큰. 미등록 단어가 아니라 "맞혀야 할 빈칸"을 표시한다.</span></div>
+<div class="exp-tip">💡 &lt;UNK&gt;의 한계도 같이 암기: 희귀 단어가 많은 텍스트에서 정보 손실이 크다("Hen &lt;unk&gt; &lt;unk&gt;" 예시) → 이를 해결한 것이 subword tokenization(BPE).</div>
+<div class="exp-src">📖 Week6 슬라이드 p.17~18</div>`
+},
+{
+  num: 7, week: "Week 6", type: "calc", typeLabel: "계산 문제 — BPE",
+  q: "다음 코퍼스에 Byte Pair Encoding을 3회 적용했을 때, 새로 추가되는 심볼 3개를 순서대로 쓰시오. (Base vocab: a, c, h, i, j, r, s, t)\n\nc+a+t (5회) / s+a+t (10회) / h+i+t (7회) / c+a+r (14회) / j+a+r (9회)",
+  hint: "각 칸에 병합된 심볼을 입력 (예: xy)",
+  rows: [
+    { label: "1회차 병합 심볼:", accept: ["ar"] },
+    { label: "2회차 병합 심볼:", accept: ["at"] },
+    { label: "3회차 병합 심볼:", accept: ["car"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: ar → at → car</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1회차</b> — 모든 인접 글자쌍의 빈도 계산:<br>
+c+a: 5+14=19 / a+t: 5+10=15 / s+a: 10 / h+i: 7 / i+t: 7 / <b>a+r: 14+9=23 ← 최다</b> / j+a: 9<br>
+→ <b>ar</b> 병합. 단어들이 c+a+t, s+a+t, h+i+t, c+<b>ar</b>, j+<b>ar</b>로 재토큰화.</div>
+<div class="exp-calc"><b>2회차</b> — 다시 집계:<br>
+c+a: 5 (cat만 남음) / <b>a+t: 5+10=15 ← 최다</b> / c+ar: 14 / j+ar: 9 / h+i: 7 / i+t: 7<br>
+→ <b>at</b> 병합. c+<b>at</b>, s+<b>at</b>, h+i+t, c+ar, j+ar.</div>
+<div class="exp-calc"><b>3회차</b> — 다시 집계:<br>
+<b>c+ar: 14 ← 최다</b> / s+at: 10 / j+ar: 9 / h+i: 7, i+t: 7 / c+at: 5<br>
+→ <b>car</b> 병합. 최종 vocab = {a, c, h, i, j, r, s, t, <b>ar, at, car</b>}.</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>1회차에서 c+a(19)를 고르는 실수</b> — a+r이 23으로 더 많다. "단어 빈도 × 그 단어 안의 쌍 등장"을 전부 더해야 한다.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>병합 후 재집계를 안 하는 실수</b> — 1회차에서 ar이 병합되면 a+r 쌍은 사라지고 c+ar, j+ar 같은 새 쌍이 생긴다. 매 회차 반드시 재토큰화 후 다시 센다.</span></div>
+<div class="exp-tip">💡 이 코퍼스는 슬라이드 p.25의 연습문제 그대로다. BPE 원리(최빈 쌍 병합 반복), GPT-2는 byte(256개)를 base vocab으로 사용, vocab 크기는 보통 32K~64K라는 부가 사실도 함께 출제 가능.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.20~26</div>`
+},
+{
+  num: 8, week: "Week 6", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 subword tokenization 기법을 보기에서 고르시오.\n보기: (a) BPE  (b) WordPiece  (c) SentencePiece",
+  choices: [["a","(a) BPE"],["b","(b) WordPiece"],["c","(c) SentencePiece"]],
+  rows: [
+    "빈도가 아니라 언어모델 likelihood 기준으로 병합한다",
+    "가장 빈번한 문자 쌍을 반복적으로 병합한다. GPT-2는 byte(256개)를 base vocab으로 사용",
+    "사전 토큰화(pretokenization) 없이 subword 분리가 가능해 띄어쓰기가 없는 언어에 유리하다"
+  ],
+  answer: ["b","a","c"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (a), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) WordPiece</b> (Schuster et al., 2012) — 병합 기준이 BPE와 다르다. 단순 빈도가 아니라 <b>언어모델이 측정한 likelihood가 가장 높아지는 쌍</b>을 병합한다. BERT가 사용.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(a) BPE</b> (Gage 1994, 번역에 적용은 Sennrich 2016) — <b>최빈 문자쌍 반복 병합</b>이라는 가장 단순한 규칙. 모든 유니코드를 base로 두면 ~138K나 되므로, GPT-2는 <b>byte 256개</b>를 base vocab으로 쓰고 그 위에 BPE를 적용.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) SentencePiece</b> (Kudo 2018) — 공백 기준 사전 분리 없이 원문에서 바로 subword를 학습한다. <b>띄어쓰기가 없는 언어(일본어·중국어 등)에 유리</b>. 단, pretokenization을 같이 쓰면 보통 성능이 더 좋아진다는 단서도 슬라이드에 있음.</span></div>
+<div class="exp-tip">💡 구분 키워드 1:1 매칭 — BPE="빈도", WordPiece="likelihood", SentencePiece="pretokenization 불필요/띄어쓰기 없는 언어".</div>
+<div class="exp-src">📖 Week6 슬라이드 p.19, p.26~27</div>`
+},
+{
+  num: 9, week: "Week 6", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"단어의 의미는 그 주변에 자주 등장하는 단어들에 의해 결정된다(You shall know a word by the company it keeps).\" 이 아이디어를 가리키는 용어는?",
+  opts: [
+    ["1","One-hot encoding"],["2","Distributional semantics"],["3","Bag of words"],["4","Lemmatization"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Distributional semantics</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>One-hot encoding은 단어를 "해당 위치만 1인 벡터"로 표현하는 방식. 문제의 설명과 정반대로, <b>모든 단어 벡터가 서로 직교해 유사도 개념이 아예 없다</b>(hotel·motel 예시). 이 한계 때문에 distributional semantics 기반 임베딩이 등장했다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. J.R. Firth(1957)의 명언 그대로이며, "현대 통계 NLP의 가장 성공적인 아이디어 중 하나"로 슬라이드에 소개된다. 단어 w가 등장할 때 주변(고정 윈도) 단어들의 집합 = 문맥(context)으로 w의 표현을 만든다. <b>Word2Vec이 이 아이디어의 구현체</b>.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>Bag of words는 문서를 "단어 등장 횟수 주머니"로 보는 표현법. 순서·문맥을 무시하므로 "주변 단어가 의미를 결정한다"는 아이디어와 다르다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Lemmatization은 단어를 원형으로 환원하는 전처리(went→go). 의미 표현 이론이 아니다.</span></div>
+<div class="exp-tip">💡 흐름으로 암기: one-hot의 직교성 한계 → WordNet 동의어로는 불완전 → <b>문맥으로 의미를 인코딩(distributional semantics)</b> → Word2Vec.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.34~37</div>`
+},
+{
+  num: 10, week: "Week 6", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Word2Vec에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","CBOW는 주변(context) 단어들로 중심(center) 단어를 예측한다."],
+    ["b","Skip-gram은 중심 단어로 주변 단어들을 예측한다."],
+    ["c","CBOW는 작은 데이터셋과 희귀 단어에 대해 Skip-gram보다 항상 우수하다."],
+    ["d","학습된 W, W' 두 행렬 모두 word embedding으로 사용할 수 있고, 평균을 쓸 수도 있다."],
+    ["e","One-hot 벡터에 W 행렬을 곱하는 것은 행렬의 i번째 행을 선택하는 것과 같으며, Word2Vec 학습은 이 lookup table을 만드는 과정으로 볼 수 있다."]
+  ],
+  answer: ["a","b","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (d), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>CBOW</b>(Continuous Bag of Words) = 주변→중심. 윈도 내 여러 context 단어 벡터의 <b>평균</b>으로 center 단어의 one-hot을 예측하고, softmax+크로스엔트로피로 학습.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>Skip-gram</b> = 중심→주변. CBOW의 반대 방향. 한 중심 단어로 윈도 내 각 주변 단어를 각각 예측하므로 같은 코퍼스에서 더 많은 학습 신호가 생긴다.</span></div>
+<div class="exp-item no"><span class="mark">❌ (c)</span><span>반대다. 슬라이드 명시: "<b>Skip-gram works better with small training data and rare words</b> than CBOW". 방향(주변↔중심)과 함께 이 우열 관계를 뒤집는 것이 단골 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>입력측 W(V×M)와 출력측 W'(M×V) 모두 단어당 벡터를 갖고 있어 <b>둘 다 임베딩으로 사용 가능</b>하고, 평균·연결(concat)·합도 가능하다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>one-hot × W는 사실상 "W의 i번째 행 꺼내기" = <b>lookup table</b>. 그래서 Word2Vec 학습의 본질은 "각 단어의 임베딩 행을 채워 넣는 lookup table 만들기"다.</span></div>
+<div class="exp-tip">💡 방향 암기법: CBOW의 'B'ag = 주변 단어를 봉지에 모아 → 중심 예측. Skip-"gram" = 중심에서 주변으로 건너뛰며(skip) 예측. + "작은 데이터·희귀어 = Skip-gram 승".</div>
+<div class="exp-src">📖 Week6 슬라이드 p.42~46</div>`
+},
+{
+  num: 11, week: "Week 6", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"이웃 단어(positive example)만이 아니라 이웃이 아닌 단어(negative example)도 함께 학습에 사용하는 Word2Vec 학습 기법\"은?",
+  opts: [
+    ["1","Hierarchical softmax"],["2","Negative sampling"],["3","Teacher forcing"],["4","Subsampling"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Negative sampling</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>Hierarchical softmax는 어휘 전체에 대한 softmax를 트리 구조로 빠르게 근사하는 <b>속도 최적화</b> 기법. 부정 예시 학습과는 다른 개념(강의 슬라이드 범위 밖).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. 윈도 안의 (중심, 주변) 쌍은 label=1(positive), 윈도 밖에서 무작위로 뽑은 (중심, 비이웃) 쌍은 label=0(negative)으로 함께 학습한다. 두 임베딩 행렬(W, W')에서 벡터를 꺼내 <b>곱셈+합산으로 관련도(label)를 예측</b>하는 구조. positive만 학습하면 모든 벡터가 비슷해지는 쪽으로 무너질 수 있어 negative가 필요하다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>Teacher forcing은 시퀀스 모델 학습에서 정답 토큰을 다음 입력으로 주는 기법(문제 1). Word2Vec과 무관.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Subsampling은 너무 자주 나오는 단어(the 등)를 확률적으로 덜 샘플링하는 기법. "비이웃 단어를 학습에 사용"한다는 설명과 다르다.</span></div>
+<div class="exp-tip">💡 키워드 매칭: "positive + negative 쌍으로 학습" = negative sampling. Skip-gram과 결합된 형태(SGNS)로 출제될 수 있음.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.47~48</div>`
+},
+{
+  num: 12, week: "Week 6", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 모델을 보기에서 고르시오.\n보기: (a) Transformer  (b) GPT  (c) BERT",
+  choices: [["a","(a) Transformer"],["b","(b) GPT"],["c","(c) BERT"]],
+  rows: [
+    "Encoder stack과 Decoder stack을 모두 사용하는 원형 구조",
+    "입력 모델링이 목적일 때 Decoder를 제거하고 Encoder만 사용",
+    "\"다음 단어\" 생성이 목적일 때 Encoder를 제거하고 Decoder만 사용"
+  ],
+  answer: ["a","c","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Transformer</b> — 원형은 기계번역용 <b>Encoder-Decoder</b> 구조. Encoder가 입력(원문)을 모델링하고 Decoder가 그 정보를 받아 출력(번역문)을 생성한다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) BERT</b> — "다른 태스크를 위한 <b>입력의 표현 학습</b>"만 필요하면 Decoder가 필요 없다 → Encoder만 남긴 것이 BERT. 그래서 분류·QA 같은 이해(understanding) 태스크에 강하다.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(b) GPT</b> — 입력 없이 "<b>다음 단어</b>"만 하나씩 만들면 되면 Encoder가 필요 없다 → Decoder만 남긴 것이 GPT. 그래서 생성(generation) 태스크에 강하다.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>부가 암기: GPT 입력 인코딩 = token embedding + <b>positional encoding</b>. 출력 샘플링 = top-k / temperature / nucleus (문제 14).</span></div>
+<div class="exp-tip">💡 한 줄 암기: <b>"입력 이해 = Encoder = BERT / 다음 단어 생성 = Decoder = GPT"</b>. 슬라이드 p.51의 문장 그대로 출제 가능.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.51~53</div>`
+},
+{
+  num: 13, week: "Week 6", type: "single", typeLabel: "틀린 것 고르기",
+  q: "BERT의 사전학습(pretraining)에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","토큰의 15%를 마스킹하고 이를 예측하는 masked language model(Cloze task)로 학습한다."],
+    ["2","두 문장 A, B가 주어졌을 때 B가 A의 다음 문장인지 예측하는 과제를 50% true / 50% random으로 학습한다."],
+    ["3","문장 분류 시 [CLS] 토큰 위치의 출력 벡터를 분석한다."],
+    ["4","BERT Base의 hidden size는 2048이다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 첫 번째 사전학습 과제 <b>Masked Language Model</b> — 토큰의 <b>15%</b>를 가리고 모델 출력으로 맞히게 한다(빈칸 채우기 = Cloze task). 일부 단어를 무작위로 다른 단어로 바꾼 뒤 원래 단어를 맞히는 학습도 함께 수행.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. 두 번째 과제 <b>Next Sentence Prediction</b> — (A,B) 쌍에서 B가 진짜 다음 문장인지 분류. 데이터는 <b>50% 진짜 / 50% 무작위</b>로 구성해 문장 간 관계를 학습.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. 첫 토큰 <b>[CLS]</b> 위치의 출력 벡터만으로 문장 분류를 수행하며, 그 위에 <b>단층 분류기</b>만 붙여도 좋은 결과가 나온다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. BERT Base의 hidden size는 <b>768</b>. 2048은 <b>FID에서 쓰는 Inception v3 마지막 pooling 차원</b>(Week11)과 헷갈리게 만든 함정 숫자.</span></div>
+<div class="exp-tip">💡 BERT 숫자 3종 세트: 마스킹 <b>15%</b> / NSP <b>50:50</b> / hidden <b>768</b>. 숫자만 바꾼 오답이 나오기 가장 좋은 자리.</div>
+<div class="exp-src">📖 Week6 슬라이드 p.62~65</div>`
+},
+{
+  num: 14, week: "Week 6", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "GPT의 출력 토큰 샘플링 기법을 보기에서 고르시오.\n보기: (a) Top-k  (b) Temperature  (c) Nucleus sampling",
+  choices: [["a","(a) Top-k"],["b","(b) Temperature"],["c","(c) Nucleus sampling"]],
+  rows: [
+    "샘플링 풀의 크기를 상위 k개로 고정한다",
+    "누적 확률 기준으로 cut-off를 동적으로 조정한다",
+    "출력 확률분포의 뾰족한 정도를 조정한다"
+  ],
+  answer: ["a","c","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Top-k</b> — 확률 상위 <b>k개 후보만</b> 남기고 그 안에서 샘플링. k가 작으면 안정적·반복적, 크면 다양·불안정. "풀 크기 고정"이 키워드.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) Nucleus(top-p) sampling</b> — 누적 확률이 p(예: 0.9)가 될 때까지의 후보만 남긴다. 분포가 뾰족하면 후보가 적어지고 평평하면 많아지는 <b>동적 cut-off</b>. "동적으로 조정"이 키워드.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(b) Temperature</b> — softmax 전에 로짓을 T로 나눠 분포의 <b>뾰족함 자체를 조정</b>. T&lt;1이면 확신 강화(보수적), T&gt;1이면 평탄화(창의적). 후보를 자르는 게 아니라 확률을 변형한다는 점이 위 둘과 다름.</span></div>
+<div class="exp-tip">💡 구분: top-k = "개수 고정 컷" / nucleus = "확률 누적 동적 컷" / temperature = "컷 없이 분포 모양 조정".</div>
+<div class="exp-src">📖 Week6 슬라이드 p.57</div>`
+},
+
+/* ==================== Week 7 — Advanced LLM (15~28) ==================== */
+{
+  num: 15, week: "Week 7", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Math-bound / Memory-bound 분석에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","수학 연산 시간이 메모리 전송 시간보다 길면 math-bound 연산이다."],
+    ["b","Arithmetic intensity는 N_op / N_byte, 즉 \"byte 전송당 연산 수\"를 의미한다."],
+    ["c","연산량 N_op은 데이터 재사용으로 줄일 수 있다."],
+    ["d","데이터 재사용(캐시 활용)으로 N_byte를 줄이면 memory-bound 연산을 math-bound로 바꿀 수 있다."],
+    ["e","캐시(cache)는 프로세서 코어 가까이에 위치한 더 작고 빠른 메모리로, 캐시 접근이 일반 메모리 접근보다 훨씬 빠르다."]
+  ],
+  answer: ["a","b","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (d), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>t_math = N_op/BW_math, t_mem = N_byte/BW_mem으로 각각 추산했을 때 <b>t_math &gt; t_mem이면 math-bound</b>(연산이 병목, 메모리가 가끔 대기), 반대면 memory-bound(연산 유닛이 데이터를 기다림).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>arithmetic intensity = N_op/N_byte = "1바이트 옮길 때마다 몇 번 연산하나". 이 값이 하드웨어의 BW_math/BW_mem보다 크면 math-bound가 된다.</span></div>
+<div class="exp-item no"><span class="mark">❌ (c)</span><span>틀림. 행렬곱의 연산량 2N³처럼 <b>N_op은 연산 자체가 정의하는 양이라 바꿀 수 없다</b>. 데이터 재사용으로 바꿀 수 있는 것은 <b>N_byte</b>(메모리 읽기량: 2bN³ → 2bN²)다. 주어를 바꿔치기한 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>N_byte가 줄면 arithmetic intensity가 올라가므로, 구현 최적화(타일링·캐시 재사용)만으로 memory-bound 연산을 math-bound로 바꿀 수 있다. <b>FlashAttention이 바로 이 원리</b>(문제 17).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>캐시는 코어에 가까운 작고 빠른 메모리. A100의 메모리 계층(HBM vs on-chip SRAM) 그림이 슬라이드에 등장하며, "캐시 접근 ≫ 메모리 접근 속도"가 데이터 재사용이 효과적인 이유다.</span></div>
+<div class="exp-tip">💡 인과 사슬로 암기: 캐시 재사용 → N_byte↓ → arithmetic intensity↑ → memory-bound에서 math-bound로 전환. (N_op은 불변!)</div>
+<div class="exp-src">📖 Week7 슬라이드 p.14~18</div>`
+},
+{
+  num: 16, week: "Week 7", type: "calc", typeLabel: "계산 문제",
+  q: "NVIDIA A100 GPU(math bandwidth 19.5 TFLOPS, memory bandwidth 1.6 TB/s)에서 FP32 N×N 행렬곱(데이터 재사용 시 arithmetic intensity = N/6)을 수행한다.\n(1) 하드웨어의 BW_math/BW_mem 비율(OP/byte)과 (2) math-bound가 되는 최소 정수 N을 구하시오.",
+  hint: "비율은 소수 첫째 자리(예: 12.2), N은 정수로 입력",
+  rows: [
+    { label: "(1) BW 비율 (OP/byte):", accept: ["12.2","12.19"] },
+    { label: "(2) math-bound 최소 N:", accept: ["74","n=74"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: (1) 12.2 OP/byte, (2) N = 74</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1단계 — 하드웨어 비율</b><br>
+<span class="formula">BW_math / BW_mem = 19.5 TFLOPS / 1.6 TB/s = 12.2 OP/byte</span><br>
+의미: 이 GPU는 "1바이트 옮기는 시간에 12.2번 연산"할 수 있다. 연산이 이보다 빽빽하면(intensity가 높으면) 연산이 병목 = math-bound.</div>
+<div class="exp-calc"><b>2단계 — 조건식 세우기</b><br>
+math-bound 조건: <span class="formula">N_op/N_byte &gt; BW_math/BW_mem</span> → <span class="formula">N/6 &gt; 12.2</span> → N &gt; 73.2<br>
+→ 최소 정수 <b>N = 74</b>. (N &lt; 74이면 memory-bound)</div>
+<div class="exp-calc"><b>참고 — N/6은 어디서 왔나</b><br>
+FP32(b=32bit)에서 재사용 시 intensity = 16N/3b = 16N/96 = <b>N/6</b>. 재사용이 없으면 intensity = 8/b = 0.25로 N과 무관하게 항상 memory-bound가 된다는 비교도 함께 기억.</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span>부등호 방향 혼동 — "N이 <b>크면</b> math-bound"다. 행렬이 클수록 옮긴 데이터당 연산이 많아지기 때문. 작은 행렬일수록 메모리 왕복이 병목(memory-bound).</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span>단위 혼동 — TFLOPS(연산/초) ÷ TB/s(바이트/초) = OP/byte. T(테라)끼리 약분되므로 19.5/1.6만 계산하면 된다.</span></div>
+<div class="exp-tip">💡 숫자 자체(19.5, 1.6, 12.2, 74)가 슬라이드에 그대로 있는 계산이라, 같은 숫자로 출제될 가능성이 높다.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.17~19</div>`
+},
+{
+  num: 17, week: "Week 7", type: "single", typeLabel: "틀린 것 고르기",
+  q: "FlashAttention에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","QKᵀ 중간 결과를 HBM에 저장하지 않는 IO-aware 기법이다."],
+    ["2","Block 단위 tiling과 streaming normalization으로 softmax를 누적 계산한다."],
+    ["3","근사(approximate) attention이므로 표준 attention과 결과가 다르다."],
+    ["4","메모리 접근을 줄이는 대신 연산을 더 수행하여, memory-bound 연산을 compute-bound로 바꾼다."]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 표준 attention은 매 단계 거대한 중간 행렬(S=QKᵀ, P=softmax(S))을 HBM에 쓰고 다시 읽는다. FlashAttention은 <b>IO(HBM 접근)를 인지하고 설계</b>되어 QKᵀ를 통째로 저장하지 않는다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. K를 M개 블록으로 나누고(tiling), 블록을 하나씩 읽으며 max(m)와 softmax 분모(l)를 <b>온칩에서 누적 갱신</b>(streaming normalization)한다. 마지막 블록까지 보면 정확한 max와 분모가 완성된다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>틀림 — 정답. FlashAttention은 <b>exact attention</b>이다. 계산 순서만 바꿨을 뿐 수학적 결과는 표준 attention과 동일하다. 근사 기법은 별도 변형인 <b>Block-Sparse FlashAttention</b>(중요도 낮은 블록을 스킵, approximate)이다. 본체와 변형을 바꿔치기한 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ④</span><span>옳음. "More computation, less memory access"가 슬라이드 문구. 재계산을 감수하고 HBM 왕복을 줄여 <b>memory-bound → compute-bound</b>로 바꾼다. 문제 15~16의 arithmetic intensity 개념의 실전 적용 사례.</span></div>
+<div class="exp-tip">💡 핵심 한 줄: FlashAttention = <b>exact</b> + IO-aware + tiling. "approximate"가 붙으면 Block-Sparse 변형 이야기다.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.20~28</div>`
+},
+{
+  num: 18, week: "Week 7", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 기법을 보기에서 고르시오.\n보기: (a) Block-Sparse FlashAttention  (b) FlashAttention 2  (c) FlashAttention 3",
+  choices: [["a","(a) Block-Sparse FA"],["b","(b) FlashAttention 2"],["c","(c) FlashAttention 3"]],
+  rows: [
+    "중요도가 낮은 attention block을 마스킹/스킵하는 근사 기법",
+    "MQA/GQA, FP8, long context를 지원하고 GPU 활용률 75~80% 달성",
+    "Fused kernel과 개선된 병렬화로 forward/backward를 모두 최적화"
+  ],
+  answer: ["a","c","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Block-Sparse FlashAttention</b> — 중요도가 낮은 블록을 마스킹/스킵. FlashAttention 계열 중 유일한 <b>근사(approximate)</b> 기법이며, 그 대가로 훨씬 빠르고 메모리 효율적이다. "근사"라는 단어가 결정적 단서(문제 17과 연결).</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) FlashAttention 3</b> — 최신 버전. <b>MQA/GQA 지원, FP8 저정밀도, long context</b>, GPU 활용률 75~80%(near-max)가 키워드 세트.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(b) FlashAttention 2</b> — <b>fused kernel + 더 나은 병렬화 + forward/backward 모두 최적화</b>. 버전 숫자와 키워드(2=커널·병렬화, 3=FP8·MQA/GQA)를 짝지어 암기.</span></div>
+<div class="exp-tip">💡 참고 성능 수치: FlashAttention은 GPT-2 학습에서 HuggingFace 대비 최대 3배, Megatron-LM 대비 1.7배 속도 향상(8×A100).</div>
+<div class="exp-src">📖 Week7 슬라이드 p.28~30</div>`
+},
+{
+  num: 19, week: "Week 7", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "Softmax 구현 시 exp(x) 대신 exp(x − max(x))를 계산하는 이유는?",
+  opts: [
+    ["1","계산 결과가 더 정확해지기 때문"],
+    ["2","수치 오버플로를 방지하기 위한 numerical stability 때문 (수학적 결과는 동일)"],
+    ["3","확률 합이 1이 되도록 만들기 위해"],
+    ["4","연산량을 줄이기 위해"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ②</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>"더 정확"이 아니다. 수식을 전개하면 e^(x−max)/Σe^(x−max) = e^x/Σe^x로 <b>수학적으로 완전히 동일</b>하다. 달라지는 것은 컴퓨터 연산의 안정성뿐.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. x=100 같은 큰 값이면 e¹⁰⁰이 float 범위를 넘어 <b>overflow(inf/NaN)</b>가 난다. max를 빼면 지수가 항상 ≤0이 되어 e^x ≤ 1로 안전해진다. 분자·분모에 같은 상수 e^max가 약분되므로 결과는 불변 — 슬라이드의 코드 주석 "subtraction is for numerical stability" 그대로.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>확률 합이 1이 되는 것은 분모 Σe^x로 나누는 softmax 정의 자체의 성질. max를 빼는 것과 무관하다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>오히려 max 계산과 뺄셈이 추가되므로 연산은 약간 늘어난다. 목적은 속도가 아니라 안정성.</span></div>
+<div class="exp-tip">💡 이 개념은 FlashAttention의 streaming normalization(블록마다 max를 갱신하며 누적)의 기초가 된다. m(x), f(x), l(x) 표기와 함께 연결해서 이해할 것.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.21~23</div>`
+},
+{
+  num: 20, week: "Week 7", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"사전학습(pre-training)만 완료되어 특정 태스크에 특화되지 않은, 범용 언어 이해·생성 능력을 가진 LLM\"을 가리키는 용어는?",
+  opts: [
+    ["1","Instruction model"],["2","Foundation model"],["3","Reward model"],["4","Distilled model"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Foundation model</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>Instruction model은 foundation model 위에 <b>instruction tuning을 추가로 거친</b> 모델. "사전학습만 완료"라는 조건과 어긋난다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. 슬라이드 정의 그대로 — "<b>pre-training만 완료된 LLM을 foundation model이라 부른다</b>". 광범위한 데이터로 일반적 언어 능력을 학습했고, 특정 태스크에 묶이지 않으며, 이후 특정 분야로 fine-tuning할 수 있는 '기반'이 된다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>Reward model은 <b>RLHF</b>에서 사람의 선호 데이터를 학습해 응답의 좋고 나쁨을 점수화하는 모델. 범용 언어 모델이 아니다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Distilled model은 큰 모델의 지식을 작은 모델로 압축(distillation)한 것. 사전학습 완료 여부와는 다른 축의 개념.</span></div>
+<div class="exp-tip">💡 LLM 학습 파이프라인 순서로 암기: <b>pre-training(→foundation model) → instruction tuning → RLHF(alignment)</b>. 각 단계 산출물의 이름을 묻는 문제가 나올 수 있다.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.33~36</div>`
+},
+{
+  num: 21, week: "Week 7", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "In-context learning(ICL)에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","학습 데이터를 프롬프트로 입력하므로 backpropagation이 필요 없다."],
+    ["b","모델 파라미터를 몰라도 API 접근만으로 가능하다."],
+    ["c","프롬프트가 길어지면 그 길이에 비례하는 연산이 필요하다는 단점이 있다."],
+    ["d","Supervised fine-tuning과 마찬가지로 forward 대비 약 3배의 메모리가 필요하다."],
+    ["e","테스트(쿼리)당 LLM 추론을 한 번만 수행하면 된다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설 — "작은 데이터 + 거대 LLM" 문제의 두 해법 비교</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>ICL은 학습 예시를 <b>프롬프트에 넣어주기만</b> 하고 모델 가중치는 건드리지 않는다. gradient 계산도 backprop도 없다 — "모델이 프롬프트 속 예시를 잘 활용해 주기를 바라는" 방식.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>가중치를 수정하지 않으므로 모델 내부를 알 필요가 없다. <b>ChatGPT처럼 API만 제공되는 모델에도 적용 가능</b> — 슬라이드에서 fine-tuning의 단점("ChatGPT를 어떻게 학습시키나?")과 대비시킨 핵심 장점.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>예시를 많이 넣을수록 프롬프트가 길어지고, <b>프롬프트 길이만큼의 연산</b>이 매 호출마다 든다. ICL의 명시된 단점.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>"3배 메모리"는 <b>supervised fine-tuning의 단점</b>이다(backprop이 forward 대비 약 3배 메모리 필요). ICL은 forward만 하므로 해당 없음. 두 방식의 단점을 서로 바꿔치기한 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>슬라이드 명시 장점: "LLM only needs to infer <b>once per test</b>". 학습 루프 없이 테스트마다 한 번의 추론으로 끝.</span></div>
+<div class="exp-tip">💡 비교표로 암기 — fine-tuning: 정확하지만 3배 메모리+파라미터 접근 필요 / ICL: backprop 불필요+API만으로 가능, 단 프롬프트 길이 비용. 이 대비 구도가 출제 포인트.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.41~42</div>`
+},
+{
+  num: 22, week: "Week 7", type: "multi", typeLabel: "모두 고르기",
+  q: "In-context learning이 민감하게(sensitive) 반응하는 요소를 모두 고르시오.",
+  opts: [
+    ["a","프롬프트 내 학습 예시의 제시 순서"],
+    ["b","라벨 불균형 (positive/negative 비율)"],
+    ["c","학습 데이터셋의 unique label 수"],
+    ["d","예시 라벨의 정답 여부"],
+    ["e","프롬프트에 넣는 학습 데이터의 양"]
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c) — 민감 / (d), (e) — 둔감</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>민감</b>. 같은 예시들이라도 순서만 바꾸면 정확도가 크게 출렁인다(연구 결과 그래프가 슬라이드에 수록). "어떤 예시를 마지막에 두느냐"까지 성능에 영향.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>민감</b>. 프롬프트 속 예시의 positive/negative 비율이 치우치면 모델 예측도 그쪽으로 치우친다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>민감</b>. 프롬프트에 등장하는 고유 라벨의 수도 성능에 영향을 준다.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span><b>둔감</b> — 이 문제의 핵심 반전. 예시의 라벨을 <b>일부러 틀리게 달아도 성능이 크게 떨어지지 않는다</b>(Min et al. 2022). 모델이 라벨의 '정답성'보다 입력-라벨 형식·분포를 보고 태스크를 파악한다는 시사점. "놀랍게도(surprisingly) insensitive"라고 슬라이드에 강조됨.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span><b>둔감</b>. 프롬프트 속 예시 개수를 늘려도 성능이 비례해서 좋아지지 않는다. "많이 넣을수록 좋다"는 직관을 깨는 결과.</span></div>
+<div class="exp-tip">💡 직관과 반대인 (d), (e)가 출제 1순위. "<b>형식에는 민감(순서·비율·라벨 수), 내용의 정답성과 양에는 둔감</b>"으로 압축 암기.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.44~48</div>`
+},
+{
+  num: 23, week: "Week 7", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 것을 보기에서 고르시오.\n보기: (a) Zero-shot learning  (b) Few-shot learning  (c) Chain-of-Thought prompting",
+  choices: [["a","(a) Zero-shot"],["b","(b) Few-shot"],["c","(c) Chain-of-Thought"]],
+  rows: [
+    "학습 중 한 번도 보지 않은 클래스를 테스트 시 예측. 클래스 설명(semantic/auxiliary 정보)을 활용",
+    "클래스당 5개 미만 등 극소수의 예시만 본 상태에서 예측",
+    "프롬프트에 추론 과정 예시를 포함하거나 \"Let's think step by step\"을 추가"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Zero-shot</b> — 본 적 없는 클래스를 맞혀야 하므로 그냥은 불가능 → 해법은 "cheat": <b>클래스의 설명(description) d(z)를 참조</b>한다. (입력, 설명) 쌍의 점수 함수를 학습해 두고, 테스트 시 점수가 가장 높은 설명의 클래스를 선택. 전통적 zero-shot은 수동 정의 속성 같은 semantic/auxiliary 정보가 필요.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Few-shot</b> — 클래스당 <b>5개 미만</b> 수준의 예시만 있는 설정. 고전적 해법: ① 저차원 임베딩 공간에서 kNN(최근접 클래스 할당) ② 데이터 증강. LLM 시대의 해법이 ICL(예시를 프롬프트에 넣기).</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Chain-of-Thought</b> — 정답만이 아니라 <b>추론 과정</b>을 예시에 포함하거나(few-shot CoT), 단순히 "<b>Let's think step by step</b>" 한 문장을 붙이는 것(zero-shot CoT)만으로 추론 성능이 향상된다.</span></div>
+<div class="exp-tip">💡 구분 단서: "설명/속성 참조"=zero-shot, "5개 미만"=few-shot, "step by step"=CoT. 특히 zero-shot의 "d(z) 참조" 개념은 생소해서 함정으로 쓰기 좋다.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.37~40, p.51~52</div>`
+},
+{
+  num: 24, week: "Week 7", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"프롬프트의 좋고 나쁨을 가늠하는 지표로, 시퀀스의 exponentiated average negative log-likelihood. 낮을수록 모델이 그 시퀀스를 더 그럴듯하게 여긴다.\" 이것은?",
+  opts: [
+    ["1","BLEU"],["2","Perplexity"],["3","Cross entropy"],["4","F1-score"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Perplexity</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>BLEU는 <b>번역/생성 문장을 참조 문장과 비교</b>하는 n-gram precision 기반 지표(0~1, 높을수록 좋음). 프롬프트 자체의 likelihood와는 무관.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. perplexity = exp(평균 negative log-likelihood). <b>낮을수록 모델이 그 시퀀스를 자연스럽게(확률 높게) 여긴다</b>는 뜻이다. 슬라이드의 핵심 발견: 모든 프롬프트가 동등하지 않으며, <b>perplexity가 낮은 프롬프트일수록 대체로 태스크 성능이 좋다</b>(OPT-175B, AG News 실험). 프롬프트 엔지니어링의 정량적 기준으로 쓸 수 있다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>매우 가깝지만 다르다. perplexity = <b>exp(cross entropy)</b>, 즉 cross entropy를 지수화한 것. "exponentiated"라는 단어가 결정적 구분 단서.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>F1은 precision과 recall의 조화평균으로 분류 평가 지표. 언어모델의 시퀀스 likelihood와 무관.</span></div>
+<div class="exp-tip">💡 perplexity는 Week14 NLP 평가에서도 등장(PPL 계산 문제). "낮을수록 좋다 + exp(평균 NLL)" 두 가지를 양쪽 주차에서 공통 암기.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.49~50</div>`
+},
+{
+  num: 25, week: "Week 7", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Pre-training과 Instruction tuning의 비교 중 틀린 것은?",
+  opts: [
+    ["1","Pre-training은 대규모 무라벨 텍스트 코퍼스를 사용한다."],
+    ["2","Instruction tuning은 instruction, input, output으로 구조화된 데이터셋을 사용한다."],
+    ["3","Pre-training은 supervised learning, instruction tuning은 self-supervised learning이다."],
+    ["4","Instruction tuning은 사전학습된 모델 위에 추가 학습하는 방식이며, ChatGPT 개선에도 사용된 것으로 알려져 있다."]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. pre-training의 데이터는 책·웹사이트·위키 등 <b>대규모 무라벨 코퍼스</b>. "다음 단어 맞히기"로 라벨을 데이터 스스로 만들기 때문에 별도 라벨링이 필요 없다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. instruction dataset은 <b>{instruction, input, output}</b> 3요소로 구조화된다. 예: instruction="프랑스어로 번역", input="What is your name?", output="Comment vous appelez-vous?"</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>틀림 — 정답. <b>정반대로 서술</b>했다. pre-training이 <b>self-supervised</b>(데이터가 스스로 라벨 생성), instruction tuning이 <b>supervised</b>(사람이 만든 instruction-output 쌍으로 학습)다. 슬라이드의 비교표에서 가장 헷갈리기 쉬운 행을 뒤집은 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ④</span><span>옳음. instruction tuning은 "additional training on pretrained models"이며, ChatGPT도 이 방법으로 개선된 것으로 알려져 있다고 슬라이드에 명시.</span></div>
+<div class="exp-tip">💡 비교표 4행 암기: 데이터(무라벨 코퍼스 vs instruction 셋) / 목적(일반 언어 패턴 vs 지시 이해) / 방법(<b>self-supervised vs supervised</b>) / 초기화(처음부터 vs 사전학습 모델 위).</div>
+<div class="exp-src">📖 Week7 슬라이드 p.54~55</div>`
+},
+{
+  num: 26, week: "Week 7", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 PEFT 기법을 보기에서 고르시오.\n보기: (a) Top-K layers  (b) Adapters  (c) Prefix Tuning  (d) LoRA",
+  choices: [["a","(a) Top-K layers"],["b","(b) Adapters"],["c","(c) Prefix Tuning"],["d","(d) LoRA"]],
+  rows: [
+    "상위 K개 층만 학습하고 나머지는 freeze하는 가장 단순한 방법",
+    "입력 앞에 학습 가능한 더미 토큰을 붙이고 그 activation만 학습 (MLP로 안정화)",
+    "bottleneck 구조(압축-확장)의 작은 FFN 층을 Transformer 안에 삽입해 그 층만 학습",
+    "가중치 업데이트를 저랭크 행렬 곱 ΔW=BA로 표현해 학습"
+  ],
+  answer: ["a","c","b","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (c), (b), (d)</div>
+<div class="exp-section-title">항목별 상세 해설 — PEFT 4대 기법</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Top-K layers</b> — 상위 K개 층 빼고 전부 freeze. gradient를 상위 K층까지만 흘리므로 <b>중간 활성값 저장도 줄어 메모리 절약</b>. 가장 단순하고 어떤 신경망에든 적용 가능.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) Prefix Tuning</b> — 실제 토큰 앞에 <b>더미 prefix 토큰</b>을 붙이고 그 activation을 학습 파라미터로 취급. <b>학습 안정성을 위해 MLP를 통과</b>시키는 디테일이 단서. 모델 본체는 전부 freeze.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(b) Adapters</b> — Self-attention → FFN → LayerNorm 사이에 <b>bottleneck(d→r→d, r≪d) 구조의 작은 FFN + residual</b>을 삽입. 전체 파라미터의 0.5~8%만으로 full fine-tuning에 근접(때로는 능가). 단점: 추론 시 추가 연산 — 이것이 LoRA의 동기가 됨.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) LoRA</b> — 가중치 업데이트를 <b>ΔW = BA</b>(rank r ≪ d,k)로 분해해 B, A만 학습. W₀에 합쳐버리면(W←W₀+BA) 추론 시 추가 연산이 없다는 것이 adapter 대비 강점.</span></div>
+<div class="exp-tip">💡 구분 단서 1:1 — "상위 K층"=Top-K / "더미 토큰+MLP"=Prefix / "bottleneck 삽입"=Adapter / "ΔW=BA 저랭크"=LoRA. LoRA의 3가지 동기(intrinsic dim 낮음, prefix는 토큰 늘려도 한계, adapter는 추론 비용)도 함께.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.57~64</div>`
+},
+{
+  num: 27, week: "Week 7", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "LoRA에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","초기화는 A는 가우시안, B는 0으로 하여 학습 시작 시점에 W₀+BA = W₀가 되도록 한다."],
+    ["b","W₀와 BA는 같은 차원이므로 LoRA 파라미터를 swap in/out 할 수 있다 (태스크별 hot swapping)."],
+    ["c","원 논문에서는 경험적으로 Query와 Value projection에만 적용하는 것이 가장 효율적이었다."],
+    ["d","Adapter처럼 추론 시 추가 연산이 반드시 필요하다."],
+    ["e","일부 데이터셋에서는 rank r=1로도 충분한 성능을 보인다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>A~N(0,σ²) 가우시안, <b>B=0</b>으로 초기화 → 시작 시점에 ΔW=BA=<b>0</b>이라 W₀+BA=W₀. 즉 fine-tuning이 <b>정확히 사전학습 상태에서 출발</b>하도록 보장하는 설계.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>BA가 W₀와 같은 차원이므로 표준 linear layer에 더하고 뺄 수 있다: 적용 W←W₀+BA, 제거 W←W−BA=W₀. 태스크 1용 B'A'와 태스크 2용 B''A''를 <b>교체(hot swap)하며 한 모델로 여러 태스크</b>를 서빙 가능.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>이론상 Transformer의 모든 linear층(attention+FFN)에 적용 가능하지만, 원 논문 실험에서는 <b>Query와 Value projection에만</b> 적용하는 것이 가장 효율적이었다. "K가 아니라 Q와 V"라는 디테일이 출제 포인트.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>반대. <b>adapter의 추론 시 추가 연산이 LoRA의 motivation 3</b>이었다. LoRA는 학습 후 BA를 W₀에 합쳐버리면 구조가 원래 linear layer와 동일해져 추가 연산이 0이다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>GPT-3 적용 실험에서 일부 데이터셋은 <b>r=1로도 충분</b>했다. intrinsic dimension(실제 필요한 차원)이 낮다는 motivation 1을 뒷받침하는 결과. 데이터가 크든 작든 잘 동작한다는 것도 함께.</span></div>
+<div class="exp-tip">💡 LoRA 암기 카드: 초기화 <b>A=가우시안, B=0</b> / 적용 위치 <b>Q,V</b> / 추론 비용 <b>0</b> (hot swap 가능) / <b>r=1</b>도 가능.</div>
+<div class="exp-src">📖 Week7 슬라이드 p.63~69</div>`
+},
+{
+  num: 28, week: "Week 7", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 개념을 보기에서 고르시오.\n보기: (a) RLHF  (b) Hallucination  (c) RAG  (d) Emergent behavior",
+  choices: [["a","(a) RLHF"],["b","(b) Hallucination"],["c","(c) RAG"],["d","(d) Emergent behavior"]],
+  rows: [
+    "모델이 사실에 근거하지 않은 그럴듯한 거짓 정보를 생성하는 현상",
+    "외부 문서/DB에서 관련 정보를 검색해 그것을 바탕으로 생성하는 방법론",
+    "사람이 선호 응답을 고르게 하여 reward model을 학습시키고 모델 출력을 조정",
+    "모델 규모가 10B~100B를 넘으며 갑자기 새로운 능력이 \"해금\"되는 현상"
+  ],
+  answer: ["b","c","a","d"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (c), (a), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Hallucination</b> — LM은 "다음 단어의 확률"을 최적화할 뿐 사실성을 검증하지 않으므로, 통계적으로 그럴듯한 거짓을 생성한다. 강의 예시: "<b>세종대왕 맥북프로 던짐 사건</b>을 알려줘" — 존재하지 않는 사건도 그럴듯하게 지어냄. 외부 지식 검증 메커니즘이 없을 때 심해진다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) RAG</b>(Retrieval Augmented Generation) — 모델 내부 지식에만 의존하지 않고 <b>검색(retrieval) + 생성(generation)을 결합</b>. 외부 문서/DB에서 관련 정보를 찾아 그 근거 위에서 답을 생성 → hallucination의 대표적 완화책.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(a) RLHF</b> — 모델이 낸 여러 응답 중 <b>사람이 더 나은 것을 선택</b>(선호 데이터) → 이를 학습한 <b>reward model</b>이 응답을 점수화 → 강화학습으로 모델 출력을 조정. alignment tuning(인간 가치·의도에 맞추기)의 핵심 기법.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Emergent behavior</b> — 모델을 키우다 보면 <b>10B~100B 파라미터 구간의 임계 규모</b>에서 새로운 능력이 갑자기 "unlocked"된다. 점진적 향상이 아니라 계단식 등장이 특징.</span></div>
+<div class="exp-tip">💡 묶어서 스토리로 암기: LLM은 hallucination이라는 문제가 있고(원인: 확률 최적화) → 해결책이 RAG(외부 지식) / 가치 정렬은 RLHF(선호→reward model) / 규모의 보너스가 emergent behavior(10B~100B).</div>
+<div class="exp-src">📖 Week7 슬라이드 p.70~74</div>`
+}
+
+,
+
+/* ==================== Week 9 — Healthcare (29~40) ==================== */
+{
+  num: 29, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 의료 AI 응용 분야를 보기에서 고르시오.\n보기: (a) Medical image analysis  (b) Diagnostic support  (c) Personalized treatment  (d) Medical research",
+  choices: [["a","(a) Medical image analysis"],["b","(b) Diagnostic support"],["c","(c) Personalized treatment"],["d","(d) Medical research"]],
+  rows: [
+    "X-ray, CT, MRI 등을 분석해 질병, 종양, 병리를 식별",
+    "기록과 증상 기반으로 질병 가능성을 평가하고 치료 계획을 제안하는 의사결정 지원",
+    "유전 정보, 생리 신호, 환경 데이터를 고려한 정밀의료(표적항암제 등)",
+    "빅데이터 분석으로 신약개발, 임상시험 설계, 분자생물학 연구 지원"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Medical image analysis</b> — 입력이 <b>의료 "영상"</b>(X-ray/CT/MRI)이라는 게 단서. 질병(질병)·종양(종양)·병리(병리) 식별을 자동화·전문가 수준으로 수행. semantic segmentation으로 병변 영역을 찾는 그림이 슬라이드에 있음.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Diagnostic support</b> — 입력이 영상이 아니라 <b>기록·증상·생체신호</b>(ID, 나이, vital sign, 투약 이력, 관찰 노트). 의사·간호사의 진단/치료 "의사결정을 보조"하는 decision support system이라는 표현이 핵심.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Personalized treatment</b> — 키워드는 <b>정밀의료(precision medicine)</b>와 <b>표적항암제</b>. 유전 정보·생리 신호·환경·생활습관 등 복잡한 개인 특성을 반영해 치료·처방을 개인화.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Medical research</b> — 키워드는 <b>신약개발, 임상시험 설계, bioinformatics, 분자생물학</b>. 환자 개인이 아니라 의료 빅데이터에서 질병 패턴·치료법·예방 전략을 발견하는 연구 지원.</span></div>
+<div class="exp-tip">💡 구분 기준은 "입력이 무엇인가": 영상→(a), 기록/증상→(b), 유전/환경(개인화)→(c), 빅데이터(연구)→(d). 의료 로봇(수술 보조·재활·모니터링)도 다섯 번째 응용으로 함께 출제 가능.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.3~7</div>`
+},
+{
+  num: 30, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 의료 데이터셋을 보기에서 고르시오.\n보기: (a) ICU(중환자실) 데이터  (b) Chest X-ray  (c) Retinal 이미지  (d) MRI",
+  choices: [["a","(a) ICU 데이터"],["b","(b) Chest X-ray"],["c","(c) Retinal 이미지"],["d","(d) MRI"]],
+  rows: [
+    "112,000개 임상 기록, ICD-9 질병코드, 생체신호, 사망률 예측·입원기간 예측 벤치마크",
+    "수십만 장 규모, 정면/측면, 폐렴·기흉·심장비대 등의 분류 라벨",
+    "혈관 segmentation 용도, 40/20/28장 수준의 소규모 컬러 이미지",
+    "무릎·뇌 영상, 3 또는 1.5 Tesla, T1/T2/FLAIR 모달리티"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) ICU 데이터</b> — 유일하게 <b>이미지가 아닌 기록 중심</b> 데이터셋. 112,000 임상 기록 + 1,159개 ICD-9(국제질병분류) 코드. 벤치마크: 질병코드 예측, 사망률 예측, 입원기간(Length-of-Stay) 예측. 숫자 112,000과 ICD-9가 단서.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Chest X-ray</b> — <b>수십만 장</b>의 대규모, 정면/측면 두 방향. 라벨: 폐렴(pneumonia), 기흉(pneumothorax), 심장 비대(cardiomegaly), 폐 병변·혼탁, 부종 등. "규모가 크다"가 retinal과의 대비점.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Retinal 이미지</b> — 망막 <b>혈관(vessel) segmentation</b>용. 40/20/28장처럼 <b>극소량</b>이라는 점이 특징적 단서(X-ray의 수십만 장과 대비). DRIVE 데이터셋에는 7개 이상 병리 케이스 라벨.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) MRI</b> — 무릎·뇌 영상, 자기장 강도 <b>3 또는 1.5 Tesla</b>, 모달리티 <b>T1/T2/FLAIR</b>(문제 31과 연결). 이외에 COVID-19 폐 CT(폐 결절 분류/분할)도 슬라이드에 등장.</span></div>
+<div class="exp-tip">💡 데이터셋별 시그니처 숫자로 암기: ICU=112,000 기록 / X-ray=수십만 장 / Retinal=40·20·28장 / MRI=3·1.5 Tesla.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.8~12</div>`
+},
+{
+  num: 31, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "MRI 모달리티에 대한 설명을 보기에서 고르시오.\n보기: (a) T1  (b) T2  (c) FLAIR",
+  choices: [["a","(a) T1"],["b","(b) T2"],["c","(c) FLAIR"]],
+  rows: [
+    "종양 감지에 유리",
+    "염증 및 병변 감지에 유리",
+    "뇌척수액 신호를 억제하여 구조/병변 시각화"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) T1 — 종양 감지</b>. 슬라이드에 "T1 (종양 감지)"로 명시. 해부학적 구조가 선명하게 보이는 모달리티.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) T2 — 염증·병변 감지</b>. "T2 (염증 및 병변 감지)" 그대로. 수분이 많은 조직(염증·부종)이 밝게 보인다.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) FLAIR — 뇌척수액 신호 억제</b>. "뇌척수액 신호 억제, 구조/병변 시각화" 그대로. T2와 비슷하지만 뇌척수액을 어둡게 눌러 뇌실 주변 병변이 더 잘 보인다.</span></div>
+<div class="exp-tip">💡 한 글자 연상: T<b>1</b>=Tumor 하나(종양), T<b>2</b>=염증("둘"러싼 병변), FLAIR=FLuid(액체) 억제. 시험에서 T1↔T2를 바꿔치기하는 함정에 주의.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.11</div>`
+},
+{
+  num: 32, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "낙상 감지(fall detection)의 세 가지 주요 접근법에 해당하는 센서를 보기에서 고르시오.\n보기: (a) Wearable sensors  (b) Ambient sensors  (c) Vision devices",
+  choices: [["a","(a) Wearable"],["b","(b) Ambient"],["c","(c) Vision"]],
+  rows: [
+    "적외선, 레이더, 마이크, 압력 센서",
+    "카메라, 모션캡처, Kinect(깊이 카메라)",
+    "스마트워치/폰의 가속도계, 자이로스코프"
+  ],
+  answer: ["b","c","a"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (c), (a)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Ambient sensors</b> — "주변(환경)에 설치"하는 센서: <b>적외선, 레이더, 마이크, 압력 센서</b>. 몸에 차지 않고 공간에 깔아두는 방식이라는 점이 구분 기준.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) Vision devices</b> — <b>카메라, 모션캡처, Kinect(깊이 카메라)</b>. "본다"는 장치들. UP-Fall 데이터셋에서는 정면+측면 카메라 2대가 여기에 해당.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(a) Wearable sensors</b> — <b>몸에 착용</b>: 스마트워치/폰의 가속도계(accelerometer)·자이로스코프(gyroscope). UP-Fall에서는 발목/주머니/허리/목/손목 5부위 + EEG 헤드셋.</span></div>
+<div class="exp-tip">💡 분류 기준은 "센서가 어디에 있나": 몸에=wearable / 공간에=ambient / 본다=vision. 낙상 배경 통계(65세 이상 28~35%가 매년 낙상, 70세 이상 32~42%)와 "실시간 감지가 의료 조치까지 시간을 단축"도 단답 출제 가능.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.15~17</div>`
+},
+{
+  num: 33, week: "Week 9", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "UP-Fall Detection 데이터셋에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","17명의 건강한 젊은 피험자로 수집되었다."],
+    ["b","낙상 5종(전방-손/전방-무릎/후방/측방/빈 의자에 앉다 낙상)과 일상 활동 6종을 포함한다."],
+    ["c","총 데이터 수는 17(피험자) × 11(활동) × 3(시행) = 561개이다."],
+    ["d","wearable 센서 단일 모달리티만 사용한다."],
+    ["e","wearable 센서는 발목/주머니/허리/목/손목 5부위(가속도계+자이로)와 EEG 헤드셋을 포함한다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>"17 healthy young subjects" 그대로. 고령자가 아니라 <b>건강한 젊은 피험자</b>라는 점도 뒤집기 함정으로 나올 수 있다(고령자 낙상 연구지만 데이터 수집은 젊은 사람으로).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>낙상 5종: 전방-손 짚기 / 전방-무릎 / 후방 / 측방 / 빈 의자에 앉으려다 낙상. 일상 활동 6종: 걷기, 서기, 앉기, 물건 줍기, 점프, 눕기. <b>5+6=11개 활동</b>이 (c)의 11과 연결된다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>17(명) × 11(활동: 낙상5+일상6) × 3(반복 시행) = <b>561</b>. 숫자 조합 자체가 계산 문제로도 출제 가능.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. UP-Fall은 <b>멀티모달</b>이 정체성이다: wearable(5부위+EEG) + ambient(적외선 6개) + vision(카메라 2대: 정면·측면). "단일 모달리티"는 정반대 서술.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>wearable 구성 그대로: <b>발목/주머니/허리/목/손목</b>의 XYZ 가속도계+roll/pitch/yaw 자이로, 그리고 <b>EEG 헤드셋</b>.</span></div>
+<div class="exp-tip">💡 숫자 세트로 암기: <b>17명 × 11활동(5낙상+6일상) × 3회 = 561</b> / 센서 3계층(wearable 5부위+EEG, IR 6개, 카메라 2대).</div>
+<div class="exp-src">📖 Week9 슬라이드 p.18</div>`
+},
+{
+  num: 34, week: "Week 9", type: "single", typeLabel: "틀린 것 고르기",
+  q: "UP-Fall 멀티모달 예측 실험 결과에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","Raw feature → 윈도잉(1/2/3초) → 특징 추출(mean/std 등) → ML 모델 분류 파이프라인을 사용한다."],
+    ["2","전체 실험에서 Random Forest가 가장 좋은 성능을 보였다."],
+    ["3","IR+IMU+EEG 조합이 가장 좋은 F1-score를 보였다."],
+    ["4","모델로는 CNN, RNN, Transformer만 사용되었다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 파이프라인: raw feature → <b>윈도잉(1초/2초/3초)</b> → 통계 특징 추출(mean/std/median/1st quantile/frequency) → ML 모델 → 분류 결과. 딥러닝 end-to-end가 아니라 <b>전통적 특징 추출 + ML</b> 구조라는 점이 특징.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. "<b>RF shows best performance in the whole experiments</b>" — 전 실험에서 Random Forest 1등. 단골 출제 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. 센서 조합 중 <b>IR+IMU+EEG</b>가 최고 F1, 그 다음이 IMU+EEG+CAM, IMU+EEG 순. "카메라 없이도 1등"이라는 게 흥미 포인트.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. 사용 모델은 <b>Random Forest, SVM, MLP, kNN</b>의 고전 ML 4종이다. CNN/RNN/Transformer 같은 딥러닝 모델로 바꿔치기한 함정. (별도 슬라이드의 ARFDNet은 pose+CNN/GRU를 쓰지만 그것은 UP-Fall 실험이 아니라 다른 연구.)</span></div>
+<div class="exp-tip">💡 결과 2줄 암기: 모델 1등 = <b>RF</b> / 센서 조합 1등 = <b>IR+IMU+EEG</b>. 모델 후보 4종(RF/SVM/MLP/kNN)도 "모두 고르기"로 나올 수 있다.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.20~21</div>`
+},
+{
+  num: 35, week: "Week 9", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "딥러닝에서 data augmentation이 필요한 이유로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","데이터 다양성을 높여 비싸고 오래 걸리는 데이터 수집을 보완한다."],
+    ["b","정규화 효과로 과적합(overfitting)을 줄인다."],
+    ["c","클래스 불균형 해소에 도움이 된다."],
+    ["d","특정 변환에 대한 불변성(invariance)을 학습하게 한다 (예: 랜덤 회전 → 방향에 무관한 인식 학습)."],
+    ["e","학습 데이터가 제한적일 때 더 크고 다양한 데이터를 생성하는 데 도움이 된다."]
+  ],
+  answer: ["a","b","c","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d), (e) — 전부 옳음</div>
+<div class="exp-section-title">보기별 상세 해설 (슬라이드의 augmentation 필요 이유 7가지 중 5개)</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>Increased data variability</b> — 데이터 수집은 비싸고 오래 걸린다. augmentation은 수집 없이 다양성을 효과적으로 늘린다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>Regularization</b> — 모델이 학습 데이터에 과도하게 특화(overfitting)되는 것을 막고 미지의 데이터에 일반화하도록 돕는다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>Address class imbalance</b> — 소수 클래스만 골라 augmentation하면 클래스 분포의 균형을 맞출 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span><b>Learning invariance</b> — 랜덤 회전을 가하면 모델이 "방향과 무관하게" 객체를 인식하도록 학습한다. 특정 변환에 대한 불변성을 의도적으로 주입하는 것.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span><b>Dealing with limited data</b> — 데이터가 적을 때 더 크고 다양한 데이터셋을 만들어내는 효과. (a)와 비슷해 보이지만 슬라이드에 별도 항목으로 존재.</span></div>
+<div class="exp-tip">💡 슬라이드의 나머지 이유: <b>improved model robustness</b>(조명·방향·스케일 변화에 강건). "전부 정답"형 문제는 하나라도 빼면 틀리므로 7가지 목록 자체를 외워둘 것.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.23</div>`
+},
+{
+  num: 36, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "HSV 색공간의 각 요소에 대한 설명을 보기에서 고르시오.\n보기: (a) Hue  (b) Saturation  (c) Value",
+  choices: [["a","(a) Hue"],["b","(b) Saturation"],["c","(c) Value"]],
+  rows: [
+    "가시광 스펙트럼 위의 색상환 각도",
+    "색의 진함 정도, 0%면 grayscale",
+    "밝기, 100%면 흰색/순색, 0%면 검정"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Hue(색상)</b> — 가시광 스펙트럼을 <b>색상환의 각도</b>로 표현(빨강=0°). 예시의 남색(Navy)은 H=240°.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Saturation(채도)</b> — colorfulness, 색이 얼마나 진한가. <b>0%면 무채색(grayscale)</b>이 된다. 남색 예시는 S=100%.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Value(명도)</b> — 밝기. <b>100%=흰색/순색, 0%=검정</b>. 남색 예시는 회색과 같은 밝기인 50%.</span></div>
+<div class="exp-tip">💡 색상 augmentation(HSV jitter)의 기초 개념으로 등장. "S=0% → grayscale", "V=0% → 검정"의 극단값 두 개가 출제 단서. 남색 예시(H 240°, S 100%, V 50%)도 그대로 나올 수 있다.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.25</div>`
+},
+{
+  num: 37, week: "Week 9", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 augmentation 기법을 보기에서 고르시오.\n보기: (a) Cutout  (b) Random erasing  (c) Hide-and-seek  (d) MixUp",
+  choices: [["a","(a) Cutout"],["b","(b) Random erasing"],["c","(c) Hide-and-seek"],["d","(d) MixUp"]],
+  rows: [
+    "입력 공간의 dropout. 정사각형 패치를 삭제하며, 패치가 이미지 경계 밖으로 나가도록 허용한 것이 성능에 중요",
+    "임의 사각 영역을 랜덤 노이즈/평균값/0/255로 채움",
+    "S×S 그리드의 패치들을 확률 p로 무작위로 숨김",
+    "두 이미지를 섞고 라벨도 같은 비율로 섞음"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설 — 삭제 계열 3종 + 혼합 계열 구분</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Cutout</b>(2017) — "<b>입력 공간의 dropout</b>"이라는 표현이 시그니처. 정사각 패치 삭제. 디테일 포인트: 패치가 <b>이미지 경계 밖으로 나가는 것을 허용</b>한 것이 좋은 성능의 핵심이었다는 서술이 슬라이드에 명시 — 이 디테일이 그대로 출제될 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Random erasing</b>(2017) — Cutout과 비슷하지만 지운 영역을 <b>랜덤 노이즈/평균값/0(검정)/255(흰색)</b>로 채운다는 "채우기 방식의 다양성"이 구분 단서.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Hide-and-seek</b>(2017) — 이미지를 <b>S×S 그리드</b>로 나누고 각 패치를 확률 p_hide로 숨김. "그리드+확률"이 키워드.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) MixUp</b>(2018) — 두 이미지를 픽셀 단위로 혼합(반투명 겹치기)하고 <b>라벨도 같은 비율로 혼합</b>. "이미지도 라벨도 섞는다"가 핵심 — 라벨을 안 섞는다고 하면 틀린 보기(문제 40).</span></div>
+<div class="exp-tip">💡 연도 함께: Cutout/RE/HnS=2017, MixUp=2018, CutMix=2019, GridMask·copy-paste·Mosaic=2020. 삭제 계열의 진화(Cutout→RE→HnS→GridMask)와 혼합 계열(MixUp→CutMix)로 묶어 암기.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.26~29</div>`
+},
+{
+  num: 38, week: "Week 9", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"바운딩 박스 라벨이 있는 이미지 4장을 하나로 병합하여 scale 및 aspect ratio augmentation 효과를 얻는, YOLOv4에서 사용된 기법\"은?",
+  opts: [
+    ["1","CutMix"],["2","GridMask"],["3","Mosaic augmentation"],["4","Simple copy-paste"]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ Mosaic augmentation</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>CutMix(2019)는 <b>2장</b>의 이미지에서 한 장의 패치를 잘라 다른 이미지에 붙이고 <b>면적 비례 라벨</b>을 주는 분류용 기법. "4장 병합"이 아니다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ②</span><span>GridMask(2020)는 점선 사각형 <b>격자 패턴으로 삭제</b>하는 기법. 이미지를 합치지 않는다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>정답. Mosaic(2020)는 <b>바운딩 박스 라벨을 가진 4장</b>을 격자로 이어붙여 한 장으로 만든다 → 객체들의 크기·종횡비가 다양해져 <b>scale/aspect ratio augmentation</b> 효과. <b>YOLOv4</b>에서 도입 — 작년 시험에 "YOLOv4 설명 중 틀린 것" 문제가 나왔으므로 YOLOv4=Mosaic 연결은 필수 암기.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Simple copy-paste(2020)는 instance segmentation 라벨 기반으로 <b>객체를 픽셀 단위로 오려</b> 다른 이미지에 scaling jitter와 함께 붙이는 기법. 4장 병합이 아니라 객체 단위 복사.</span></div>
+<div class="exp-tip">💡 구분 단서: "4장"=Mosaic / "패치 잘라붙이기+면적 라벨"=CutMix / "격자 삭제"=GridMask / "객체 픽셀 단위 복사"=copy-paste.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.30~33</div>`
+},
+{
+  num: 39, week: "Week 9", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"테스트 시 입력에 augmentation을 적용해 여러 예측을 만들고, (가중)평균이나 다수결로 집계하는 기법\"은?",
+  opts: [
+    ["1","Ensemble learning"],["2","Test Time Augmentation (TTA)"],["3","Cross validation"],["4","Bootstrapping"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Test Time Augmentation (TTA)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>Ensemble은 <b>여러 모델</b>의 예측을 합치는 것. TTA는 <b>모델은 하나</b>이고 입력을 여러 변형으로 늘린다는 점이 결정적 차이. 가장 헷갈리는 오답.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. 흐름: 테스트 입력 1개 → augmentation 적용(뒤집기·크롭 등) → 변형본들 각각 예측 → <b>(가중)평균 또는 다수결(majority voting)로 집계</b>. 학습이 아니라 <b>테스트 단계</b>에서 augmentation을 쓴다는 발상의 전환이 포인트. 작년 시험에 TTA 문제가 출제되었다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>Cross validation은 <b>학습/검증 데이터를 나누는 평가 방법론</b>. 테스트 입력 변형과 무관.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Bootstrapping은 데이터를 <b>복원 추출로 리샘플링</b>하는 통계 기법. augmentation이 아니다.</span></div>
+<div class="exp-tip">💡 키워드 매칭: "테스트 시 + augmentation + 집계(평균/다수결)" 세 가지가 모두 보이면 TTA. "여러 모델"이면 ensemble.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.34</div>`
+},
+{
+  num: 40, week: "Week 9", type: "single", typeLabel: "틀린 것 고르기",
+  q: "CutMix와 관련 기법에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","CutMix는 다른 이미지의 패치를 잘라 붙이고, 면적에 비례하는 라벨을 부여한다."],
+    ["2","GridMask는 점선 사각형의 그리드 패턴으로 삭제하여 기존 기법의 한계를 극복한다."],
+    ["3","Simple copy-paste는 instance segmentation 데이터 기반으로 객체를 픽셀 단위로 복사해 다른 이미지에 붙인다."],
+    ["4","MixUp은 두 이미지 중 한 이미지의 라벨만 사용한다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. CutMix(2019) = 패치를 잘라 붙이고(cut & paste) 라벨은 <b>붙인 면적에 비례</b>해 배분. 예: 고양이 이미지에 강아지 패치 30%를 붙이면 라벨도 고양이 0.7 / 강아지 0.3.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. GridMask(2020)는 <b>점선 격자 패턴 삭제</b>. 한 덩어리를 지우면 객체 전체가 사라질 수 있는 기존 삭제 기법(Cutout 등)의 한계를 분산 삭제로 극복.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. Simple copy-paste(2020) = instance segmentation 라벨로 객체를 <b>픽셀 단위로 오려서</b> 다른 이미지에 <b>scaling jitter</b>와 함께 붙임.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. MixUp은 이미지와 <b>라벨을 모두 같은 비율로 섞는다</b>(이미지 0.6:0.4면 라벨도 0.6:0.4). "한 이미지의 라벨만 사용"은 라벨 혼합이라는 MixUp의 핵심을 부정한 서술.</span></div>
+<div class="exp-tip">💡 혼합 계열의 라벨 처리 공통점: MixUp(비율 혼합), CutMix(면적 비례) — <b>둘 다 라벨을 섞는다</b>. "라벨은 하나만"이라는 보기가 나오면 무조건 의심.</div>
+<div class="exp-src">📖 Week9 슬라이드 p.29~32</div>`
+},
+
+/* ==================== Week 10 — Military (41~54) ==================== */
+{
+  num: 41, week: "Week 10", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)", star: "작년 기출 유형 그대로",
+  q: "다음 설명에 맞는 군사 AI 응용 분야를 보기에서 고르시오.\n보기: (a) Target recognition  (b) Strategic decision making  (c) Combat simulation",
+  choices: [["a","(a) Target recognition"],["b","(b) Strategic decision making"],["c","(c) Combat simulation"]],
+  rows: [
+    "전투 환경에서 표적의 위치 식별 정확도를 높이고, 적 행동 예측·취약점 예상에 활용",
+    "고스트레스 상황에서 다양한 소스의 데이터를 수집·처리해 신속한 의사결정을 지원 (JADC2 등)",
+    "가상 \"워게임\"으로 군인을 훈련시키고, 강화학습으로 최적 정책을 찾는 데 활용"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Target recognition</b> — 전투 환경에서 <b>표적 위치 식별 정확도</b> 향상 + 적 행동 예측, 취약점·기상 조건 예상, 임무 전략 평가. 다중 도메인 ISR(정보·감시·정찰)과 연결: 위성·항공기·함정 등 플랫폼과 SIGINT/GEOINT/HUMINT 등 정보 분야가 배경 개념.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Strategic decision making</b> — 키워드: <b>고스트레스 상황, 다수 소스 데이터, 신속한 의사결정</b>. 인간의 윤리적 판단 + AI의 빠른 분석력 결합으로 의사결정을 가속. 한국 사례로 합동전영역지휘통제(JADC2), KJCCS가 슬라이드에 등장.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Combat simulation</b> — 키워드: <b>가상 워게임</b>으로 군인 훈련 + 시뮬레이터에서 <b>강화학습으로 최적 정책(optimal policy)</b> 탐색. "훈련용"과 "RL용" 두 용도를 모두 기억.</span></div>
+<div class="exp-tip">💡 작년 시험에 정확히 이 3개 분야 매칭이 출제되었다. 군사 AI 9개 분야 전체 목록(target recognition / strategic decision / combat simulation / transportation / drone swarms / warfare systems / data processing / threat monitoring / cybersecurity)도 "모두 고르기"용으로 암기.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.3~7</div>`
+},
+{
+  num: 42, week: "Week 10", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 맞는 군사 AI 응용 분야를 보기에서 고르시오.\n보기: (a) Transportation/Logistics  (b) Drone swarms  (c) Threat monitoring  (d) Cybersecurity",
+  choices: [["a","(a) Transportation"],["b","(b) Drone swarms"],["c","(c) Threat monitoring"],["d","(d) Cybersecurity"]],
+  rows: [
+    "현재 조건에서 가장 효율적인 이동 경로를 계획하고 군 차량의 문제를 사전 식별",
+    "한 기체가 얻은 정보를 무리 내 다른 기체에 전달해 단일 기체보다 효과적으로 작전 수행",
+    "무인 시스템·드론으로 국경 감시, 위협 인식, 대응팀 경보 등 상황 인식을 강화",
+    "사이버 공격 패턴을 학습해 방어 전략을 수립하고, 멀웨어의 미세 행동을 조기 인식"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Transportation/Logistics</b> — <b>효율적 경로 계획 + 차량(fleet) 문제 사전 식별</b>로 수송 비용과 인력 의존을 줄임. 한화디펜스 UGV, 현대로템 HR-Sherpa 같은 국산 무인차량 사례가 슬라이드에 등장.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Drone swarms</b> — 핵심 문장: "한 드론이 중요한 정보를 받으면 직접 행동하거나 <b>무리 내 다른 드론에 전달</b>". 군집이 단일 기체보다 본질적으로 효과적이라는 논리.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Threat monitoring</b> — 원격조종 또는 사전 계산 경로의 <b>무인 시스템</b>으로 국경 감시, 위협 인식, 대응팀 경보. 기지 보안 강화와 전투 중 병사 안전 향상까지.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Cybersecurity</b> — <b>공격 패턴 학습 → 방어 전략 수립</b>, 멀웨어의 가장 작은 행동도 네트워크 진입 전에 조기 인식. 고보안 군사 시스템도 사이버 공격에 취약할 수 있다는 전제.</span></div>
+<div class="exp-tip">💡 나머지 분야 단서: warfare systems="무기·센서·항법의 효율화, 인적 오류 감소, 자율무기 정책" / data processing="대량 데이터 필터링, 반복·부정확 정보 제거로 분석가 지원".</div>
+<div class="exp-src">📖 Week10 슬라이드 p.8~15</div>`
+},
+{
+  num: 43, week: "Week 10", type: "multi", typeLabel: "옳은 것 모두 고르기", star: "DoD 문제 — 작년 3~4문제 출제",
+  q: "DoD AI Strategy(2018)가 제시한 \"AI가 국방부와 국가에 주는 이익\"으로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","의사결정과 작전에 AI를 도입하여 전력의 위험을 줄이고 군사적 우위를 창출한다."],
+    ["b","사이버·물리적 위협의 예측, 식별, 대응 능력을 향상시켜 시민과 인프라를 보호한다."],
+    ["c","수작업·데이터 중심의 반복 작업에서 비효율을 줄여 조직을 간소화한다."],
+    ["d","AI 개발을 중앙집중화하여 단일 기관만 AI에 접근할 수 있게 한다."],
+    ["e","글로벌 국방 엔터프라이즈 전반에 Joint하고 상호운용 가능한 방식으로 AI를 확산하는 개척자가 된다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설 — DoD AI Strategy(2018)의 이익 4가지</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>이익 ① "Support and protect U.S. service members and civilians" — 의사결정·작전에 AI를 넣어 <b>전력(fielded forces)의 위험 감소 + 군사적 우위(military advantage) 창출</b>.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>이익 ② "Protect our country and safeguard our citizens" — <b>사이버·물리적 위협의 예측/식별/대응</b> 능력 향상으로 시민 안전과 인프라 방어 강화.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>이익 ③ "Create an efficient and streamlined organization" — <b>수작업·노동집약·데이터 중심 반복 작업</b>의 비효율 감소, 워크플로 단순화, 반복 작업의 속도·정확도 향상.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>정반대. DoD의 방향은 중앙집중·독점이 아니라 <b>분산형 개발(decentralized development)과 AI 접근의 민주화(democratize access)</b>다(2018 전략의 strategic approach). "단일 기관만 접근"은 전략 문서의 철학을 뒤집은 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>이익 ④ "Become a pioneer in scaling AI across a global enterprise" — <b>Joint하고 상호운용 가능한(interoperable)</b> 방식으로 글로벌 국방 엔터프라이즈 전체에 AI를 확산하는 개척자.</span></div>
+<div class="exp-tip">💡 4가지 이익을 "병력 보호 / 시민·인프라 보호 / 조직 효율화 / AI 확산 개척"으로 압축 암기. 작년에 DoD 문서 (a)(b)(c) 모두 고르기가 3~4문제 나왔다 — 2018/2020/2023 세 문서를 절대 혼동하지 말 것.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.19</div>`
+},
+{
+  num: 44, week: "Week 10", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "DoD AI Strategy(2018)의 전략적 접근(strategic approach)으로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","공유 데이터, 재사용 가능한 도구, 표준, 클라우드/엣지 서비스라는 공통 기반(common foundation)으로 분산형 개발·실험을 지원한다."],
+    ["b","기존 인력에 AI 교육을 투자하고 세계적 AI 인재를 영입해 선도적 AI 인력을 양성한다."],
+    ["c","오픈소스 커뮤니티와의 교류는 보안상 금지한다."],
+    ["d","군사 윤리와 AI 안전에서 선도적 역할을 한다."],
+    ["e","핵심 임무 영역에서 군사적 의사결정과 작전을 강화하기 위해 AI를 신속하고(rapidly) 반복적이며(iteratively) 책임감 있게(responsibly) 도입하는 이니셔티브를 출범한다."]
+  ],
+  answer: ["a","b","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (d), (e)</div>
+<div class="exp-section-title">보기별 상세 해설 — 전략적 접근 5가지</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>접근 ② "Scaling AI's impact through a common foundation" — <b>공유 데이터·재사용 도구·프레임워크와 표준·클라우드/엣지 서비스</b>로 분산형 개발·실험을 지원하고 AI 접근을 민주화.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>접근 ③ "Cultivating a leading AI workforce" — 기존 인력에 <b>포괄적 AI 교육 투자</b> + 세계적 AI 인재 영입·파트너십.</span></div>
+<div class="exp-item no"><span class="mark">❌ (c)</span><span>정반대. 접근 ④에서 "글로벌 <b>오픈소스 커뮤니티에 참여하고 기여</b>하여 신기술을 식별·발전시킨다"고 명시. 상업·학계·국제 동맹과의 파트너십이 AI 파이프라인 전 단계에 필수라는 입장이다. "보안상 금지"는 그럴듯하지만 문서와 정반대.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>접근 ⑤ "Leading in military ethics and AI safety" — 합법적·윤리적 AI 사용을 위한 비전과 원칙을 천명.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>접근 ① "Delivering AI-enabled capabilities that address key missions" — <b>rapidly, iteratively, responsibly</b> 3부사가 시그니처. 핵심 임무 영역의 의사결정·작전 강화를 위한 이니셔티브.</span></div>
+<div class="exp-tip">💡 5가지 접근 압축: ① 핵심임무 AI 역량 ② common foundation ③ AI 인력 ④ 파트너십(오픈소스 포함!) ⑤ 윤리·안전 선도. 함정은 주로 ④를 뒤집어서 나온다.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.20~21</div>`
+},
+{
+  num: 45, week: "Week 10", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "DoD Data Strategy(2020)에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","비전: DoD는 작전 우위와 효율 향상을 위해 데이터를 빠르게, 대규모로 활용하는 데이터 중심(data-centric) 조직이다."],
+    ["b","데이터는 인력, 무기체계, 공급망과 같은 전략적 자산(strategic asset)이다."],
+    ["c","\"알 필요(need to know)\" 문화에서 \"제공할 책임(responsibility to provide)\" 문화로 전환한다."],
+    ["d","데이터는 생성 후 일정 기간이 지난 뒤 수동으로 태깅·저장·분류해야 한다."],
+    ["e","데이터 수집·공유·사용에서 의도하지 않은 편향(unintended bias)의 원천을 최소화하도록 고려한다 (Data Fit for Purpose)."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>비전 선언문 그대로: "DoD is a <b>data-centric organization</b> that uses data <b>at speed and scale</b> for operational advantage and increased efficiency."</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>Guiding principle ① "Data is a Strategic Asset" — 데이터를 <b>인력, 무기체계, 공급망, 수송</b> 같은 전략 자산과 동급으로 취급해 즉각적·지속적 군사 우위를 끌어내야 한다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>"Enterprise-Wide Data Access" 원칙의 핵심 문화 전환: <b>need to know(정보 보유·차단) → responsibility to provide(정보 공유 책임)</b>. 방향을 뒤집으면 바로 함정이 되는, 출제 1순위 문구.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>두 군데가 틀렸다. "Data Collection" 원칙은 ① 데이터가 <b>생성되는 순간(the moment data is created)</b> 태깅·저장·분류되어야 하고 ② 이 과정은 <b>최대한 자동화</b>되어야 한다고 명시. "일정 기간 후+수동"은 둘 다 반대로 쓴 것.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>"Data Fit for Purpose" 원칙 — 윤리적 우려, 정보의 올바른 표현과 함께 <b>의도하지 않은 편향(unintended bias) 원천의 최소화</b>를 신중히 고려.</span></div>
+<div class="exp-tip">💡 2020 데이터 전략의 8원칙 중 시험에 잘 나오는 4개: Strategic Asset / need-to-know→responsibility-to-provide / 생성 즉시·자동 태깅 / unintended bias 최소화. 2018(AI)·2023(채택) 문서와 연도-주제 매칭 주의.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.24~26</div>`
+},
+{
+  num: 46, week: "Week 10", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "DoD Data Strategy(2020)의 guiding principles에 대한 설명을 보기에서 고르시오.\n보기: (a) Collective Data Stewardship  (b) Data Ethics  (c) Data for AI Training  (d) Design for Compliance",
+  choices: [["a","(a) Collective Data Stewardship"],["b","(b) Data Ethics"],["c","(c) Data for AI Training"],["d","(d) Design for Compliance"]],
+  rows: [
+    "데이터 수집·사용·공유의 모든 계획과 행동에서 윤리적 사용을 최우선에 둠",
+    "data steward, data custodian, functional data manager를 지정해 데이터 생애주기 전체의 책임성 확보",
+    "CDO(Chief Data Officer)가 알고리즘 모델과 데이터의 생애주기를 관리하는 현대적 거버넌스 프레임워크 구축",
+    "IT 솔루션 구현으로 정보 관리 생애주기를 완전히 자동화할 기회 확보"
+  ],
+  answer: ["b","a","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (a), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Data Ethics</b> — "윤리적 사용을 모든 계획과 행동의 <b>최전선(forefront)</b>에" 둔다. 키워드: 윤리, 최우선.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(a) Collective Data Stewardship</b> — <b>data steward / data custodian / functional data manager</b>라는 3가지 역할 지정이 시그니처. 데이터 생애주기 전체의 책임성(accountability) 확보가 목적.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Data for AI Training</b> — <b>CDO(Chief Data Officer)</b>가 알고리즘 모델·관련 데이터의 생애주기를 관리하는 현대적 거버넌스 프레임워크를 만든다. 키워드: CDO, AI 학습용 데이터.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Design for Compliance</b> — IT 솔루션 구현이 정보 관리 생애주기의 <b>완전 자동화</b> 기회를 제공. 키워드: 컴플라이언스, 자동화.</span></div>
+<div class="exp-tip">💡 역할명 매칭이 헷갈림 포인트: "steward/custodian/manager 지정"=Collective Stewardship, "CDO"=Data for AI Training. 사람 직함이 두 원칙에 따로 등장하니 바꿔치기 함정 주의.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.25~26</div>`
+},
+{
+  num: 47, week: "Week 10", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "DoD Data, Analytics, and AI Adoption Strategy(2023)의 특징으로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","AI 도입에 agile 접근을 취한다."],
+    ["b","개발자, 사용자, 전문가, T&E 간의 긴밀한 피드백 루프를 강조한다."],
+    ["c","Learning by doing — 전달 속도와 지속적 개선을 강조한다."],
+    ["d","완벽한 검증이 끝날 때까지 배포를 금지하는 워터폴 방식을 채택한다."],
+    ["e","DoD AI Strategy(2018), DoD Data Strategy(2020)에 이어 발표된 전략 문서로, 데이터·분석·AI를 함께 다룬다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>2023 문서의 첫 키워드: "<b>Agile approach</b> to adopting AI". 빠른 반복과 점진적 개선이 기조.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>"A tight feedback loop among <b>developers, users, experts, and T&E</b>(시험평가)" — 4자 간 긴밀한 피드백 루프가 명시된 특징.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>"<b>Learning by doing</b>" + "Emphasizing <b>speed of delivery and continuous improvement</b>" — 해보면서 배우고, 전달 속도와 지속 개선을 강조.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>agile의 정반대인 워터폴 서술. 2023 전략은 완벽한 사전 검증 후 배포가 아니라 <b>빠른 전달 + 반복 개선</b>이다. (a)~(c)와 양립 불가능한 보기라 소거 가능.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>문서 계보: <b>2018 AI Strategy → 2020 Data Strategy → 2023 Data, Analytics, and AI Adoption Strategy</b>. 세 문서의 연도와 주제 매칭 자체가 출제 포인트.</span></div>
+<div class="exp-tip">💡 세 문서 구분 카드 — <b>2018</b>: AI의 이익 4가지+전략적 접근 / <b>2020</b>: 데이터 8원칙(need to know→responsibility to provide) / <b>2023</b>: agile, 피드백 루프, learning by doing.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.27~28</div>`
+},
+{
+  num: 48, week: "Week 10", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "\"미 국방부의 군사 이미지 분석 AI 프로젝트로, 수천 명의 구글 직원이 계약에 반대해 구글이 재계약하지 않은 사건\"과 관련된 프로젝트는?",
+  opts: [
+    ["1","Project Maven"],["2","JADC2"],["3","Project Loon"],["4","Bletchley Declaration"]
+  ],
+  answer: "1",
+  exp: `<div class="exp-answer">✅ 정답: ① Project Maven</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>정답. Project Maven(2018) = 미 DoD의 <b>군사 이미지 분석 AI 프로젝트</b>. 구글이 참여했으나 <b>수천 명의 직원이 반대</b>("AI를 군사 무기에 쓰지 말라")하여 구글이 계약을 갱신하지 않았다. 단, 구글의 방위 포트폴리오 자체가 사라진 건 아니다 — 해군 함정 부식 탐지, 공군 항공기 정비 지원 같은 프로젝트는 계속(이 부분이 추가 함정으로 나올 수 있음).</span></div>
+<div class="exp-item no"><span class="mark">❌ ②</span><span>JADC2(합동전영역지휘통제)는 <b>전략적 의사결정</b> 슬라이드에 나온 미군의 지휘통제 개념. 구글 사건과 무관.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>Project Loon은 구글의 성층권 풍선 인터넷 프로젝트로 강의 범위 밖. 이름의 유사성으로 혼동 유도.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>Bletchley Declaration은 <b>AI Safety Summit(2023)</b>에서 각국이 합의한 frontier AI 안전 선언. "AI 윤리" 맥락은 비슷하지만 군사 이미지 분석 프로젝트가 아니다.</span></div>
+<div class="exp-tip">💡 윤리 관련 두 사건 구분: <b>Project Maven(2018)=구글 직원 반발</b> / <b>Bletchley Declaration(2023)=AI Safety Summit 합의</b>. 연도와 주체(기업 vs 국가들)로 구분.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.30~31</div>`
+},
+{
+  num: 49, week: "Week 10", type: "single", typeLabel: "틀린 것 고르기", star: "작년 GCS 문제 출제",
+  q: "드론 영상 객체 탐지에서 온보드(드론 탑재) 방식과 GCS(지상통제소) 방식의 비교 중 틀린 것은?",
+  opts: [
+    ["1","온보드 방식은 소형(~15cm), 저전력(~15W), 경량(~150g)의 AI 컴퓨터가 필요하다."],
+    ["2","온보드 방식은 영상 무선 전송이 필요 없어 고화질 영상을 즉시 분석할 수 있고, 분석 결과에 따른 즉각 제어가 가능하다."],
+    ["3","GCS 방식은 드론에 AI 컴퓨터를 탑재해야 하므로 무게 제약이 크다."],
+    ["4","GCS 방식은 더 무겁고 강력한 AI 컴퓨터를 쓸 수 있고, 사용자가 드론이 보는 것을 시각적으로 확인할 수 있다."]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 드론에 싣는 AI 컴퓨터의 제약 3종: <b>~15cm(크기), ~15W(전력), ~150g(무게)</b>. "15" 시리즈로 암기. 이 제약 때문에 Jetson/Coral/Hailo 같은 엣지 장치가 필요(문제 50).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. 온보드의 3대 장점: 영상 <b>무선 전송 불필요</b> → 고화질 원본을 알고리즘에 사용 가능, 분석이 <b>즉각적</b>, 분석 결과에 따른 <b>즉시 제어</b> 가능.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>틀림 — 정답. GCS(지상통제소) 방식의 첫 번째 장점이 바로 "<b>드론에 AI 컴퓨터를 실을 필요가 없다</b>(No need to load AI computer to the drone)"이다. 무게 제약은 온보드 방식의 문제를 GCS에 뒤집어씌운 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ④</span><span>옳음. GCS는 지상에 있으므로 <b>더 무겁고 강력한 컴퓨터</b> 사용 가능 + <b>사용자가 드론 시점 영상을 직접 확인</b> 가능. 대신 영상을 무선 전송해야 하므로 화질·지연의 손해(온보드와 반대).</span></div>
+<div class="exp-tip">💡 작년에 "GCS 설명 중 틀린 것" 문제가 출제됨. 표로 암기 — 온보드: 제약(15cm/15W/150g) but 고화질·즉시 / GCS: 무탑재·강력한 컴퓨터·시각 확인 but 무선 전송 필요.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.33</div>`
+},
+{
+  num: 50, week: "Week 10", type: "multi", typeLabel: "모두 고르기",
+  q: "드론 AI를 위한 엣지 컴퓨팅 장치에 해당하는 것을 모두 고르시오.",
+  opts: [
+    ["a","NVIDIA Jetson (Nano/NX/AGX)"],
+    ["b","Google Coral (USB accelerator/dev board/module)"],
+    ["c","Hailo (M.2 module)"],
+    ["d","AWS EC2 P4 인스턴스"],
+    ["e","NVIDIA DGX 데이터센터 서버"]
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>NVIDIA Jetson</b> — 슬라이드의 첫 번째 엣지 장치. <b>Nano / NX / AGX</b> 시리즈 3종. 문제 49의 15cm/15W/150g 제약을 만족하는 대표 드론용 AI 컴퓨터(탱크 탐지 시스템 예시에서는 Jetson Xavier 사용).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>Google Coral</b> — USB accelerator / dev board / module(chip) 3가지 형태. USB로 꽂는 가속기가 특징적.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>Hailo</b> — M.2 모듈 형태의 AI 가속기. 슬라이드의 세 번째 엣지 장치.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>AWS EC2는 <b>클라우드 서버</b>. 드론에 탑재해 현장에서 처리하는 "엣지" 컴퓨팅의 정반대 개념이다.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>NVIDIA DGX는 <b>데이터센터용 대형 GPU 서버</b>. 같은 NVIDIA 제품이라 Jetson과 혼동을 유도하지만, 드론에 실을 수 있는 물건이 아니다.</span></div>
+<div class="exp-tip">💡 엣지 3사 암기: <b>Jetson(NVIDIA) / Coral(Google) / Hailo</b>. "엣지 = 드론에 싣는 작고 저전력 장치"라는 정의만 잡으면 클라우드·데이터센터 보기는 자동 소거.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.34</div>`
+},
+{
+  num: 51, week: "Week 10", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "드론용 이미지 센서에 대한 설명을 보기에서 고르시오.\n보기: (a) Color camera  (b) IR camera  (c) SWIR camera",
+  choices: [["a","(a) Color camera"],["b","(b) IR camera"],["c","(c) SWIR camera"]],
+  rows: [
+    "드론에 보편적으로 장착되는 기본 센서",
+    "실종자 수색이나 야생동물 모니터링에 특히 유용",
+    "특수 목적에 사용되는 단파장 적외선 센서"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Color camera</b> — "Usually drones are equipped with color cameras" — 드론의 <b>기본(보편) 센서</b>.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) IR(InfraRed) camera</b> — 체온 등 열 신호를 보므로 <b>실종자 수색(missing person detection), 야생동물 모니터링</b>에 특히 유용. 용도 2개가 그대로 출제 단서.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) SWIR(ShortWave InfraRed)</b> — <b>특수 목적(special purpose)</b>용 단파장 적외선. 슬라이드에서도 구체 용도 없이 "특수 목적"으로만 서술.</span></div>
+<div class="exp-tip">💡 IR과 SWIR 구분: IR="실종자·야생동물" 용도 명시 / SWIR="특수 목적"이라는 모호한 표현 그대로. counter-drone 쪽의 EO/IR 장거리 카메라(작고 먼 드론 탐지, 안정화·추적 중요)와도 연결.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.35, p.45</div>`
+},
+{
+  num: 52, week: "Week 10", type: "single", typeLabel: "설명으로 말하는 것 고르기", star: "작년 기출 그대로",
+  q: "\"주어진 쿼리 이미지에서 갤러리 이미지들 중 동일한 객체(사람)를 찾는 기법으로, CCTV handover나 드론 군집 지능에 활용되는 것\"은?",
+  opts: [
+    ["1","Object detection"],["2","Re-identification"],["3","Semantic segmentation"],["4","Pose estimation"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Re-identification</div>
+<div class="exp-section-title">보기별 상세 해설 — 비전 태스크 4종 구분</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span><b>Object detection</b>은 한 이미지 안에서 "무엇이 어디에"를 찾아 바운딩 박스를 그리는 기법. "이 사람이 저 카메라의 그 사람과 같은가?"라는 <b>동일성(identity) 판단은 하지 않는다</b>.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. <b>Re-ID</b> = 쿼리(query) 이미지가 주어지면 갤러리(gallery)의 수많은 이미지 중 <b>동일 객체/사람</b>을 검색. 활용 2가지가 그대로 시험에 나온다: ① <b>CCTV handover</b> — 카메라 A를 벗어난 사람을 카메라 B에서 이어서 추적 ② <b>드론 군집 지능</b> — 드론 1이 본 표적을 드론 2가 같은 표적으로 인식.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span><b>Semantic segmentation</b>은 모든 픽셀에 클래스를 할당. "사람 영역"은 알아도 "어느 사람인지"는 모른다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span><b>Pose estimation</b>은 관절 위치 추정(Week9 낙상 감지의 ARFDNet에서 사용). 동일인 검색과 무관.</span></div>
+<div class="exp-tip">💡 작년에 똑같이 출제. "query / gallery / 동일 객체" 세 단어가 보이면 무조건 Re-ID.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.39</div>`
+},
+{
+  num: 53, week: "Week 10", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "Counter drone 대응 수단을 보기에서 고르시오.\n보기: (a) Soft-kill  (b) Hard-kill",
+  choices: [["a","(a) Soft-kill"],["b","(b) Hard-kill"]],
+  rows: [
+    "재밍(jamming), GPS 스푸핑",
+    "고출력 레이저, 총격, 충돌 드론, 네트 건"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Soft-kill</b> — 물리적 파괴 없이 <b>기능을 무력화</b>: ① <b>재밍(jamming)</b> — 조종/통신 전파 방해(휴대용 재밍건, 재밍 시스템) ② <b>GPS 스푸핑</b> — 가짜 GPS 신호로 드론의 위치 인식을 속여 경로 이탈 유도.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Hard-kill</b> — <b>물리적 파괴·포획</b>: 고출력 레이저, 총격(gun fire), 충돌 드론(collision drone), 네트 건(net gun, 그물 포획). 4가지 수단 전부 슬라이드에 등장.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>배경: 저가·고기동 드론이 국가 안보의 큰 위협(사우디 정유시설 드론 공격, 북한 무인기 정찰 사례)이라 counter drone 기술이 필수가 되었다.</span></div>
+<div class="exp-tip">💡 구분 기준 한 줄: <b>전파로 속이면 soft, 물리적으로 떨어뜨리면 hard</b>. 네트 건은 "부수지 않으니 soft 아닌가?"라는 함정에 빠지기 쉬운데, 물리적 포획이므로 hard-kill로 분류된다.</div>
+<div class="exp-src">📖 Week10 슬라이드 p.40, p.46~47</div>`
+},
+{
+  num: 54, week: "Week 10", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "드론 탐지에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","드론은 RCS(Radar Cross-Section)가 매우 낮아(0.03m²~) 레이더로 추적을 유지하고 노이즈와 구분하기 어렵다."],
+    ["b","작고 먼 드론 탐지에는 고가의 장거리 EO/IR 카메라가 사용될 수 있다."],
+    ["c","장거리 감시에서는 안정화(stabilization)와 추적 성능도 중요하다."],
+    ["d","저가의 기동성 높은 드론은 국가 안보에 큰 위협이 되고 있어 counter drone 기술이 필수적이다."],
+    ["e","고출력 레이저와 네트 건은 대표적인 soft-kill 대응 수단이다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>RCS(레이더 반사 단면적)는 레이더에 얼마나 크게 보이는지의 지표. 드론은 <b>0.03m²~ 수준으로 매우 낮아</b> 레이더 화면에서 작은 점에 불과 → 추적 유지와 노이즈(새 등) 구분이 어렵다. 숫자 0.03m²가 그대로 출제될 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>레이더의 한계를 보완하는 것이 <b>EO(전자광학)/IR 카메라</b>. 작고 먼 드론은 고가의 장거리 카메라로 탐지.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>장거리에서 줌을 당기면 미세한 흔들림도 크게 보이므로 <b>안정화(stabilization)와 추적(tracking) 성능</b>이 함께 중요하다고 슬라이드에 명시.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>counter drone의 필요성 그 자체. 사우디 정유시설 드론 타격, 북한 무인기 정찰이 슬라이드의 실제 사례.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>분류 오류. 레이저·총격·충돌 드론·<b>네트 건은 hard-kill</b>이고, soft-kill은 <b>재밍·GPS 스푸핑</b>(문제 53). soft/hard 분류 바꿔치기 함정.</span></div>
+<div class="exp-tip">💡 드론 탐지 수단 묶음: 레이더(RCS 낮아 어려움) + EO/IR 카메라(고가 장거리) + 오픈 데이터셋(drone-vs-bird — 새와 구분이 과제라는 방증).</div>
+<div class="exp-src">📖 Week10 슬라이드 p.40~47</div>`
+}
+
+,
+
+/* ==================== Week 11 — GAN·생성모델 (55~68) ==================== */
+{
+  num: 55, week: "Week 11", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "GAN에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","Generator와 Discriminator 두 네트워크가 적대적 게임을 하는 구조이다."],
+    ["b","GAN은 unsupervised learning 방법이다."],
+    ["c","2014년 Ian Goodfellow와 동료들이 제안했다."],
+    ["d","Generator를 먼저 충분히 학습시킨 뒤 Discriminator를 학습시킨다."],
+    ["e","이미지 생성, 데이터 증강, style transfer, super resolution, 텍스트 생성, 이상 탐지 등에 응용된다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>GAN = Generative <b>Adversarial</b> Network. 위조지폐범(Generator)이 가짜 돈을 만들고, 경찰(Discriminator)이 진짜/가짜를 구분하는 <b>적대적 게임</b>. 경쟁하면서 동시에 서로를 발전시키는(cooperative) 구조.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>슬라이드 명시: "GANs are <b>unsupervised</b> learning methods". 라벨 없이 데이터 분포 자체를 배우기 때문. (라벨을 활용하는 변형은 Semi-supervised GAN — 문제 65.)</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>Ian Goodfellow, 2014</b>. 인명+연도 조합은 객관식 단골. (DCGAN 2015, CycleGAN/Pix2Pix/SRGAN/StackGAN 2017과 연도 구분.)</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. 슬라이드의 Note: 둘 다 <b>랜덤 초기화 상태에서 동시에(simultaneously)</b> 학습된다. 한쪽을 먼저 완성하는 게 아니라 엎치락뒤치락 같이 성장하는 것이 GAN 학습의 본질.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>응용 목록 그대로: image generation, data augmentation, style transfer, super resolution, text generation, anomaly detection.</span></div>
+<div class="exp-tip">💡 GAN 기본 카드: 적대적 2네트워크 / unsupervised / Goodfellow 2014 / <b>동시 학습</b>. "G 먼저" 또는 "D 먼저"라는 보기는 항상 틀림.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.3~10</div>`
+},
+{
+  num: 56, week: "Week 11", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "GAN 학습이 이상적으로 수렴했을 때 Discriminator의 상태로 옳은 것은?",
+  opts: [
+    ["1","진짜와 가짜를 100% 구분한다."],
+    ["2","확률 1/2로 추측할 수밖에 없게 된다 (진짜와 구분 불가능한 위조 생성)."],
+    ["3","항상 가짜라고 판정한다."],
+    ["4","학습이 중단된다."]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ②</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>100% 구분된다는 건 Generator가 아직 형편없다는 뜻 — 학습 <b>초기</b> 상태에 가깝다. 이상적 수렴과 정반대.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. 슬라이드: "the Generator generates bills indistinguishable from real ones and the discriminator is forced to <b>guess (with probability of ½)</b>". Generator가 진짜와 구분 불가능한 샘플을 만들면, Discriminator는 어떤 입력이 와도 동전 던지기(1/2)밖에 할 수 없다. 이것이 GAN의 이론적 균형점.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>"항상 가짜 판정"이면 진짜 데이터를 다 틀리는 것이므로 정확도 50%도 안 되는 비정상 상태. 균형점이 아니다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>수렴해도 학습이 "중단"되는 게 아니라 더 이상 양쪽 모두 이득을 볼 수 없는 균형(Nash equilibrium)에 도달하는 것.</span></div>
+<div class="exp-tip">💡 핵심 숫자: 이상적 수렴 시 D의 출력 = <b>1/2</b>. FID를 제안한 논문 제목에도 "Converge to a Local Nash Equilibrium"이 등장 — 균형 개념으로 연결해 기억.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.10</div>`
+},
+{
+  num: 57, week: "Week 11", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 모델을 보기에서 고르시오.\n보기: (a) Discriminative model  (b) Generative model",
+  choices: [["a","(a) Discriminative"],["b","(b) Generative"]],
+  rows: [
+    "입력을 클래스로 분류하는 방법을 학습 (예: 이미지 → 남/여)",
+    "학습 데이터의 분포 자체를 학습하고, latent code로부터 데이터를 생성"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Discriminative model</b> — 방향: <b>이미지(64×64×3) → 클래스(남/여)</b>. 입력을 받아 분류 경계를 배운다. supervised learning의 전형.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Generative model</b> — 방향이 반대: <b>latent code(예: 100차원) → 이미지(64×64×3)</b>. 분류가 아니라 <b>학습 데이터의 분포(distribution)</b>를 배워서 새로운 샘플을 만들어낸다.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>입출력 차원이 단서: 분별 모델은 "큰 입력 → 작은 출력(클래스)", 생성 모델은 "작은 입력(latent) → 큰 출력(이미지)". ML 분류 체계에서 GAN/VAE는 unsupervised(라벨 없음, 숨은 구조 발견)에 속한다.</span></div>
+<div class="exp-tip">💡 화살표 방향으로 암기: <b>Discriminative = 데이터→라벨 / Generative = latent→데이터</b>.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.11~13</div>`
+},
+{
+  num: 58, week: "Week 11", type: "single", typeLabel: "설명으로 말하는 것 고르기",
+  q: "생성모델의 목표를 가장 정확히 설명한 것은?",
+  opts: [
+    ["1","실제 이미지 분포 p_data(x)를 잘 근사하는 p_model(x)을 찾는 것"],
+    ["2","분류 정확도를 최대화하는 것"],
+    ["3","입력 차원을 축소하는 것"],
+    ["4","라벨 데이터의 효율을 높이는 것"]
+  ],
+  answer: "1",
+  exp: `<div class="exp-answer">✅ 정답: ①</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>정답. 슬라이드의 정의 그대로: "The goal of the generative model is to find a <b>p_model(x) that approximates p_data(x) well</b>". 직관 예시 — 사람 얼굴 데이터셋에서: 안경 쓴 남성(드묾)=낮은 확률밀도, 흑발 여성(많음)=높음, 금발 여성(아주 많음)=매우 높음, 이상한 이미지=거의 0. 이 밀도 함수를 통째로 배우는 것이 생성모델.</span></div>
+<div class="exp-item no"><span class="mark">❌ ②</span><span>분류 정확도 최대화는 <b>discriminative</b> 모델의 목표(문제 57). 두 모델의 목표를 바꿔치기한 보기.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>차원 축소는 PCA나 AutoEncoder의 인코더가 하는 일. VAE가 저차원 latent를 쓰긴 하지만 그것은 수단이고, 목표는 분포 근사·생성이다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>생성모델은 기본적으로 <b>라벨을 쓰지 않는</b> unsupervised 방법. 라벨 효율과는 무관.</span></div>
+<div class="exp-tip">💡 수식 한 줄 암기: <b>p_model(x) ≈ p_data(x)</b>. 이미지 x는 64×64×3 같은 고차원 벡터이고, 흔한 이미지일수록 밀도가 높다는 직관 예시(안경 남성/흑발/금발/이상한 이미지)도 그대로 출제 가능.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.14~21</div>`
+},
+{
+  num: 59, week: "Week 11", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "VAE(Variational AutoEncoder)에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","저차원 latent space에서 데이터의 확률적 표현을 학습하는 생성모델이다."],
+    ["b","일반 AutoEncoder(AE)와 달리 latent space의 불확실성을 모델링하여 다양한 샘플을 생성할 수 있다."],
+    ["c","이미지 생성, 이상 탐지, 데이터 압축, 디노이징에 활용된다."],
+    ["d","supervised learning에 속한다."],
+    ["e","입력 데이터와 유사한 새로운 데이터 포인트를 생성할 수 있다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>VAE는 데이터를 <b>저차원 latent space의 확률적(probabilistic) 표현</b>으로 인코딩한다. 한 점이 아니라 분포(평균·분산)로 표현하는 것이 핵심.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>AE 대비 차별점 그대로: "VAE model the <b>uncertainty</b> in the latent space for generative tasks which generate <b>diverse samples</b>". AE는 결정적(deterministic) 압축·복원만 하고, VAE는 분포에서 샘플링하므로 다양한 출력 가능.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>응용 4종 그대로: image generation, anomaly detection, data compression, denoising.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>슬라이드 명시: "in the field of <b>unsupervised learning</b> and generative modeling". 라벨 없이 학습한다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>"generate new data points <b>similar to the input data</b>" — 입력 데이터 분포를 배웠으므로 그와 유사한 새 데이터를 만들 수 있다.</span></div>
+<div class="exp-tip">💡 AE vs VAE 한 줄: <b>AE=결정적 압축/복원, VAE=확률적 latent(불확실성)→다양한 생성</b>. "VAE는 supervised"는 단골 함정.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.38~39</div>`
+},
+{
+  num: 60, week: "Week 11", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "Denoising Diffusion 모델의 과정을 보기에서 고르시오.\n보기: (a) Forward diffusion process  (b) Reverse denoising process",
+  choices: [["a","(a) Forward diffusion"],["b","(b) Reverse denoising"]],
+  rows: [
+    "데이터에 점진적으로 노이즈를 추가해 가는 과정",
+    "노이즈로부터 점진적으로 노이즈를 제거하며 데이터를 생성하는 과정"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Forward diffusion</b> — 깨끗한 이미지에 노이즈를 <b>조금씩 추가</b>해 결국 순수 노이즈로 만드는 과정. 이 과정 자체는 학습이 필요 없는 고정된 절차다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Reverse denoising</b> — 순수 노이즈에서 출발해 노이즈를 <b>단계적으로 제거</b>하며 이미지를 만들어내는 과정. <b>모델이 학습하는 것은 이 역방향</b>이다 — 슬라이드 제목 "Learning to generate by denoising" 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>3대 생성모델 비교 구도: <b>GAN</b>=적대적 게임(G vs D) / <b>VAE</b>=확률적 latent 표현 / <b>Diffusion</b>=노이즈 추가·제거. 각자의 "생성 원리" 한 단어를 매칭하는 문제로 변형 출제 가능.</span></div>
+<div class="exp-tip">💡 방향 암기: <b>forward = 더하기(노이즈), reverse = 빼기(디노이즈=생성)</b>. 학습 대상은 reverse 쪽.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.40~43</div>`
+},
+{
+  num: 61, week: "Week 11", type: "single", typeLabel: "설명으로 말하는 것 고르기", star: "작년 기출 그대로",
+  q: "\"생성된 이미지의 품질(realistic)과 다양성(diverse)을 평가하는 지표. ImageNet 사전학습 분류 모델을 사용하며, 라벨 분포는 narrow할수록, marginal 분포는 uniform할수록 좋고, 둘 사이의 KL divergence로 측정한다. 높을수록 좋다.\" 이 지표는?",
+  opts: [
+    ["1","FID"],["2","Inception Score"],["3","BLEU"],["4","mAP"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② Inception Score</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>FID도 GAN 평가지표지만 방향이 다르다: <b>실제 이미지도 사용</b>하고, 분포 간 "거리"라서 <b>낮을수록</b> 좋다. 문제 지문의 "높을수록 좋다"와 충돌. (문제 63에서 상세 비교.)</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>정답. Inception Score(IS)의 두 가지 측정 축: ① 이미지 한 장의 <b>라벨 분포가 narrow</b>(분류기가 확신 있게 분류 = 품질 좋음. uniform하면 이미지가 뒤죽박죽이라는 뜻) ② 5만 장 전체의 <b>marginal 분포는 uniform</b>(여러 클래스를 고루 생성 = 다양성). 이 둘 사이의 <b>KL divergence</b>가 클수록 = IS가 높을수록 좋다. 이름의 유래: <b>Inception</b> ImageNet 사전학습 분류기를 사용해서.</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>BLEU는 NLP 번역 평가(n-gram precision). 이미지 생성과 무관.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>mAP는 object detection 평가(클래스별 AP 평균). 생성 품질과 무관.</span></div>
+<div class="exp-tip">💡 작년 기출: "GAN 평가 지표 ~" → Inception Score. 두 분포의 역할이 헷갈리기 쉬움: <b>개별 이미지 라벨 분포=narrow / 전체 marginal=uniform</b>. 반대로 쓰면 틀린 보기다.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.44~46</div>`
+},
+{
+  num: 62, week: "Week 11", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Inception Score의 한계로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","분류기의 학습 데이터(ILSVRC 2014)에 없는 대상(예: 상어)을 생성하면 품질이 좋아도 낮은 점수를 받을 수 있다."],
+    ["b","클래스당 한 장의 이미지만 반복 생성해도 높은 점수를 받을 수 있다 (intra-class diversity 미측정)."],
+    ["c","학습 데이터를 암기해 복제해도 높은 점수를 받을 수 있다."],
+    ["d","머리가 두 개인 사람을 생성해도 분류기가 관련 특징을 못 잡으면 패널티가 없다."],
+    ["e","생성 이미지 분포와 실제 이미지 분포 간의 거리를 직접 측정한다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설 — IS의 한계는 전부 "분류기 의존성"에서 나온다</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>IS는 Inception 분류기가 아는 클래스로만 평가한다. <b>상어는 ILSVRC 2014에 없으므로</b> 아무리 잘 그려도 어떤 클래스로도 확신 있게 분류되지 않아 점수가 낮다. 다른 라벨 집합(푸들 품종들만, 코끼리와 개미만)을 생성해도 마찬가지.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>클래스마다 단 한 장을 반복 생성해도 "라벨 narrow + marginal uniform" 조건이 충족되어 고득점. <b>클래스 내부 다양성(intra-class diversity)은 전혀 측정하지 못한다</b>.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>학습 데이터를 통째로 암기·복제(memorization)해도 실제 같고 다양하니 고득점. "새로운 것을 만들었는가"는 IS가 알 수 없다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>분류기가 품질에 중요한 결함 특징을 감지 못하면 통과된다. 슬라이드의 예: <b>머리 둘 달린 사람</b>을 생성해도 패널티 없음.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>이것은 <b>FID</b>의 설명이다. IS는 <b>생성 이미지만</b> 사용하고 실제 이미지를 보지 않는다 — 바로 그 점이 한계라서 FID가 등장했다.</span></div>
+<div class="exp-tip">💡 한계 4종을 "분류기 모름(a) / 클래스 내 단조(b) / 암기(c) / 결함 통과(d)"로 압축. (e)는 IS→FID 개선 포인트를 역이용한 함정.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.47~48</div>`
+},
+{
+  num: 63, week: "Week 11", type: "single", typeLabel: "틀린 것 고르기",
+  q: "FID(Fréchet Inception Distance)에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","Inception Score의 개선판으로, 생성 이미지뿐 아니라 실제 이미지도 계산에 사용한다."],
+    ["2","사전학습된 Inception v3의 마지막 pooling layer activation(2048차원)으로 분포를 측정한다."],
+    ["3","FID가 높을수록 생성 분포와 실제 분포가 가깝다는 뜻이다."],
+    ["4","GAN 성능 평가를 위해 2017년 제안되었다."]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. IS의 한계(실제 이미지를 안 봄)를 보완해 <b>생성 이미지 + 실제 이미지 양쪽의 분포</b>를 비교한다. "Not only generated images, but also real images used in calculation" 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. <b>Inception v3</b>의 마지막 pooling layer에서 나온 <b>2048차원 벡터</b>로 두 분포를 표현해 거리를 잰다. (2048은 BERT hidden 768과 바꿔치기 함정으로 활용되는 숫자 — 문제 13 참고.)</span></div>
+<div class="exp-item no"><span class="mark">❌ ③</span><span>틀림 — 정답. FID는 "Distance(거리)"다. <b>낮을수록</b> 생성 분포와 실제 분포가 가깝다(좋다). "Lower FID means smaller distances" 그대로. 방향을 뒤집은 함정 — IS(높을수록 좋음)와 반대라는 점이 핵심 비교 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ④</span><span>옳음. 2017년 논문 "GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium"에서 제안.</span></div>
+<div class="exp-tip">💡 방향 비교 카드: <b>IS = 높을수록 좋음(생성만 사용) / FID = 낮을수록 좋음(실제+생성 사용, Inception v3 2048차원)</b>. 이 대비가 작년 기출 스타일의 단골.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.48~49</div>`
+},
+{
+  num: 64, week: "Week 11", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "DCGAN(2015)의 특징으로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","GAN에 깊은 convolutional neural network를 활용했다."],
+    ["b","Pooling layer를 사용하지 않고 Conv/Deconv만 사용한다."],
+    ["c","Batch normalization과 Adam optimizer를 사용한다."],
+    ["d","2015년에 발표되었다."],
+    ["e","Denoising diffusion process를 기반으로 이미지를 생성한다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>DCGAN = <b>D</b>eep <b>C</b>onvolutional GAN. 초기 GAN의 fully-connected 구조를 deep CNN으로 바꿔 이미지 생성 품질을 크게 끌어올린 모델.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>설계 특징 ①: <b>pooling layer 없음</b> — 다운/업샘플링을 Conv(stride)와 Deconv로만 처리. "No pooling layer (Only Conv and Deconv)" 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>설계 특징 ②③: <b>Batch normalization</b>으로 학습 안정화 + <b>Adam optimizer</b> 사용.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span><b>2015년</b>. GAN(2014) 바로 다음 해라는 위치로 기억.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>DCGAN은 GAN 계열이므로 <b>적대적 학습</b>으로 생성한다. denoising은 <b>diffusion 모델</b>의 생성 원리(문제 60). 생성 원리 바꿔치기 함정.</span></div>
+<div class="exp-tip">💡 DCGAN 3종 세트: <b>no pooling / batch norm / Adam</b> + 연도 2015. "틀린 것 고르기"로 변형되면 보통 pooling 부분을 뒤집는다.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.50</div>`
+},
+{
+  num: 65, week: "Week 11", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 GAN 변형을 보기에서 고르시오.\n보기: (a) SGAN  (b) CycleGAN  (c) Pix2Pix  (d) SRGAN",
+  choices: [["a","(a) SGAN"],["b","(b) CycleGAN"],["c","(c) Pix2Pix"],["d","(d) SRGAN"]],
+  rows: [
+    "라벨 데이터를 활용해 특정 클래스의 가짜 이미지를 생성 (semi-supervised)",
+    "Unpaired image-to-image translation, cycle-consistency 사용",
+    "Conditional adversarial network 기반의 (paired) image-to-image translation",
+    "단일 이미지 super resolution. adversarial loss + content loss로 텍스처 디테일 향상"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) SGAN</b>(Semi-supervised GAN, 2016) — <b>라벨 데이터를 활용</b>해 "특정 클래스의" 가짜 이미지를 생성. GAN이 원래 unsupervised인데 라벨을 일부 쓴다는 점이 이름(semi-supervised)의 유래.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) CycleGAN</b>(2017) — <b>unpaired</b>(짝 없는) 변환이 결정적 단서. 말↔얼룩말처럼 1:1 짝 데이터 없이 도메인 간 변환. <b>cycle-consistency</b>(변환 후 되돌리면 원본이어야 함) 손실 사용.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Pix2Pix</b>(2017) — <b>conditional</b> adversarial network 기반, <b>paired</b>(짝 있는) 변환(스케치→사진처럼 입력-출력 쌍 필요). CycleGAN과 paired/unpaired로 대비.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) SRGAN</b>(2017) — Super Resolution GAN. <b>adversarial loss + content loss</b> 조합으로 기존 CNN 방식보다 <b>텍스처 디테일</b>이 훨씬 좋고, human evaluation에서도 타 방법을 능가.</span></div>
+<div class="exp-tip">💡 핵심 구분: CycleGAN=<b>unpaired</b>+cycle / Pix2Pix=<b>paired</b>+conditional. 이 둘을 바꿔치기하는 보기가 가장 흔한 함정. 셋 다 2017년.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.51~55</div>`
+},
+{
+  num: 66, week: "Week 11", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "StyleGAN 계열에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","StyleGAN1/2/3는 NVIDIA가 발표했다."],
+    ["b","PGGAN(Progressive GAN)은 저해상도에서 고해상도로 점진적으로 생성하는 구조이다."],
+    ["c","StyleGAN1은 mapping network와 AdaIN(Adaptive Instance Normalization)으로 생성 이미지의 스타일을 제어한다."],
+    ["d","StyleGAN1(2019), StyleGAN2(2020), StyleGAN3(2021) 순으로 발표되었다."],
+    ["e","AdaIN은 OpenAI가 제안한 텍스트-이미지 정렬용 인코더이다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>StyleGAN 시리즈는 <b>NVIDIA</b> 발표. (DALL-E 계열=OpenAI와 회사 매칭 주의 — 작년 기출이 "OpenAI ~ 모델" 식으로 회사명을 단서로 줬다.)</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>PGGAN</b>(Progressive GAN) = 저해상도부터 시작해 층을 점진적으로 추가하며 고해상도로 키우는 학습 구조. StyleGAN1의 토대가 된 아키텍처로 슬라이드에 비교 그림이 있음.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>StyleGAN1의 두 가지 핵심: <b>mapping network</b>(latent z를 스타일 공간 w로 변환) + <b>AdaIN</b>(각 층에서 스타일 주입) → 생성 이미지의 스타일을 세밀하게 제어.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>연도 그대로: <b>1=2019, 2=2020, 3=2021</b>. 매년 한 버전씩.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>AdaIN은 <b>스타일 제어용 정규화 기법</b>이지 텍스트-이미지 정렬이 아니다. 텍스트-이미지 정렬(출력 랭킹)에 쓰이는 OpenAI의 모델은 <b>CLIP</b>(DALL-E에서 사용, 문제 68). 서로 다른 주차 개념을 섞은 함정.</span></div>
+<div class="exp-tip">💡 StyleGAN 카드: NVIDIA / PGGAN 기반 / mapping network + AdaIN / 2019→2020→2021. "AdaIN"과 "CLIP"을 절대 혼동하지 말 것.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.56~57</div>`
+},
+{
+  num: 67, week: "Week 11", type: "single", typeLabel: "설명으로 말하는 것 고르기", star: "작년 기출: OpenAI~ChatGPT 결합 모델",
+  q: "\"OpenAI의 text-to-image 모델로, ChatGPT와 연결되어 프롬프트를 개선하는 버전(2023)\"은?",
+  opts: [
+    ["1","StableDiffusion"],["2","MidJourney"],["3","DALL-E 3"],["4","StackGAN"]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ DALL-E 3</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item no"><span class="mark">❌ ①</span><span>StableDiffusion(2022)은 <b>코드·가중치가 공개</b>된 diffusion 모델로, 8GB VRAM 일반 GPU에서도 실행 가능한 것이 시그니처. OpenAI 제품이 아니고 ChatGPT 연동도 아니다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ②</span><span>MidJourney(2022~)는 <b>Discord에서 제공되는 비공개(proprietary)</b> 서비스. 독립 연구소 Midjourney, Inc. 제품. 디지털 아트 공모전 1위 사례로 유명.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>정답. DALL-E 계보로 암기 — <b>DALL-E(2021)</b>: GPT-3(120B) + 2.5B 이미지-텍스트 쌍, discrete VAE로 이미지 토큰화, CLIP으로 출력 랭킹 / <b>DALL-E 2(2022)</b>: dVAE→<b>diffusion</b> 전환, 해상도 4배, 인페인팅·아웃페인팅 / <b>DALL-E 3(2023)</b>: <b>ChatGPT와 연결해 프롬프트를 개선</b>. 작년 기출이 "OpenAI ~ ChatGPT ~ 결합된 모델"이라는 표현으로 이걸 물었다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>StackGAN(2017)은 텍스트 임베딩에서 저해상도(64×64)→고해상도(256×256) <b>2단계 생성</b>을 하는 GAN. DALL-E 이전 세대의 text-to-image.</span></div>
+<div class="exp-tip">💡 회사-모델 매칭: <b>OpenAI=DALL-E(+CLIP)</b> / 공개모델=StableDiffusion / Discord 비공개=MidJourney / NVIDIA=StyleGAN. 연도(1=2021, 2=2022, 3=2023)와 버전별 변화 한 가지씩.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.58~63</div>`
+},
+{
+  num: 68, week: "Week 11", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 생성모델/서비스를 보기에서 고르시오.\n보기: (a) DALL-E (2021)  (b) StableDiffusion  (c) MidJourney  (d) StackGAN",
+  choices: [["a","(a) DALL-E"],["b","(b) StableDiffusion"],["c","(c) MidJourney"],["d","(d) StackGAN"]],
+  rows: [
+    "코드와 모델 가중치가 공개되어 8GB VRAM 수준 일반 GPU에서도 실행 가능. txt2img/img2img/inpainting/controlnet",
+    "Discord에서 제공되는 비공개(proprietary) text-to-image 서비스. 디지털 아트 공모전 1위 사례",
+    "텍스트 임베딩에서 저해상도(64×64) → 고해상도(256×256) 2단계 생성 (2017)",
+    "GPT-3(120B) 기반, 2.5B 이미지-텍스트 쌍 학습, discrete VAE로 이미지 토큰화, CLIP으로 출력 랭킹"
+  ],
+  answer: ["b","c","d","a"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (c), (d), (a)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) StableDiffusion</b>(2022) — 시그니처는 <b>"공개(open)"</b>: 코드+가중치 공개, <b>8GB VRAM</b> 일반 GPU에서 실행. 기능 4종: txt2img / img2img / inpainting / controlnet.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) MidJourney</b>(2022~) — 시그니처는 <b>"Discord + 비공개(proprietary)"</b>. 샌프란시스코 독립 연구소 제품. 생성 이미지가 디지털 아트 공모전 1위를 차지한 사례가 슬라이드에 등장.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(d) StackGAN</b>(2017) — 시그니처는 <b>"2단계(stack) 생성"</b>: 텍스트 임베딩 → 64×64 저해상도 → 256×256 고해상도. diffusion 이전 GAN 시대의 text-to-image.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(a) DALL-E</b>(2021) — 시그니처는 <b>"GPT-3 120B + 2.5B 쌍 + dVAE + CLIP 랭킹"</b>. 이미지(256²)를 discrete VAE로 32² 토큰으로 압축하고, autoregressive transformer로 이미지 토큰을 예측해 생성. 대규모 데이터가 이전(MSCOCO 등 소규모)과의 차별점.</span></div>
+<div class="exp-tip">💡 시그니처 한 단어씩: StableDiffusion=<b>공개/8GB</b>, MidJourney=<b>Discord/비공개</b>, StackGAN=<b>2단계</b>, DALL-E=<b>dVAE+CLIP</b>. 숫자(120B, 2.5B, 8GB, 64→256)가 바꿔치기 소재.</div>
+<div class="exp-src">📖 Week11 슬라이드 p.58~63</div>`
+},
+
+/* ==================== Week 12 — 자율주행 (69~80) ==================== */
+{
+  num: 69, week: "Week 12", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "자율주행의 구성 요소에 대한 설명을 보기에서 고르시오.\n보기: (a) Vision  (b) Planning  (c) Decision  (d) Control",
+  choices: [["a","(a) Vision"],["b","(b) Planning"],["c","(c) Decision"],["d","(d) Control"]],
+  rows: [
+    "다양한 센서와 AI 기술로 주변 환경을 인식",
+    "목적지까지의 최적 경로(장기) 및 차선 변경 등 주행 경로(단기) 설정",
+    "상황을 분석하고 적절한 대응 계획을 수립",
+    "단기 경로 계획을 따르도록 핸들, 브레이크, 가속 페달의 제어 명령 도출"
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Vision</b> — 센서+AI로 <b>주변 환경 인식</b>(도로, 신호등, 표지판, 차량, 보행자). 파이프라인의 입력 단계.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Planning</b> — <b>장기</b>(목적지까지 최적 경로) + <b>단기</b>(차선 변경 등 주행 경로) 두 수준의 계획. "장기/단기" 구분이 단서.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Decision</b> — AI로 <b>상황 분석 + 대응 계획 수립</b>. Planning(경로)과 헷갈리기 쉬운데, Decision은 "상황 판단"이다.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Control</b> — 단기 경로를 따르도록 <b>핸들·브레이크·가속 페달의 제어 명령</b>을 도출. 실제로 차를 움직이는 마지막 단계(PID/LQR/MPC — 문제 78).</span></div>
+<div class="exp-tip">💡 파이프라인 순서로 암기: <b>Vision(인식) → Planning(경로) → Decision(판단) → Control(조작)</b>. 사람 운전(p.4)에는 여기에 <b>Hearing(청각)</b>이 추가된 5요소 — 보충 문제 104와 연결.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.4~5</div>`
+},
+{
+  num: 70, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "자율주행이 필요한 이유로 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","노인, 장애인 등의 이동의 자유를 보장한다."],
+    ["b","자동차는 시간의 95% 이상 주차되어 있으므로, 차량 수를 줄일 수 있다."],
+    ["c","교통 혼잡 감소, 운송 비용 절감, 교통 사망자 감소가 기대된다."],
+    ["d","주차 공간을 절약하고 보행자 편의를 높인다."],
+    ["e","교통사고의 대부분은 휴먼 에러(과속, 운전 중 휴대폰 사용 등)에서 비롯되므로, 자율주행은 사고 감소에 기여할 수 있다."]
+  ],
+  answer: ["a","b","c","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d), (e) — 전부 옳음</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>"노인, 장애인 등의 <b>이동의 자유(freedom of mobility)</b>" — 삶의 질 개선 측면의 첫 번째 항목.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>핵심 숫자: 자동차는 <b>시간의 95% 이상 주차 상태</b>. 소유 없이 언제든 이동할 수 있다면 차량 수 자체를 줄일 수 있다는 논리. 95%라는 숫자가 그대로 출제될 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>차량 수 감소의 연쇄 효과: 혼잡↓, 운송 비용↓, 교통 사망자↓.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>주차 공간 절약 + 보행자 편의 향상도 슬라이드에 명시된 기대 효과.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>강의에서 강조: 사고 대부분이 <b>휴먼 에러</b>(과속, 운전 중 휴대폰)에서 비롯 → 자율주행이 이 요소를 제거. WHO 교통사고 통계 슬라이드가 "왜 필요한가"의 도입부.</span></div>
+<div class="exp-tip">💡 "전부 정답"형. 오염·배출 감소, 새로운 대중교통 형태 가능성도 같은 슬라이드의 항목 — 어떤 조합이 나와도 모두 옳다고 판단할 수 있게 목록 전체를 암기.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.6~7</div>`
+},
+{
+  num: 71, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "자율주행의 기술적 어려움에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","\"Long tail of 9s\" — 99% 정확도로는 안전하지 않고 99.9999%를 달성해야 한다."],
+    ["b","현대 차량은 약 1억 라인의 코드를 포함하여, 거대하고 복잡한 소프트웨어의 완전한 검증이 어렵다."],
+    ["c","사소한 오류나 버그도 심각한 문제를 일으킬 수 있다."],
+    ["d","상용 무인 로보택시 서비스는 아직 시작된 적이 없다."],
+    ["e","센서와 알고리즘의 정확도 향상이 여전히 필요하다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>Long tail of 9s</b> — 99%는 자율주행에서 안전하지 않다. 9를 계속 붙여 <b>99.9999%</b>까지 가야 하는데, 마지막 9들(희귀한 코너 케이스)이 가장 어렵다는 의미. 표현과 숫자 모두 출제 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>현대 차량 소프트웨어 ≈ <b>1억(100 million) 라인</b>. 이 규모·복잡도의 SW는 완전한 검증·안정성 확보가 어렵다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>"Even minor errors or bugs can cause serious problems" — 사소한 버그도 인명 사고로 이어질 수 있는 도메인.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. <b>2023년 8월</b> Waymo와 Cruise가 상용 무인 로보택시 서비스를 시작했다. "아직 없다"는 사실 관계를 뒤집은 보기. 회사 2개+연월이 단답으로도 나올 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>기술적 한계의 첫 항목: 센서·알고리즘 정확도 향상 필요.</span></div>
+<div class="exp-tip">💡 기술적 어려움 숫자 3종: <b>99.9999%(long tail of 9s) / 1억 라인 / 2023.8 Waymo·Cruise</b>.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.13~14</div>`
+},
+{
+  num: 72, week: "Week 12", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "자율주행의 어려움을 분류한 설명을 보기에서 고르시오.\n보기: (a) 규제적(Regulatory)  (b) 사회적(Social)  (c) 재정적(Financial)",
+  choices: [["a","(a) 규제적"],["b","(b) 사회적"],["c","(c) 재정적"]],
+  rows: [
+    "법적 프레임워크·국제 표준 부재, 군사적 이유로 보호되는 HD맵 데이터 접근 문제",
+    "사고 보도로 인한 불안·불신, 택시·트럭 운전자 등 일자리 영향, 무인차에 대한 적대감",
+    "막대한 R&D 비용, 인프라 비용, 센서 장착으로 인한 차량 가격 상승"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) 규제적</b> — 책임(liability)·보험·등록·테스트 기준 등 <b>법적 프레임워크 부재</b> + 국제 표준 부족(국가 간 호환·컴플라이언스 어려움) + <b>HD맵이 군사 목적으로 보호</b>되어 접근이 어려운 문제. "HD맵+군사"가 규제 분류라는 게 의외의 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) 사회적</b> — 사고·실패 보도로 인한 <b>불안·불신·공포</b> / 사람들은 "사람보다 약간 나은" 정도가 아니라 <b>훨씬 더 안전한 컴퓨터</b>를 기대 / 택시·트럭 기사 등 <b>일자리 충격</b> / 무인차에 대한 적대감.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) 재정적</b> — R&D·테스트·구현의 막대한 비용(투자는 오히려 축소 중) / 기존 도로 인프라 호환 또는 신규 인프라 비용 / <b>센서 장착으로 차량 제조 원가 상승</b>.</span></div>
+<div class="exp-tip">💡 4분류 전체: 기술적(99.9999%, 1억 라인) / 규제적(법·표준·HD맵) / 사회적(불안·일자리) / 재정적(R&D·인프라·차값). 각 분류의 시그니처 항목 하나씩 연결해 두면 어떤 매칭이 나와도 풀린다.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.14~17</div>`
+},
+{
+  num: 73, week: "Week 12", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "Tesla의 전방 카메라 3종에 대한 설명을 보기에서 고르시오.\n보기: (a) Wide forward camera  (b) Main forward camera  (c) Narrow forward camera",
+  choices: [["a","(a) Wide"],["b","(b) Main"],["c","(c) Narrow"]],
+  rows: [
+    "120도 어안렌즈. 신호등, 진입 장애물, 근거리 객체 포착. 저속 도심 주행에 유용",
+    "광범위한 사용 사례를 커버",
+    "원거리 특징의 집중된 장거리 시야 제공. 고속 주행에 유용"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Wide</b> — <b>120° 어안(fisheye) 렌즈</b>. 신호등, 경로로 끼어드는 장애물, 근거리 객체. <b>저속 도심 주행(urban, low speed)</b>에 특히 유용. "120°/어안/도심"이 키워드 세트.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Main</b> — "Covers a broad spectrum of use cases" — 범용. 설명이 가장 짧은 것이 오히려 단서.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Narrow</b> — <b>원거리</b> 특징의 집중 시야. <b>고속 주행(high-speed)</b>에 유용. 세 카메라 모두 윈드실드 뒤에 장착.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>전체 카메라 시스템: <b>8대로 360°, 최대 250m</b> 시야. 거리 스펙 — Narrow 250m / Main 150m / Wide 60m / 후방 50m 등. "8대·360°·250m"는 단답 출제 가능.</span></div>
+<div class="exp-tip">💡 화각과 거리는 반비례: <b>Wide(120°, 60m, 도심) ↔ Narrow(좁은 화각, 250m, 고속도로)</b>. 용도(도심/고속)를 바꿔치기하는 함정 주의.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.19~20</div>`
+},
+{
+  num: 74, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Tesla의 자율주행 시스템에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","카메라는 다른 센서 대비 상대적으로 저렴하다."],
+    ["b","다수 카메라를 동시에 처리하기 위해 자체 FSD 칩을 개발했다."],
+    ["c","카메라 수가 늘어나면 이를 동시 처리할 컴퓨팅 파워가 필요하다."],
+    ["d","Tesla는 LiDAR를 주력 센서로 사용한다."],
+    ["e","HydraNet이라는 shared backbone과 Bird's Eye View 표현을 사용한다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>카메라의 최대 장점 = <b>저렴함</b>. LiDAR(여전히 고가)와의 대비가 Tesla 전략의 출발점.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>8대 카메라 영상을 동시 처리하기 위해 Tesla는 <b>자체 FSD 칩/컴퓨터(NPU)</b>를 개발했다. "여러 카메라 이미지의 동시 처리"가 개발 이유로 명시.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>(b)의 전제: 카메라가 늘수록 동시 처리 컴퓨팅 파워 요구가 커진다.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. Tesla는 <b>카메라 8대 기반(LiDAR 미사용)</b> 전략으로 유명하다. LiDAR 중심은 Waymo 계열. 회사-센서 전략 바꿔치기 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>Tesla의 신경망 구조: <b>HydraNet</b>(여러 태스크가 공유하는 backbone) + <b>Bird's Eye View</b>(8대 카메라를 위에서 내려본 통합 표현으로 변환). 두 고유명사 모두 슬라이드에 등장.</span></div>
+<div class="exp-tip">💡 Tesla 카드: 카메라 8대·360°·250m / FSD 칩 자체 개발 / HydraNet + BEV / <b>LiDAR 안 씀</b>.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.19~23</div>`
+},
+{
+  num: 75, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "LiDAR에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","레이저를 방출하고 반사광을 받아 time-of-flight으로 거리를 측정하는 능동(active) 원격 센싱이다."],
+    ["b","다수 점의 x, y, z 좌표와 intensity를 저장하며, 이 점들의 집합을 point cloud라 한다."],
+    ["c","카메라보다 조밀한(dense) 센싱이 가능하다."],
+    ["d","가격이 초기 수억 원대에서 내려왔지만 여전히 보편적 장착에는 비싸다."],
+    ["e","이동 물체 탐지나 조밀한 센싱을 위해 여러 대의 LiDAR를 동시에 사용하기도 한다."]
+  ],
+  answer: ["a","b","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (d), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>LiDAR(Light Detection and Ranging) = 레이저를 직접 쏘고(능동, active) 반사파의 <b>time-of-flight</b>로 거리 측정. 빛을 받기만 하는 카메라(수동)와 대비.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>각 점은 <b>x, y, z + intensity</b>를 가지며, 데이터 형식은 <b>(#points, 4)</b>로 변환 가능. 이 점들의 집합 = <b>point cloud</b>. "(#points, 4)"라는 형태가 단답 출제 가능.</span></div>
+<div class="exp-item no"><span class="mark">❌ (c)</span><span>반대. "Lidar has <b>sparse</b> sensing capabilities compared to cameras" — LiDAR는 카메라보다 희소하다. single-line/multi-line 구분이 있을 만큼 라인 수가 제한적이기 때문. dense/sparse 뒤집기 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>가격: 초기 수억 원 → 현재 수십만~수백만 원대로 하락했으나 <b>보편 장착에는 여전히 고가</b>. Tesla가 카메라를 택한 배경.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>희소성을 보완하기 위해 <b>여러 대의 LiDAR를 동시 사용</b>하기도 한다(이동 물체 탐지·조밀 센싱 목적).</span></div>
+<div class="exp-tip">💡 LiDAR 카드: 능동·ToF / point cloud (x,y,z,i)=(#points,4) / 카메라보다 <b>sparse</b> / 여전히 비쌈. "dense"라고 하면 무조건 틀린 보기.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.24~27</div>`
+},
+{
+  num: 76, week: "Week 12", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Radar에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","전자기파를 사용해 객체를 탐지·측정하며, 대기 조건에 상대적으로 강건하다."],
+    ["2","자율주행에는 일반적으로 FMCW 방식이 사용된다."],
+    ["3","LiDAR보다 훨씬 저렴하다."],
+    ["4","해상도가 LiDAR보다 높아 자율주행의 주력(main) 센서로 적합하다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. Radar = <b>전자기파</b> 기반 탐지·측정. 비·안개·눈 같은 <b>대기 조건에 강건</b>한 것이 빛 기반 센서(카메라·LiDAR) 대비 최대 강점.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. 자율주행용은 일반적으로 <b>FMCW</b>(Frequency-Modulated Continuous-Wave, 주파수 변조 연속파) 방식. 약어의 풀네임도 출제 가능.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. LiDAR보다 <b>훨씬 저렴(much cheaper)</b>. 그래서 거의 모든 양산차에 이미 들어가 있다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. 해상도가 LiDAR보다 <b>낮아서</b> 주력 센서로 쓰기 어렵고, <b>이동 물체/장애물 탐지 보조용</b>으로 쓰인다. 장점(저렴·강건)과 한계(저해상도)를 뒤집은 함정.</span></div>
+<div class="exp-tip">💡 센서 3종 비교표: 카메라=저렴·고해상도·수동 / LiDAR=3D 정밀·sparse·고가 / Radar=날씨 강건·저렴·<b>저해상도(보조용)</b>. 비교표 자체가 "틀린 것 고르기"의 단골 소재.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.28~29</div>`
+},
+{
+  num: 77, week: "Week 12", type: "multi", typeLabel: "모두 고르기",
+  q: "자율주행 내비게이션(현재 위치 파악) 기술에 해당하는 것을 모두 고르시오.",
+  opts: [
+    ["a","GPS 위성"],
+    ["b","IMU(관성항법센서)"],
+    ["c","(Visual) SLAM + HD Map"],
+    ["d","차량 속도계, 무선 통신망"],
+    ["e","PID, LQR, MPC"]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>GPS 위성</b> — 가장 기본적인 절대 위치 소스. 단독으로는 오차·음영지역 문제가 있어 다른 센서와 융합.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>IMU(관성항법센서)</b> — 가속도·각속도를 적분해 상대 이동을 추정. GPS가 끊기는 터널 등에서 보완.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>(Visual) SLAM</b> — 주행하며 지도를 만들고 동시에 그 안에서 자기 위치를 추정. <b>HD Map과 결합</b>해 정밀 측위.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span><b>차량 속도계, 무선 통신망</b>도 슬라이드의 내비게이션 기술 목록에 포함.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span><b>PID, LQR, MPC는 제어(Control) 알고리즘</b>이다 — 계획된 경로를 따라 속도·방향·가속도를 조절하는 단계(문제 78). "위치 파악"과 "경로 추종"을 섞은 함정.</span></div>
+<div class="exp-tip">💡 단계별 기술 묶음: 내비게이션(어디인가)=GPS/IMU/SLAM/HD맵 ↔ 경로계획(어디로)=RRT ↔ 제어(어떻게)=PID/LQR/MPC. 약어가 어느 단계 소속인지가 출제 포인트.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.30~32</div>`
+},
+{
+  num: 78, week: "Week 12", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다음 설명에 해당하는 기술을 보기에서 고르시오.\n보기: (a) Path planning  (b) Control",
+  choices: [["a","(a) Path planning"],["b","(b) Control"]],
+  rows: [
+    "현 위치에서 목표 위치까지의 최적 경로를 탐색·계획 (RRT, RRT* 등)",
+    "계획된 경로를 따라 정확하게 이동. PID, LQR, MPC 등의 알고리즘으로 속도·방향·가속도 제어 (Pure pursuit 등)"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Path planning</b> — "현 위치 → 목표 위치"의 <b>최적 경로 탐색</b>. 대표 알고리즘: <b>RRT</b>(Rapidly-exploring Random Tree), <b>RRT*</b>(+reeds-shepp path). PythonRobotics 시각화가 슬라이드에 등장.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Control</b> — 계획된 경로를 <b>정확히 따라가는</b> 기술. 제어 알고리즘: <b>PID, LQR, MPC</b>. 경로 추종(path tracking) 기법: <b>Pure Pursuit</b>, model predictive speed & steer control.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>알고리즘-단계 매칭이 핵심: <b>RRT 계열 = planning / PID·LQR·MPC·Pure pursuit = control</b>. 약어를 반대 단계에 놓는 보기가 전형적 함정(문제 77의 (e)처럼).</span></div>
+<div class="exp-tip">💡 비유로 암기: planning = "지도에 선 긋기(RRT)", control = "그 선을 핸들·페달로 따라가기(PID/MPC/Pure pursuit)".</div>
+<div class="exp-src">📖 Week12 슬라이드 p.31~32</div>`
+},
+{
+  num: 79, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "SalsaNet의 입력 표현에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","BEV(Bird's Eye View) 맵은 ROI(x∈[0,50], y∈[−6,12])와 그리드 셀 크기(0.2m, 0.3m)로 250×60 맵을 만든다."],
+    ["b","BEV의 각 셀은 평균 고도, 최대 고도, 평균 반사율, 투영된 점 개수를 가진다(4D)."],
+    ["c","SFV(Spherical Front-View) 맵은 전방 90° 영역을 64×512 해상도로 표현하며, (x, y, z), intensity, range, occupancy의 6D이다."],
+    ["d","데이터 라벨링은 모두 사람이 수동으로 수행했다."],
+    ["e","SFV의 range는 r = √(x²+y²+z²)로 계산된다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>BEV 계산 검증: x방향 50÷0.2 = <b>250</b>, y방향 (12−(−6))÷0.3 = 18÷0.3 = <b>60</b> → 250×60. 이 산수 자체가 계산 문제로 출제될 수 있다(GPT 모의에도 동일 계산 문제 있음).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>BEV 셀의 4개 특징: <b>mean elevation, max elevation, average reflectivity, # of projected points</b> → "4D BEV map"의 4가 여기서 나온다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>SFV: 전방 <b>90°</b> ROI, 해상도 <b>64×512</b>, 채널 6개 = (x,y,z) + intensity + range + occupancy → "6D SFV map".</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. SalsaNet의 라벨은 <b>autolabeling</b> — 기성(off-the-shelf) 도로/차량 segmentation 모델로 이미지를 분할하고, <b>카메라-LiDAR 캘리브레이션</b>으로 그 결과를 point cloud에 매핑해 자동 생성. "수동 라벨링"은 핵심 기여를 부정한 보기.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>range 정의 그대로: r = √(x²+y²+z²) — 원점(센서)에서 점까지의 유클리드 거리.</span></div>
+<div class="exp-tip">💡 숫자 카드: BEV=<b>4D, 250×60</b> / SFV=<b>6D, 64×512, 90°</b> / 라벨=<b>auto</b>(기성 모델+캘리브레이션). 4D/6D를 바꿔치기하는 함정 주의.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.33~34</div>`
+},
+{
+  num: 80, week: "Week 12", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "SalsaNet 아키텍처에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","Encoder는 ResNet 블록으로 구성된다."],
+    ["b","Decoder는 deconvolution과 skip connection으로 구성된다."],
+    ["c","Point cloud semantic segmentation을 수행한다."],
+    ["d","입력으로 BEV(Bird's Eye View)와 SFV(Spherical Front-View) 표현을 사용한다."],
+    ["e","Encoder는 Transformer self-attention 블록으로 구성된다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>Encoder = <b>ResNet 블록</b>. CNN 기반의 전형적 encoder-decoder segmentation 구조.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>Decoder = <b>deconvolution(업샘플링) + skip connection</b>(encoder의 고해상도 특징을 decoder로 직접 연결, U-Net 스타일).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>태스크 = <b>point cloud semantic segmentation</b> — LiDAR 점들을 도로/차량 등의 클래스로 분류. Week12의 메인 논문 주제.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>3D point cloud를 직접 처리하지 않고 <b>BEV·SFV라는 2D 이미지 표현으로 투영</b>한 뒤 2D CNN으로 처리하는 것이 SalsaNet 접근의 핵심(문제 79와 연결).</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>(a)와 모순. Encoder는 Transformer가 아니라 <b>ResNet(CNN)</b>이다. 2019년 논문으로 Transformer 비전 모델 유행 이전. 시대착오 함정.</span></div>
+<div class="exp-tip">💡 SalsaNet 구조 한 줄: <b>point cloud → BEV/SFV 투영 → ResNet encoder → deconv+skip decoder → segmentation</b>. autolabeling(문제 79)까지 묶으면 SalsaNet 완성.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.33~36</div>`
+}
+
+,
+
+/* ==================== Week 13 — 추천시스템 (81~90) ==================== */
+{
+  num: 81, week: "Week 13", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "추천 시스템 사례를 보기에서 고르시오.\n보기: (a) Facebook  (b) Amazon  (c) Netflix  (d) LinkedIn",
+  choices: [["a","(a) Facebook"],["b","(b) Amazon"],["c","(c) Netflix"],["d","(d) LinkedIn"]],
+  rows: [
+    "\"Customer who bought this item also bought…\"",
+    "\"People you may know\"",
+    "\"Other movies you may enjoy\"",
+    "\"Jobs you may be interested in\""
+  ],
+  answer: ["b","a","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (a), (c), (d)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Amazon</b> — "이 상품을 산 고객이 함께 산 상품". <b>상품(item) 구매</b> 기반이라는 게 단서. item-item CF의 대표 사례로도 자주 인용된다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(a) Facebook</b> — "알 수도 있는 사람". <b>사람-사람 관계</b>(친구 추천)가 단서.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Netflix</b> — "좋아할 만한 다른 영화". <b>영화</b>가 단서. Netflix Prize(문제 87)와 연결되는 회사.</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) LinkedIn</b> — "관심 있을 만한 일자리". <b>구인(job)</b>이 단서.</span></div>
+<div class="exp-tip">💡 나머지 사례: YouTube="Recommended videos", Google="검색 결과 조정", Pinterest="추천 이미지". 추천의 동기 숫자도 함께: 콘텐츠 찾는 데 19분/주 × 3억 명 = <b>연 50억 시간 낭비</b>.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.3~6</div>`
+},
+{
+  num: 82, week: "Week 13", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "유사도 함수에 대한 설명을 보기에서 고르시오.\n보기: (a) L1/L2 거리  (b) Cosine similarity  (c) Pearson correlation coefficient",
+  choices: [["a","(a) L1/L2 거리"],["b","(b) Cosine similarity"],["c","(c) Pearson correlation"]],
+  rows: [
+    "Manhattan/Euclidean 거리. 거리가 작을수록 유사",
+    "두 벡터의 내적을 각 벡터 크기로 나눈 값",
+    "각 벡터를 평균으로 중심화한 뒤 계산하는 상관계수"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) L1/L2 거리</b> — L1=Manhattan(절댓값 차의 합), L2=Euclidean(제곱 차 합의 제곱근). 유사도가 아니라 "거리"이므로 <b>작을수록 유사</b> — 방향이 다른 둘과 반대라는 점이 함정 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Cosine similarity</b> — Σaᵢbᵢ / (√Σaᵢ²·√Σbᵢ²). 내적을 크기로 정규화 → 벡터의 <b>방향(각도)</b>만 본다. 평점 스케일 차이에 둔감.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Pearson correlation</b> — cosine과 형태가 같지만 <b>각 벡터에서 평균을 먼저 빼고(중심화)</b> 계산. "후한 평가자/짠 평가자"의 기준점 차이를 보정한다. cosine과의 유일한 차이가 "평균 중심화"라는 것이 핵심 구분.</span></div>
+<div class="exp-tip">💡 비교는 공통 아이템(common items)에 대해서만 수행. re-centering 기법들(user/global/item mean-centering, min-max, z-score)도 rating matrix 전처리로 함께 출제 가능.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.9~10</div>`
+},
+{
+  num: 83, week: "Week 13", type: "calc", typeLabel: "계산 문제 — User-User CF", star: "작년 기출 유형 그대로",
+  q: "User-User collaborative filtering에서 사용자 f와 다른 사용자들의 유사도가 다음과 같다.\nsim(a,f)=0, sim(b,f)=0, sim(c,f)=1.0, sim(d,f)=0, sim(e,f)=0.5\n\n사용자 c의 평점: 영화1=5, 영화2=4, 영화3=1, 영화4=2\n사용자 e의 평점: 영화1=2, 영화2=2, 영화3=4, 영화4=1\n사용자 f의 평점: 영화1=?, 영화2=?, 영화3=1, 영화4=4\n\n예측식 ŷ(f,i) = Σ sim(u′,f) × r(u′,i) 를 사용하시오.",
+  hint: "예측 평점은 소수(예: 6.0), 추천 영화는 숫자만(예: 3) 입력",
+  rows: [
+    { label: "영화1 예측 평점:", accept: ["6.0","6"] },
+    { label: "영화2 예측 평점:", accept: ["5.0","5"] },
+    { label: "f에게 추천할 영화 번호:", accept: ["1","영화1"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: 영화1 = 6.0, 영화2 = 5.0 → 추천 = 영화1</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1단계 — 누구의 평점을 쓸지 결정</b><br>
+유사도가 0인 사용자(a, b, d)는 곱해도 0이므로 무시. <b>sim=1.0인 c와 sim=0.5인 e만 계산에 참여</b>한다. 작년 기출도 "sim이 0이 아닌 사용자만 골라내는" 구조였다.</div>
+<div class="exp-calc"><b>2단계 — 빈칸(미평가) 영화의 예측 평점</b><br>
+영화1: ŷ = 1.0×5 + 0.5×2 = 5 + 1 = <b>6.0</b><br>
+영화2: ŷ = 1.0×4 + 0.5×2 = 4 + 1 = <b>5.0</b></div>
+<div class="exp-calc"><b>3단계 — 추천 결정</b><br>
+Recommendation = argmax ŷ → 6.0 > 5.0이므로 <b>영화1</b>을 추천. (f가 이미 본 영화3, 4는 추천 대상이 아님)</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>이미 평가한 영화를 추천하는 실수</b> — 예측·추천은 <b>빈칸(미평가) 아이템에만</b> 적용한다. f가 4점을 준 영화4를 답으로 고르면 안 된다.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>유사도로 나누어 정규화하는 실수</b> — 교과서에 따라 Σsim으로 나누는 공식도 있지만, <b>이 강의 슬라이드의 공식은 ŷ = Σ sim×r (정규화 없음)</b>이다. 슬라이드 공식 그대로 쓸 것 — 5점 만점을 넘는 6.0이 나와도 괜찮다.</span></div>
+<div class="exp-tip">💡 작년 기출: 표를 주고 "사람 f가 추천받을 영화가 뭐냐" — 이 문제와 동일 구조. sim 곱해서 더하고 argmax, 30초 문제.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.11~16</div>`
+},
+{
+  num: 84, week: "Week 13", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "User-User collaborative filtering에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","\"그것을 산 사람들이 이것도 샀다\" 방식이다."],
+    ["b","아이템 수가 사용자 수보다 많을 때(# items > # users) 유리하다."],
+    ["c","Cold start, data sparsity, 계산 복잡도(실시간 추천)가 문제다."],
+    ["d","모델이 매우 복잡해서 해석이 불가능한 것이 단점이다."],
+    ["e","사용자 간 유사도 계산에는 cosine similarity나 Pearson correlation 등을 사용할 수 있다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>User-User의 슬로건: "<b>People who bought that also bought that</b>" — 나와 비슷한 사람들이 좋아한 것을 추천.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>"Good when <b># of items > # of users</b>" — 아이템이 사용자보다 많으면 사용자 간 유사도 테이블이 상대적으로 작아 유리. (Item-Item은 정반대 조건 — 문제 85와 대비.)</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>3대 챌린지 그대로: <b>cold start</b>(신규 사용자 평점 없음), <b>data sparsity</b>(행렬 대부분 빈칸), <b>계산 복잡도</b>(사용자가 늘면 실시간 추천 어려움).</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>반대. 슬라이드의 마지막 챌린지는 "Model is <b>too simplistic</b>" — 너무 단순한 것이 한계다. 비선형 상호작용을 못 잡아서 딥러닝 CF가 등장(문제 86 연계). "복잡해서 문제"는 정반대 서술.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>유사도 함수로 L1/L2, cosine, Pearson 사용 가능(문제 82). 강의 예제의 sim 값(−0.95, 1.00 등)도 이런 함수로 계산된 것.</span></div>
+<div class="exp-tip">💡 User-User vs Item-Item 유리 조건 대구: <b>items > users → User-User / users >> items → Item-Item</b>. "단순함이 문제"라는 표현 방향도 함정 포인트.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.10, p.17</div>`
+},
+{
+  num: 85, week: "Week 13", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Item-Item collaborative filtering에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","\"이것을 좋아하면 저것도 좋아할 것\" 방식이다."],
+    ["b","사용자 수가 아이템 수보다 훨씬 많을 때(# users >> # items) 유리하다."],
+    ["c","Item-item 유사도 테이블을 미리 계산해 두면 매우 빠르다."],
+    ["d","Bottleneck과 공간 복잡도 문제가 있다."],
+    ["e","아이템 수가 사용자 수보다 훨씬 많을 때(# items >> # users) 가장 유리하다."]
+  ],
+  answer: ["a","b","c","d"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>Item-Item의 슬로건: "<b>If you like this you might also like that</b>" — 내가 좋아한 아이템과 비슷한 아이템을 추천.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>"Good when <b># of users >> # of items</b>" — 사용자가 아이템보다 훨씬 많으면(아마존·넷플릭스 같은 상황) item-item 유사도 테이블이 작고 안정적이라 유리.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>"<b>Very fast after the item-item table has been pre-computed</b>" — 아이템 유사도는 비교적 천천히 변하므로 미리 계산해 두고 서빙 시 조회만 하면 된다. 실서비스 후보 생성에 쓰이는 이유(문제 88).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>챌린지 그대로: <b>bottleneck, space complexity</b>(아이템 쌍 테이블 저장 비용), 그리고 too simplistic.</span></div>
+<div class="exp-item no"><span class="mark">❌ (e)</span><span>(b)와 정반대. items > users 조건에서 유리한 것은 <b>User-User</b>(문제 84). 두 방식의 유리 조건을 뒤집은 함정 — 이 대구가 이 단원 최다 출제 포인트.</span></div>
+<div class="exp-tip">💡 표로 정리: User-User="사람이 비슷"·items>users·실시간 어려움 / Item-Item="물건이 비슷"·users>>items·사전 계산으로 빠름.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.18~26</div>`
+},
+{
+  num: 86, week: "Week 13", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "Matrix factorization(User-Item)에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","평점 행렬 D를 사용자 행렬 U와 아이템 행렬 I의 곱(D ≈ UᵀI)으로 근사한다."],
+    ["b","최적화에는 SGD, ALS(Alternating Least Square), SVD 등이 사용된다."],
+    ["c","U, I를 미리 계산해 두면 빠르고, sparse 데이터셋에서도 잘 동작한다."],
+    ["d","비선형 상호작용을 자연스럽게 모델링할 수 있다."],
+    ["e","U 행렬로 사용자에 대해, I 행렬로 아이템에 대해 더 많은 것을 학습할 수 있다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>m×n 평점 행렬 D를 <b>m×k 사용자 행렬 U × k×n 아이템 행렬 I</b>로 분해(k = latent 차원). 개별 평점은 내적: D(u,i) ≈ U_u·I_i = Σ U(u,z)·I(i,z). 손실 = Σ(UᵀI − D)²를 최소화.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>최적화 3종 그대로: <b>SGD</b>(경사하강으로 U, I 교대로 갱신), <b>ALS</b>(한쪽 고정하고 다른 쪽을 최소제곱으로), <b>SVD</b>(특이값 분해). 약어 풀네임(Alternating Least Square)도 출제 가능.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>장점 그대로: U·I 사전 계산 후 빠름 + <b>sparse 데이터셋에서도 잘 동작</b>(빈칸 많아도 latent 구조로 일반화).</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. MF의 한계가 바로 "<b>Only linear prediction</b>" — 내적은 선형 상호작용만 포착한다. 비선형은 <b>딥러닝 기반 CF</b>(+transfer learning, 메타데이터 활용)의 영역. 한계를 장점으로 둔갑시킨 함정.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>"Can learn more about users with U and about items with I" — 분해된 행렬 자체가 사용자/아이템의 latent 특성 표현이 된다.</span></div>
+<div class="exp-tip">💡 MF 카드: D≈UᵀI / SGD·ALS·SVD / sparse OK / <b>선형만 가능(한계)</b> / cold start는 여전히 문제. "비선형 가능"이 나오면 무조건 틀린 보기.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.27~35</div>`
+},
+{
+  num: 87, week: "Week 13", type: "single", typeLabel: "계산 문제 (객관식)",
+  q: "Netflix Prize 데이터셋은 영화 17,770편, 사용자 480,189명, 평점 100,480,507개이다. 평점 행렬의 밀도(density)는 약 얼마인가?",
+  opts: [
+    ["1","0.118%"],["2","1.18%"],["3","11.8%"],["4","50%"]
+  ],
+  answer: "2",
+  exp: `<div class="exp-answer">✅ 정답: ② 1.18%</div>
+<div class="exp-section-title">풀이 과정</div>
+<div class="exp-calc"><span class="formula">density = 평점 수 / (영화 수 × 사용자 수) × 100</span><br>
+= 100,480,507 / (17,770 × 480,189) × 100<br>
+= 100,480,507 / 8,532,958,530 × 100 ≈ <b>1.18%</b></div>
+<div class="exp-section-title">보기별 함정 분석</div>
+<div class="exp-item no"><span class="mark">❌ ①③</span><span>0.118%와 11.8%는 <b>×100을 한 번 빼먹거나 한 번 더 한</b> 자리수 실수를 노린 보기. 대략 어림(1억 / 85억 ≈ 1.2%)으로 자리수를 먼저 확인하면 안전.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span><b>의미</b>: 행렬의 98.8%가 빈칸 — 추천 시스템 데이터가 얼마나 희소(sparse)한지 보여주는 대표 사례. 이 희소성이 MF가 "sparse에 잘 동작"해야 하는 이유이자, in production의 sparsity 챌린지(문제 88)와 연결된다.</span></div>
+<div class="exp-tip">💡 숫자 3개(17,770 / 480,189 / 100,480,507)와 결과 <b>1.18%</b>가 슬라이드에 그대로 — 같은 숫자로 출제될 가능성이 높다.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.34</div>`
+},
+{
+  num: 88, week: "Week 13", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "실서비스(in production)에서의 문제와 대응을 보기에서 고르시오.\n보기: (a) Cold start  (b) Sparsity  (c) Recommendation speed",
+  choices: [["a","(a) Cold start"],["b","(b) Sparsity"],["c","(c) Recommendation speed"]],
+  rows: [
+    "신규 사용자/아이템에 평점이 없음 → 딥 content extraction을 결합한 hybrid 모델로 대응",
+    "아이템/사용자 증가에 따라 행렬이 희소해짐 → 가장 정보량 많은 아이템을 사용자에게 평가 요청",
+    "O(#items) 알고리즘 불가 → 사전 계산된 item-item 유사도로 후보군을 만들고 후보에만 신경망 적용"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Cold start</b> — user cold start(신규 사용자)와 item cold start(신규 아이템) 둘 다 존재. 대응: 평점 없이도 추천할 수 있도록 <b>콘텐츠 자체에서 특징을 뽑는(deep content extraction) hybrid 모델</b> — 이미지는 CNN, 텍스트는 NLP, 오디오는 LSTM으로 인코딩.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Sparsity</b> — 아이템/사용자가 늘수록 행렬이 비어 감(Netflix 1.18%). 대응: <b>가장 정보량이 많은(informative) 아이템을 골라 사용자에게 평가를 요청</b>하는 능동적 상호작용.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Recommendation speed</b> — 전체 아이템을 도는 O(#items) 알고리즘은 서빙 불가. 대응: <b>사전 계산된 item-item 유사도로 (큰) 후보군 생성 → 후보에만 신경망 적용</b>. Wide&Deep의 retrieval→ranking 2단계 구조(문제 90)와 같은 원리.</span></div>
+<div class="exp-tip">💡 문제→해법 1:1 연결로 암기: cold start→hybrid(콘텐츠) / sparsity→정보량 많은 아이템 평가 요청 / speed→후보 생성 후 랭킹. 데이터 품질 문제(thumbs vs 별점, implicit feedback)도 같은 슬라이드.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.37~40</div>`
+},
+{
+  num: 89, week: "Week 13", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "Wide & Deep Learning의 두 구성요소에 대한 설명을 보기에서 고르시오.\n보기: (a) Wide component / Memorization  (b) Deep component / Generalization",
+  choices: [["a","(a) Wide / Memorization"],["b","(b) Deep / Generalization"]],
+  rows: [
+    "아이템·특징의 빈번한 동시 발생을 학습하고 과거 데이터의 상관을 활용. cross-product transformation (예: AND(gender=male, language=kor)) 기반 선형 모델",
+    "상관의 전이성(transitivity)에 기반해 과거에 거의 등장하지 않은 새로운 특징 조합을 탐색. 고차원 범주형 특징을 저차원 임베딩으로 변환하는 feed-forward 신경망"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Wide = Memorization(암기)</b> — <b>과거에 자주 같이 나온 조합</b>을 외운다. 구조: 선형 모델 y=wᵀx+b + <b>cross-product transformation</b>(이진 특징의 AND 조합, 예: AND(gender=male, language=kor) — 둘 다 1일 때만 1). 본 적 있는 패턴에 강하다.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Deep = Generalization(일반화)</b> — <b>상관의 전이성</b>으로 본 적 없는/드문 조합까지 탐색. 구조: 고차원 범주형 특징 → <b>저차원 임베딩</b>(논문에선 32차원) → feed-forward 신경망.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>결합: 두 부분을 따로 학습하지 않고 출력에서 양쪽으로 gradient를 흘리는 <b>joint training</b>. "암기(wide)와 일반화(deep)를 동시에" 잡는 것이 논문의 한 줄 요약.</span></div>
+<div class="exp-tip">💡 단어 매칭이 전부: <b>Wide=선형=cross-product=memorization / Deep=신경망=임베딩=generalization</b>. 둘을 엇갈리게 짝지은 보기가 전형적 함정.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.41~42</div>`
+},
+{
+  num: 90, week: "Week 13", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Wide & Deep 논문의 실험에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","3주간 A/B 테스트로 진행했으며, 그룹별로 1%의 사용자를 무작위 선정했다."],
+    ["2","Offline AUC에서 큰 차이가 없었지만 online traffic에 미치는 영향은 유의미했다."],
+    ["3","피크 트래픽 시 초당 1,000만 개 이상의 앱을 스코어링하며, 멀티스레딩 split batch로 지연시간을 31ms에서 14ms로 줄였다."],
+    ["4","서빙 지연 요구사항이 길어서(수 초) 전체 아이템에 모델을 적용할 수 있었다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. 실험 설계: <b>3주간 live A/B 테스트</b>, 그룹당 <b>1% 사용자</b> 무작위 배정. 비교 3그룹 — 기존 랭킹 시스템(control) / Wide&Deep / Deep only.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음 — 이 논문의 흥미로운 발견. <b>offline AUC(holdout)는 차이가 미미했지만 online 트래픽 효과는 유의미</b>했다. "오프라인 지표가 온라인 효과를 다 말해주지 않는다"는 교훈으로 자주 인용.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. 피크에 <b>초당 1,000만 앱 스코어링</b>. 싱글스레드 단일 배치 31ms → <b>멀티스레딩 split batch로 14ms</b>. 숫자 세트(10M/s, 31→14ms)가 출제 소재.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. 서빙 지연 요구는 "수 초"가 아니라 <b>O(10) msec</b>(수십 밀리초)다. 그래서 전체 아이템에 모델을 적용할 수 없고, <b>retrieval(ML+규칙으로 짧은 후보 리스트) → ranking(Wide&Deep으로 점수화)</b>의 2단계 구조를 쓴다. 지연 요구를 1000배 늘려 적은 함정.</span></div>
+<div class="exp-tip">💡 숫자 카드: A/B <b>3주, 1%</b> / 서빙 <b>O(10)ms</b> / 피크 <b>10M apps/s</b> / <b>31→14ms</b>. retrieval→ranking 2단계도 문제 88의 speed 대응과 같은 원리.</div>
+<div class="exp-src">📖 Week13 슬라이드 p.43~45</div>`
+},
+
+/* ==================== Week 14 — Finance/평가지표 (91~100) ==================== */
+{
+  num: 91, week: "Week 14", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)", star: "작년 기출 그대로",
+  q: "다음 데이터가 해당하는 유형을 보기에서 고르시오.\n보기: (a) Market data  (b) Text data  (c) Macroeconomics data  (d) Knowledge graph data  (e) Image data  (f) Fundamental data",
+  choices: [["a","(a) Market"],["b","(b) Text"],["c","(c) Macro"],["d","(d) Knowledge graph"],["e","(e) Image"],["f","(f) Fundamental"]],
+  rows: [
+    "SNS, 뉴스, 웹 검색 데이터. sentiment analysis 적용 가능",
+    "CPI, GDP 등 국가·지역·섹터의 거시경제 상황",
+    "open/high/low/close 가격, 거래량 (OHLCV)",
+    "기업 간/시장 간 관계를 표현",
+    "캔들스틱 차트 이미지, 위성/CCTV 이미지",
+    "자산, 부채 등. 빈도가 낮아 딥러닝에는 덜 사용됨"
+  ],
+  answer: ["b","c","a","d","e","f"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (c), (a), (d), (e), (f)</div>
+<div class="exp-section-title">항목별 상세 해설 — 금융 raw data 유형 총정리</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Text data</b> — SNS·뉴스·웹 검색. 단서는 "<b>sentiment analysis</b> 적용 가능". 시장 심리를 텍스트에서 추출.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) Macroeconomics data</b> — <b>CPI, GDP</b> 등 국가·지역·섹터 단위 거시 지표. "정부, GDP" 키워드가 보이면 macro — 작년 기출의 빈칸 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(a) Market data</b> — <b>OHLCV</b>(open/high/low/close+volume). 거래소가 제공하는 가장 기본·최다 사용 데이터(설문 논문 사용률 1위).</span></div>
+<div class="exp-item ok"><span class="mark">4️⃣</span><span><b class="opt-tag">(d) Knowledge graph data</b> — 기업-기업, 시장-시장의 <b>관계(relationship)</b>를 그래프로 표현.</span></div>
+<div class="exp-item ok"><span class="mark">5️⃣</span><span><b class="opt-tag">(e) Image data</b> — <b>캔들스틱 차트를 이미지</b>로 만들어 CNN 입력 + 위성/CCTV 분석(예: 주차장 위성사진으로 매출 추정).</span></div>
+<div class="exp-item ok"><span class="mark">6️⃣</span><span><b class="opt-tag">(f) Fundamental data</b> — 자산·부채 등 재무제표. <b>분기 단위 저빈도라 딥러닝에 덜 사용</b>된다는 단서가 붙는다. 이외 Analytics data(애널리스트 보고서)도 존재.</span></div>
+<div class="exp-tip">💡 작년 시험: "SNS, news는? / 정부 GDP ~는? / (가격 관련)은?" 빈칸 문제로 출제 확인. 단서 1:1 — 감성분석=Text, GDP=Macro, OHLCV=Market, 관계=KG, 차트 이미지=Image, 재무제표·저빈도=Fundamental.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.8</div>`
+},
+{
+  num: 92, week: "Week 14", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Stock trading과 Portfolio management의 비교 중 틀린 것은?",
+  opts: [
+    ["1","Stock trading은 단기(수일·당일), portfolio management는 장기(분기·연간)이다."],
+    ["2","Stock trading은 가격 변동 차익, portfolio management는 자산 보존과 성장이 목적이다."],
+    ["3","Stock trading은 고빈도 거래로 리스크가 높고, portfolio management는 분산투자와 장기 관점으로 리스크가 낮다."],
+    ["4","Stock trading의 필요 역량은 자산 배분(asset allocation)이고, portfolio management는 기술적 분석이다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설 — 비교표의 5개 행</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. <b>Time frame</b> 행: trading=단기(수일 또는 당일), portfolio=장기(분기·연간).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. <b>Objective</b> 행: trading=가격 변동에서 수익(profit from price changes), portfolio=자산 보존과 성장(wealth preservation and growth).</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. <b>Frequency/Risk</b> 행: trading=고빈도(하루에도 여러 번)·고위험(거래비용+변동성 노출), portfolio=저빈도·저위험(분산과 장기 관점이 리스크 완화).</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. <b>Required skills 행을 서로 바꿔치기</b>했다. 옳은 매칭: trading=<b>기술적 분석</b>(차트·단기 지표 분석) / portfolio=<b>자산 배분</b>(투자자의 위험 성향·기간·재무 목표에 맞는 자산 조합 선택).</span></div>
+<div class="exp-tip">💡 비교표 5행(기간/목적/빈도/리스크/역량)에서 함정은 거의 항상 마지막 "역량" 행을 뒤집어 나온다. <b>trading=차트(기술적), portfolio=배분</b>으로 고정 암기.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.4</div>`
+},
+{
+  num: 93, week: "Week 14", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "주가 예측에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","EMH(효율적 시장 가설)에 따르면 자산 가격은 이용 가능한 모든 정보를 완전히 반영하므로 어떤 분석도 지속적 초과수익을 낼 수 없다."],
+    ["b","Lag는 모델이 입력으로 사용하는 과거 데이터의 길이, Horizon은 예측하려는 미래의 시간 길이이다."],
+    ["c","Fundamental analysis는 재무제표·실적·경제지표를, technical analysis는 과거 가격·거래량 패턴을 분석한다."],
+    ["d","분류 정확도가 높으면 수익도 항상 높다."],
+    ["e","많은 연구자들은 EMH에 동의하지 않으며, 효과적인 주가 예측 모델을 만들려고 시도하고 있다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span><b>EMH</b>(Efficient Market Hypothesis): 시장이 충분히 효율적이라 자산 가격이 <b>모든 가용 정보를 완전히 반영</b> → 어떤 분석도 <b>지속적인 평균 초과 수익</b>을 못 낸다는 가설.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>Lag</b> = 모델이 돌아보는 과거 입력 길이(예: 30일) / <b>Horizon</b> = 예측할 미래 길이(예: 1일 또는 5분). "How long does our model look back? How much time ahead will it predict?"</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span><b>Fundamental</b> = 기업의 재무제표·실적 보고서·경제 지표 / <b>Technical</b> = 과거 가격·거래량 패턴(차트). 둘을 바꿔치기하는 보기가 흔하므로 방향을 정확히.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. 슬라이드 강조: "<b>High accuracy does not guarantee high profit</b>" — 손익비(PnL), 거래 비용, 파산 위험 때문. 맞히는 횟수가 많아도 틀릴 때 크게 잃으면 손해다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>"Many researchers <b>disagree</b> EMH and they are trying to build effective prediction model" — EMH가 참이면 주가 예측 연구 자체가 무의미한데, 많은 연구자가 동의하지 않아 연구가 계속된다는 맥락.</span></div>
+<div class="exp-tip">💡 EMH 한 세트: 정의(모든 정보 반영→초과수익 불가) + 반론(연구자들은 비동의) + 현실 경고(정확도≠수익). 셋 다 같은 흐름의 슬라이드에서 나온다.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.5, p.9, p.13</div>`
+},
+{
+  num: 94, week: "Week 14", type: "calc", typeLabel: "계산 문제 — Precision/Recall", star: "작년 기출 숫자 패턴",
+  q: "1,000개의 샘플 중 실제 양성(positive)은 30개이다. 두 모델의 Precision과 Recall을 구하시오.\n• Model A: 30개를 양성으로 예측, 그중 17개가 실제 양성\n• Model B: 20개를 양성으로 예측, 그중 17개가 실제 양성",
+  hint: "분수(예: 17/30) 또는 소수(예: 0.57, 소수점 둘째 자리 반올림) 형태로 입력",
+  rows: [
+    { label: "Model A — Precision:", accept: ["17/30","0.57","0.567","0.5667"] },
+    { label: "Model A — Recall:", accept: ["17/30","0.57","0.567","0.5667"] },
+    { label: "Model B — Precision:", accept: ["17/20","0.85"] },
+    { label: "Model B — Recall:", accept: ["17/30","0.57","0.567","0.5667"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: A — P=17/30≈0.567, R=17/30≈0.567 / B — P=17/20=0.85, R=17/30≈0.567</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1단계 — 공식</b><br>
+<span class="formula">Precision = TP/(TP+FP)</span> → 분모 = <b>모델이 양성으로 예측한 개수</b> ("예측 중 몇 개 맞았나")<br>
+<span class="formula">Recall = TP/(TP+FN)</span> → 분모 = <b>실제 양성의 총 개수</b> ("실제 양성 중 몇 개 찾았나")</div>
+<div class="exp-calc"><b>2단계 — Model A</b>: 30개 예측, TP=17 → FP=13, FN=30−17=13<br>
+Precision = 17/30 ≈ <b>0.567</b> / Recall = 17/30 ≈ <b>0.567</b><br>
+※ 예측 수(30)와 실제 양성 수(30)가 우연히 같아 P=R.</div>
+<div class="exp-calc"><b>3단계 — Model B</b>: 20개 예측, TP=17 → FP=3, FN=13<br>
+Precision = 17/20 = <b>0.85</b> / Recall = 17/30 ≈ <b>0.567</b></div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>Recall 분모를 예측 개수로 쓰는 실수</b> — B의 Recall을 17/20으로 쓰면 틀린다. Recall 분모는 항상 <b>실제 양성 30</b>.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>전체 1,000을 분모로 쓰는 실수</b> — 1,000은 Accuracy용 미끼 숫자. P/R 계산에 등장하지 않는다.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span><b>의미</b> — 두 모델 다 17개를 맞혔지만 B는 더 적게 예측해 Precision이 높다(0.85). <b>보수적 예측→Precision↑ / 적극적 예측→Recall↑</b> trade-off가 핵심 메시지.</span></div>
+<div class="exp-tip">💡 작년 시험에 거의 같은 숫자로 출제. 공식 두 줄이면 30초 문제 — 분모 결정만 조심.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.15</div>`
+},
+{
+  num: 95, week: "Week 14", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "ROC curve와 AUC에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","Threshold를 낮추면 TPR과 FPR이 동시에 증가한다."],
+    ["b","AUC는 임의의 positive 샘플이 임의의 negative 샘플보다 오른쪽(높은 점수)에 위치할 확률을 의미한다."],
+    ["c","AUC는 scale-invariant하다."],
+    ["d","클래스 불균형이 심한 경우에는 ROC curve가 PR curve보다 항상 더 적합하다."],
+    ["e","ROC curve(와 AUC)는 클래스가 균형이고 FP·FN의 비용이 비슷할 때 더 적합하다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>threshold를 낮추면 더 많은 샘플이 양성 판정 → 진짜 양성도(TP↑) 가짜 양성도(FP↑) 함께 늘어난다. ROC 곡선이 왼쪽 아래(높은 threshold)에서 오른쪽 위(낮은 threshold)로 그려지는 이유.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>AUC의 확률적 해석 그대로: <b>"무작위 positive가 무작위 negative보다 오른쪽(높은 점수)에 위치할 확률"</b>. AUC=1이면 완벽 분리, 0.5면 무작위 분류기.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>AUC는 <b>scale-invariant</b> — 점수의 절대값이 아니라 순위(ranking)만 보므로, 점수를 일괄 변환해도 불변.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>반대. <b>클래스 불균형이 심하거나 positive 샘플이 중요할 때는 PR curve</b>가 적합하다. ROC는 불균형에 둔감해서(문제 96) 모델이 좋아 보이는 착시를 줄 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>슬라이드 그대로: ROC/AUC는 "<b>classes are balanced, and cost of FP and FN are similar</b>"할 때 더 적합.</span></div>
+<div class="exp-tip">💡 선택 기준 한 줄: <b>균형 데이터=ROC / 불균형·positive 중시=PR</b>. AUC 3종 성질(확률 해석, scale-invariant, threshold와 TPR·FPR 동반 증가)도 세트로.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.16~18</div>`
+},
+{
+  num: 96, week: "Week 14", type: "single", typeLabel: "틀린 것 고르기",
+  q: "음성(negative) 샘플을 10배로 늘렸을 때(클래스 불균형 심화) 평가지표의 변화에 대한 설명 중 틀린 것은? (강의 예: TPR 7/8, FPR 1/8, Precision 7/8 → TPR 7/8, FPR 10/80=1/8, Precision 7/17)",
+  opts: [
+    ["1","TPR(Recall)은 변하지 않는다."],
+    ["2","FPR은 변하지 않는다."],
+    ["3","Precision은 크게 하락한다."],
+    ["4","ROC curve가 크게 변해 불균형을 민감하게 반영한다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설 — 슬라이드 p.20 수치 예제로 검증</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>TPR = TP/(TP+FN)의 분자·분모는 모두 <b>positive 쪽 수치</b>다. negative를 아무리 늘려도 7/8 그대로.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>FPR = FP/(FP+TN)은 <b>negative 내부의 비율</b>이라, negative가 10배 되면 FP도 TN도 10배 → 10/80 = 1/8로 <b>비율 불변</b>.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>Precision = TP/(TP+FP)는 분자(positive 쪽)와 분모 일부(FP, negative 쪽)가 <b>다른 클래스에서 온다</b>. FP만 10배가 되니 7/8 → <b>7/17</b>로 급락.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. ROC의 두 축(TPR, FPR)이 모두 불변이므로 <b>ROC curve는 거의 변하지 않는다</b>. 불균형을 민감하게 반영하는 것은 Precision을 축으로 쓰는 <b>PR curve</b>다. 이것이 "불균형엔 PR curve"(문제 95)의 수학적 이유.</span></div>
+<div class="exp-tip">💡 원리 한 줄: <b>TPR·FPR은 각자 클래스 내부 비율이라 불균형 불변, Precision은 클래스를 가로지르므로 민감</b>. 슬라이드의 7/8→7/17 숫자가 그대로 계산 문제로 나올 수도 있다.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.19~20</div>`
+},
+{
+  num: 97, week: "Week 14", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "다중 클래스 평가의 평균 방식을 보기에서 고르시오.\n보기: (a) Macro-averaging  (b) Micro-averaging",
+  choices: [["a","(a) Macro-averaging"],["b","(b) Micro-averaging"]],
+  rows: [
+    "각 클래스를 동등하게 취급. 불균형 데이터에서 각 클래스가 동등하게 기여하길 원할 때 유용",
+    "각 인스턴스에 동등한 가중치. 전체 오분류 수를 반영하지만 다수 클래스 성능을 과대 반영할 수 있음"
+  ],
+  answer: ["a","b"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Macro</b> — 클래스별 지표를 먼저 구하고 <b>클래스 단위로 단순 평균</b> → 모든 클래스가 동등. 모든 클래스가 똑같이 중요하거나, 불균형에서 소수 클래스도 동등하게 반영하고 싶을 때. 단점: 중요하지 않은 소수 클래스의 낮은 성능 때문에 전체가 나빠 보일 수 있음.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Micro</b> — 모든 인스턴스를 합쳐서 계산 → <b>샘플 단위로 동등</b>. 전체 오류 수를 직접 반영(높으면 오류가 적다는 뜻)하지만, 샘플이 많은 <b>다수 클래스의 성능을 과대 반영</b>할 수 있다.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>배경: 다중 클래스 confusion matrix에서 전체 accuracy(예: 82%)는 클래스 불균형을 못 본다 — 예: 클래스 A recall 87%인데 클래스 B recall 20%여도 B가 작으면 accuracy에 거의 영향 없음. 그래서 클래스별 지표와 평균 방식이 필요. <b>weighted averaging</b>(클래스 크기 가중)도 존재.</span></div>
+<div class="exp-tip">💡 한 글자 암기: <b>macro = 클래스(big 단위) 평등 / micro = 샘플(small 단위) 평등</b>. "다수 클래스 과대 반영" 위험은 micro 쪽.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.21~26</div>`
+},
+{
+  num: 98, week: "Week 14", type: "calc", typeLabel: "계산 문제 — Bounding box accuracy", star: "작년 기출 유형",
+  q: "어떤 클래스의 GT 박스가 5개 있다. 모델이 confidence 순으로 7개의 detection을 출력했고, IoU threshold 0.5 기준으로 TP/FP 판정 결과가 [TP, TP, FP, TP, FP, TP, FP]였다. 7개 detection 전체 기준의 Precision과 Recall을 구하시오.",
+  hint: "분수(예: 4/7) 또는 소수(소수점 둘째 자리)로 입력",
+  rows: [
+    { label: "Precision:", accept: ["4/7","0.57","0.571"] },
+    { label: "Recall:", accept: ["4/5","0.8","0.80"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: Precision = 4/7 ≈ 0.571, Recall = 4/5 = 0.8</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1단계 — TP/FP 집계</b><br>
+판정 [TP, TP, FP, TP, FP, TP, FP] → <b>TP = 4, FP = 3</b>. GT가 5개인데 4개만 찾았으므로 <b>FN = 5−4 = 1</b>.</div>
+<div class="exp-calc"><b>2단계 — 계산</b><br>
+Precision = TP/(TP+FP) = 4/(4+3) = <b>4/7 ≈ 0.571</b> (detection 7개 중 4개가 유효)<br>
+Recall = TP/(TP+FN) = 4/(4+1) = <b>4/5 = 0.8</b> (GT 5개 중 4개를 발견)</div>
+<div class="exp-calc"><b>3단계 — mAP까지의 연결 (개념)</b><br>
+mAP 계산 시에는 confidence 내림차순으로 각 detection까지의 누적 P-R 곡선을 그리고, <b>11-point interpolation</b>(0, 0.1, …, 1) 또는 <b>all-point interpolation</b>(곡선 아래 면적)으로 클래스별 AP를 구한 뒤 전 클래스 평균 = mAP.</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>Recall 분모를 7(detection 수)로 쓰는 실수</b> — Recall의 분모는 <b>GT 개수(5)</b>다. detection 수는 Precision의 분모.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>IoU·중복 처리 누락</b> — TP 판정 자체가 ① IoU ≥ threshold(0.5)이고 ② 같은 GT에 대한 <b>중복 detection은 confidence 최고 1개만 TP, 나머지는 FP</b>라는 규칙으로 정해진다(보충 문제 108에서 직접 판정 연습).</span></div>
+<div class="exp-tip">💡 작년 기출: "IoU랑 confidence 주고 precision, recall 계산". 이 문제처럼 판정 결과가 주어지면 세기만 하면 되고, 판정부터 시켜도 IoU·중복 규칙만 알면 된다.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.27~32</div>`
+},
+{
+  num: 99, week: "Week 14", type: "single", typeLabel: "계산 문제 (객관식)",
+  q: "어떤 언어모델이 100개 토큰(N=100)의 시퀀스에서 모든 토큰을 확률 P=0.01로 예측했다. 이 시퀀스의 Perplexity는?",
+  opts: [
+    ["1","1"],["2","10"],["3","100"],["4","1000"]
+  ],
+  answer: "3",
+  exp: `<div class="exp-answer">✅ 정답: ③ 100</div>
+<div class="exp-section-title">풀이 과정</div>
+<div class="exp-calc"><span class="formula">PPL(W) = P(w₁,…,w_N)^(−1/N)</span><br>
+모든 토큰의 확률이 0.01로 같으므로 P(w₁,…,w₁₀₀) = 0.01¹⁰⁰<br>
+PPL = (0.01¹⁰⁰)^(−1/100) = 0.01⁻¹ = <b>1/0.01 = 100</b></div>
+<div class="exp-calc"><b>일반화</b> — 모든 토큰 확률이 P로 동일하면 <span class="formula">PPL = 1/P</span>. 슬라이드의 표 그대로: P=1→PPL 1 / P=0.1→10 / P=0.01→<b>100</b> / P=0.001→1000. N(=100)은 약분되어 사라진다 — N이 미끼.</div>
+<div class="exp-section-title">개념 해설</div>
+<div class="exp-item ok"><span class="mark">📌</span><span>perplexity = "당혹도". 이름의 유래가 슬라이드에 그대로: perplex(당혹하게 하다). <b>낮을수록 모델이 덜 당혹스러워한다(=좋다)</b>. PPL=100은 "매 토큰마다 100개 후보 중에서 균등하게 찍는 정도의 불확실성"이라는 직관적 해석.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span>②(10)를 고르는 실수: P=0.1과 혼동. ④(1000): P=0.001과 혼동. 표의 행을 정확히 기억하거나 PPL=1/P 공식으로 즉산.</span></div>
+<div class="exp-tip">💡 Week7 문제 24(프롬프트 perplexity)와 연결: 정의는 같고, 거기선 "낮은 PPL 프롬프트가 좋다", 여기선 "낮은 PPL 모델이 좋다".</div>
+<div class="exp-src">📖 Week14 슬라이드 p.34</div>`
+},
+{
+  num: 100, week: "Week 14", type: "calc", typeLabel: "계산 문제 — BLEU",
+  q: "Candidate: \"The cat cat cat cat cat cat\" / Reference: \"The cat sat on the mat\" 일 때,\n(1) clipping을 적용한 1-gram precision과 (2) 이 경우의 brevity penalty 값을 구하시오.",
+  hint: "(1)은 분수(예: 3/7), (2)는 숫자로 입력",
+  rows: [
+    { label: "(1) Clipped 1-gram precision:", accept: ["2/7","0.29","0.286"] },
+    { label: "(2) Brevity penalty:", accept: ["1","1.0"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: (1) 2/7, (2) 1</div>
+<div class="exp-section-title">풀이 과정 (단계별)</div>
+<div class="exp-calc"><b>1단계 — clipping 없는 계산이 왜 문제인가</b><br>
+candidate 7단어("The"×1 + "cat"×6) 중 reference에 등장하는 단어를 그냥 세면 7/7 = 1?! — "cat"만 도배해도 만점이 되는 허점.</div>
+<div class="exp-calc"><b>2단계 — clipping 적용</b><br>
+각 단어의 매칭 수를 <b>reference 내 등장 횟수로 상한(clip)</b>:<br>
+• "The": candidate 1회, reference에 "The"+"the" 2회 → 1 인정<br>
+• "cat": candidate 6회, reference에 <b>1회뿐 → 1로 clip</b><br>
+→ clipped precision = (1+1)/7 = <b>2/7</b></div>
+<div class="exp-calc"><b>3단계 — brevity penalty</b><br>
+<span class="formula">BP = 1 (len(can) ≥ len(ref)일 때) / e^(1−len(ref)/len(can)) (짧을 때)</span><br>
+len(candidate)=7 ≥ len(reference)=6 → <b>BP = 1</b> (패널티 없음).<br>
+BP는 "The cat"처럼 짧게 끊어 precision을 부풀리는 꼼수(2/2=1)를 막기 위한 장치다.</div>
+<div class="exp-calc"><b>최종 공식</b> — <span class="formula">BLEU = BP × (Π precisionᵢ)^(1/4)</span> (1~4-gram precision의 기하평균). 0~1, 높을수록 좋음.</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span>clipping을 잊고 7/7로 계산 — 이 문제의 존재 이유가 clipping이다. "반복 단어는 reference 등장 횟수까지만"을 기억.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span>BP를 항상 적용한다고 착각 — BP는 candidate가 reference보다 <b>짧을 때만</b> 1 미만이 된다.</span></div>
+<div class="exp-tip">💡 슬라이드의 예문·숫자(2/7) 그대로 출제 가능. BLEU 카드: 0~1·높을수록 좋음 / clipping(반복 방지) / BP(짧음 방지) / 4-gram까지 기하평균.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.35~36</div>`
+},
+
+/* ==================== 보충 문제 (101~110) ==================== */
+{
+  num: 101, week: "보충", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)", star: "자율주행 레벨 — 기출 '개념 문제 많이 나옴'",
+  q: "자율주행 기술 단계(Autonomous Driving Level)에 대한 설명을 보기에서 고르시오.\n보기: (a) Level 0  (b) Level 1  (c) Level 2  (d) Level 3  (e) Level 4  (f) Level 5",
+  choices: [["a","(a) Level 0"],["b","(b) Level 1"],["c","(c) Level 2"],["d","(d) Level 3"],["e","(e) Level 4"],["f","(f) Level 5"]],
+  rows: [
+    "운전자가 종방향(앞차 간격)·횡방향(차선 유지) 제어를 모두(AND) 지속적으로 수행",
+    "Assisted — 종방향 또는 횡방향 둘 중 하나(OR)를 시스템이 보조",
+    "Partial automation — 손과 발을 뗄 수 있으나(고속도로 차선 유지+앞차 추종) 눈은 항상 전방·환경을 모니터링해야 함",
+    "Conditional automation — 항상 모니터링할 필요는 없으나, 시스템이 요청하면 제어를 넘겨받을 수 있는 위치에 있어야 함",
+    "High automation — 정의된 use case 안에서는 모든 상황에 자동 대처 가능, 그 안에서는 운전자 불필요(잠들어도 됨)",
+    "Full automation — 운전자가 아예 필요 없는 완전 자율주행"
+  ],
+  answer: ["a","b","c","d","e","f"],
+  exp: `<div class="exp-answer">✅ 정답: (a)~(f) 순서대로</div>
+<div class="exp-section-title">레벨별 상세 해설 (강의 녹취록 11강 표현 기반)</div>
+<div class="exp-item ok"><span class="mark">L0</span><span>운전자가 전부 한다. 종방향(longitudinal: 앞차 간격·속도) <b>AND</b> 횡방향(lateral: 차선 중앙 유지) 제어를 손과 발로 지속 수행.</span></div>
+<div class="exp-item ok"><span class="mark">L1</span><span><b>Assisted</b>. L0과의 차이는 단 한 글자: AND가 <b>OR</b>로 바뀜 — 둘 중 <b>하나</b>를 시스템이 보조(예: 크루즈 컨트롤만, 또는 차선 유지만).</span></div>
+<div class="exp-item ok"><span class="mark">L2</span><span><b>Partial automation</b>. 손도 발도 뗄 수 있다(고속도로에서 차선 유지+앞차 추종). 단, <b>눈은 계속 전방·환경 모니터링</b> — 여기까지가 "monitored driving". 복잡한 시내·정차 반복 상황은 잘 안 된다.</span></div>
+<div class="exp-item ok"><span class="mark">L3</span><span><b>Conditional automation</b>. 항상 보고 있을 필요 없음(옆 사람과 대화, 차 마시기 가능). 단 <b>시스템이 요청하면 제어를 받을 수 있는 위치(좌석)에는 있어야</b> 한다.</span></div>
+<div class="exp-item ok"><span class="mark">L4</span><span><b>High automation</b>. <b>정의된 use case 안에서는</b> 모든 상황 자동 대처 — 그 안에서는 운전자가 필요 없고 잠들어도 된다. "defined use case"라는 한정이 L5와의 차이.</span></div>
+<div class="exp-item ok"><span class="mark">L5</span><span><b>Full automation</b>. 한정 조건 없이 운전자 자체가 불필요한 완전 자율주행 — 궁극적 목표.</span></div>
+<div class="exp-tip">💡 단계 구분 키워드: L0=AND / L1=OR / L2=눈은 계속(monitored) / L3=요청 시만 / L4=정의된 use case / L5=무조건. 작년에 "자율주행 개념 문제 많이 나옴" — 레벨 문제가 가장 유력한 후보.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.10~12 + 강의 녹취록 11강</div>`
+},
+{
+  num: 102, week: "보충", type: "single", typeLabel: "틀린 것 고르기",
+  q: "자율주행 레벨에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","Level 2까지는 사람이 계속 환경을 주시해야 하는 \"monitored driving\"에 해당한다."],
+    ["2","Level 3에서는 시스템이 요청할 때만 운전하면 되므로, 전방을 보지 않고 차를 마시는 것도 가능하다."],
+    ["3","Level 4는 정의된 use case 안에서 거의 모든 상황에 대처할 수 있다."],
+    ["4","Tesla Autopilot은 현재 Level 4로 분류된다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. L0~L2가 <b>monitored driving</b> — 시스템이 보조해도 사람이 계속 환경을 봐야 하는 구간. L3부터 "항상 볼 필요 없음"으로 넘어간다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음. L3(conditional)에서는 시스템 요청 시에만 제어하면 되므로, 강의에서 든 예시 그대로 "옆 사람 보고 얘기하거나 차를 마셔도" 된다.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. L4(high automation) = 정의된 use case 내 모든 상황 자동 대처, 그 안에서는 운전자에게 요청할 일도 없다.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. 강의에서 명시: 미국에서 잘 된다고 알려진 Tesla Autopilot도 SAE 기준 <b>Level 2</b>(partial automation)로 분류된다. "눈은 항상 보고 있어야" 하는 단계. <b>L3는 이제 막 몇몇 회사가 도전·실증·시연하는 단계</b>로, "아직 갈 길이 멀다"는 것이 강의의 결론.</span></div>
+<div class="exp-tip">💡 현재 기술 수준 한 줄: <b>Tesla = L2 / L3 = 일부 회사 실증 중</b>. "Tesla가 L3/L4"라고 하면 무조건 틀린 보기.</div>
+<div class="exp-src">📖 강의 녹취록 11강 (Week12 레벨 슬라이드 해설)</div>`
+},
+{
+  num: 103, week: "보충", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "자율주행 관련 용어에 대한 설명을 보기에서 고르시오.\n보기: (a) Self-driving vehicle  (b) Automated vehicle  (c) Connected vehicle",
+  choices: [["a","(a) Self-driving"],["b","(b) Automated"],["c","(c) Connected"]],
+  rows: [
+    "운전자의 어떤 입력도 필요 없이 항상 360° 환경을 인식하며 주행. 휴먼 에러 요소를 제거하는 궁극적 목표",
+    "자동 주차처럼 특정 시나리오의 주행 task를 자동화. 100% 주행이 아니라 특정 작업의 자동화 개념",
+    "급제동·사고 등 safety-critical 정보를 차량-차량, 차량-인프라 간 교환 (예: 앞차의 급제동을 뒤차에 미리 알림)"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설 (강의 녹취록 11강 기반)</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Self-driving vehicle</b> — 궁극적 목표. <b>운전자 입력이 전혀 필요 없고(doesn't require any driver input)</b>, 항상 360° 공간을 인식. 사고 대부분이 휴먼 에러(과속·휴대폰)에서 오므로 이를 제거하는 것이 핵심 가치.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Automated vehicle</b> — self-driving보다 수준은 낮지만 <b>지금도 구현되어 있는</b> 개념. <b>특정 시나리오의 주행 task를 자동화</b> — 대표 예: 자동 주차(요즘 옵션으로 장착되어 나옴), highway pilot. "100% 주행이 아니라 특정 task"가 구분 기준.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Connected vehicle</b> — <b>차량-차량, 차량-인프라 간 safety-critical 정보 교환</b>(통신 분야 주제). 예: 앞차가 급제동하면 뒤차에 미리 알려 더 일찍 브레이킹 / 인프라가 판단한 속도 제한 변경을 차량에 통지. self-driving이 실현되면 이 개념이 더 중요해질 수 있다.</span></div>
+<div class="exp-tip">💡 구분 한 줄: <b>self-driving=입력 0(궁극) / automated=특정 task(현재) / connected=정보 교환(통신)</b>. "자동 주차"가 보이면 automated, "급제동 알림"이 보이면 connected.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.9 + 강의 녹취록 11강</div>`
+},
+{
+  num: 104, week: "보충", type: "multi", typeLabel: "모두 고르기",
+  q: "강의자료에서 제시한 사람의 운전(Human driving) 구성 요소를 모두 고르시오.",
+  opts: [
+    ["a","Vision — 눈으로 도로, 신호등, 표지판, 차량, 보행자 인식"],
+    ["b","Hearing — 주변 차량 소리, 경적 인식"],
+    ["c","Planning — 목적지 경로(장기), 차선 변경 등 주행 경로(단기) 계획"],
+    ["d","Decision — 지식과 경험에 기반한 상황 판단·의사결정"],
+    ["e","Control — 핸들, 브레이크, 가속 페달 조작"]
+  ],
+  answer: ["a","b","c","d","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (d), (e) — 전부 해당</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>Vision — 사람 운전의 첫 요소. 눈으로 도로·신호등·표지판·차량·보행자를 인식.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span><b>Hearing — 사람 운전에만 있는 요소</b>. 주변 차량 소리, 경적을 귀로 인식. 자율주행 정의(p.5)의 4요소(Vision/Planning/Decision/Control)에는 <b>Hearing이 빠져 있다</b> — 이 차이가 출제 포인트.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>Planning — 장기(목적지 경로) + 단기(차선 변경) 계획. 자율주행의 Planning과 동일 구조.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (d)</span><span>Decision — 지식과 경험 기반의 상황 판단. 자율주행에서는 AI가 이 역할.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>Control — 핸들·브레이크·가속 페달 조작. 자율주행에서는 제어 명령 도출(PID/LQR/MPC).</span></div>
+<div class="exp-tip">💡 함정 예상 지점: "자율주행 구성 요소를 모두 고르시오"로 바뀌면 <b>Hearing은 제외</b>해야 한다. 사람=5요소(Hearing 포함) / 자율주행=4요소. 두 슬라이드(p.4 vs p.5)의 차이를 정확히.</div>
+<div class="exp-src">📖 Week12 슬라이드 p.4~5</div>`
+},
+{
+  num: 105, week: "보충", type: "multi", typeLabel: "옳은 것 모두 고르기",
+  q: "주가 예측 문제 유형과 데이터 길이에 대한 설명 중 옳은 것을 모두 고르시오.",
+  opts: [
+    ["a","문제 유형은 daily classification, daily regression, intraday classification, intraday regression으로 나눌 수 있다."],
+    ["b","짧은 기간의 데이터는 overfitting 위험이 높다."],
+    ["c","긴 기간의 데이터는 시대에 뒤떨어진(out-of-dated) 결과를 보일 수 있다."],
+    ["d","Intraday 예측은 보통 10년 이상의 데이터를 사용한다."],
+    ["e","데이터 가용성(availability)과 비용(cost)도 함께 고려해야 한다."]
+  ],
+  answer: ["a","b","c","e"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c), (e)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ (a)</span><span>2×2 분류: 시간 단위(<b>daily/intraday</b>) × 출력 형태(<b>classification</b>: 오른다/내린다 vs <b>regression</b>: 수치 예측). 설문 논문 통계에서 daily classification·daily regression이 다수.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (b)</span><span>"Short time period – higher risk of <b>overfitting</b>" — 데이터가 짧으면 특정 시기 패턴에 과적합.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (c)</span><span>"Long time period – present <b>out-of-dated</b> results" — 너무 길면 시장 구조가 달라진 옛날 패턴까지 학습. 짧아도(과적합) 길어도(낡음) 문제라는 trade-off.</span></div>
+<div class="exp-item no"><span class="mark">❌ (d)</span><span>틀림. "Intraday prediction usually use a time period <b>less than one year</b>" — 1년 미만이다. 분 단위 데이터는 짧은 기간에도 양이 충분하기 때문. 10년 이상은 daily 예측 쪽 통계.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ (e)</span><span>"Data availability and costs should be considered" — 데이터 길이 결정 시 가용성·비용도 함께.</span></div>
+<div class="exp-tip">💡 데이터 길이 3원칙: 짧으면 과적합 / 길면 낡음 / intraday는 <b>1년 미만</b>. lag/horizon(문제 93)과 함께 데이터 설계 세트로 암기.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.6, p.9</div>`
+},
+{
+  num: 106, week: "보충", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "금융 데이터 처리·분할에 대한 설명을 보기에서 고르시오.\n보기: (a) Rolling training set  (b) Successive training set  (c) Last observation forward",
+  choices: [["a","(a) Rolling training set"],["b","(b) Successive training set"],["c","(c) Last observation forward"]],
+  rows: [
+    "최신 구간의 데이터만 train/valid 라운드에 사용 (창을 밀며 이동)",
+    "이전의 모든 데이터를 누적하여 학습에 사용",
+    "샘플링 주기가 다른 데이터를 정렬할 때 결측치를 마지막 관측값으로 전파하여 채움"
+  ],
+  answer: ["a","b","c"],
+  exp: `<div class="exp-answer">✅ 정답: (a), (b), (c)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(a) Rolling training set</b> — 고정 크기의 창(window)을 시간축으로 <b>밀면서 최신 구간만</b> 학습에 사용. 오래된 데이터를 버려 "낡은 패턴" 문제를 줄인다. 슬라이드 그림에서 학습 구간이 일정 길이로 이동.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(b) Successive training set</b> — <b>이전의 모든 데이터를 누적</b>해서 학습. 라운드가 진행될수록 학습 구간이 점점 길어진다. 데이터를 최대한 활용하지만 낡은 패턴도 포함.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(c) Last observation forward</b> — 일·분 단위 등 <b>샘플링 주기가 다른 데이터들을 정렬(align)</b>할 때, 빈 구간을 <b>마지막 관측값으로 전파</b>해 채우는 결측 처리. 미래 값을 끌어오지 않는다는 점이 중요(미래 정보 누설 방지).</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>분할 대원칙: 학습=train(in-sample) / 하이퍼파라미터 튜닝=validation / <b>최종 성능=test(out-of-sample)</b>. test를 보고 튜닝하면 평가가 무효 — 이 원칙의 위반 보기가 "틀린 것 고르기"로 나올 수 있다.</span></div>
+<div class="exp-tip">💡 rolling vs successive 구분: <b>"버리며 민다" vs "쌓으며 늘린다"</b>. 시계열에서는 일반 k-fold 대신 이런 시간 순서 보존 분할을 쓴다는 맥락도 함께.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.10~11</div>`
+},
+{
+  num: 107, week: "보충", type: "calc", typeLabel: "계산 문제 — 종합 평가지표",
+  q: "어떤 이진 분류기의 결과가 TP=30, FP=10, FN=20, TN=40이다. Accuracy, Precision, Recall(Sensitivity), Specificity, F1-score를 구하시오.",
+  hint: "소수(예: 0.75) 또는 분수로 입력. F1은 소수점 셋째 자리까지(0.667)",
+  rows: [
+    { label: "Accuracy:", accept: ["0.7","0.70","70/100","7/10"] },
+    { label: "Precision:", accept: ["0.75","30/40","3/4"] },
+    { label: "Recall(Sensitivity):", accept: ["0.6","0.60","30/50","3/5"] },
+    { label: "Specificity:", accept: ["0.8","0.80","40/50","4/5"] },
+    { label: "F1-score:", accept: ["0.667","0.67","2/3"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: Acc=0.70, P=0.75, R=0.60, Spec=0.80, F1≈0.667</div>
+<div class="exp-section-title">풀이 과정 (공식 → 대입)</div>
+<div class="exp-calc"><b>Accuracy</b> = (TP+TN)/(TP+TN+FP+FN) = (30+40)/100 = <b>0.70</b> — 전체 중 맞춘 비율(양·음성 모두).</div>
+<div class="exp-calc"><b>Precision</b> = TP/(TP+FP) = 30/(30+10) = 30/40 = <b>0.75</b> — 양성 예측 중 진짜 비율.</div>
+<div class="exp-calc"><b>Recall(Sensitivity)</b> = TP/(TP+FN) = 30/(30+20) = 30/50 = <b>0.60</b> — 실제 양성 중 찾은 비율.</div>
+<div class="exp-calc"><b>Specificity</b>(True Negative Rate) = TN/(TN+FP) = 40/(40+10) = 40/50 = <b>0.80</b> — 실제 음성 중 음성으로 맞춘 비율. <b>recall의 음성 버전</b>.</div>
+<div class="exp-calc"><b>F1</b> = 2×P×R/(P+R) = 2×0.75×0.60/(1.35) = 0.9/1.35 ≈ <b>0.667</b> — P와 R의 조화평균. 산술평균(0.675)보다 항상 작거나 같고, 둘 중 낮은 쪽에 끌려간다.</div>
+<div class="exp-section-title">자주 하는 실수</div>
+<div class="exp-item no"><span class="mark">❌</span><span>Specificity 분모에 FN을 넣는 실수 — Specificity는 <b>음성 쪽 짝(TN, FP)</b>만 쓴다. recall(TP, FN)과 대칭 구조로 기억: recall=양성의 회수율, specificity=음성의 회수율.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span>F1을 산술평균 (0.75+0.60)/2 = 0.675로 계산 — F1은 <b>조화평균</b>이다. UP-Fall 실험(Week9)의 F1 공식도 동일.</span></div>
+<div class="exp-tip">💡 다섯 공식을 confusion matrix 한 장에 배치해서 암기: 행=실제, 열=예측. 작년 기출은 P/R만 물었지만 specificity·F1까지 한 번에 묻는 확장형 대비.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.15 (UP-Fall: Week9 p.21)</div>`
+},
+{
+  num: 108, week: "보충", type: "calc", typeLabel: "계산 문제 — Object detection 중복 처리",
+  q: "GT 박스가 3개(A, B, C) 있다. IoU threshold는 0.5이고, 하나의 GT는 confidence가 가장 높은 detection 한 번만 TP로 인정한다. confidence 순 예측이 다음과 같을 때 Precision과 Recall을 구하시오.\n\nP1: IoU 0.80 (GT A) / P2: IoU 0.60 (GT A) / P3: IoU 0.40 (GT B) / P4: IoU 0.70 (GT B) / P5: IoU 0.55 (GT C)",
+  hint: "분수(예: 2/5) 또는 소수로 입력",
+  rows: [
+    { label: "Precision:", accept: ["3/5","0.6","0.60"] },
+    { label: "Recall:", accept: ["3/3","1","1.0","100%"] }
+  ],
+  exp: `<div class="exp-answer">✅ 정답: Precision = 3/5 = 0.6, Recall = 3/3 = 1.0</div>
+<div class="exp-section-title">풀이 과정 — detection을 confidence 순으로 하나씩 판정</div>
+<div class="exp-calc"><b>P1</b> (IoU 0.80, GT A): IoU ≥ 0.5 ✓, A는 아직 미매칭 → <b>TP</b> (A 매칭 완료)<br>
+<b>P2</b> (IoU 0.60, GT A): IoU는 통과하지만 <b>A는 이미 P1에 매칭됨 → 중복 detection = FP</b><br>
+<b>P3</b> (IoU 0.40, GT B): <b>IoU 0.40 &lt; 0.5 → FP</b> (위치가 부정확)<br>
+<b>P4</b> (IoU 0.70, GT B): IoU ✓, B는 아직 미매칭(P3은 실패였으므로) → <b>TP</b><br>
+<b>P5</b> (IoU 0.55, GT C): IoU ✓, C 미매칭 → <b>TP</b></div>
+<div class="exp-calc"><b>집계</b>: TP=3 (P1, P4, P5), FP=2 (P2, P3), FN=0 (GT 3개 모두 발견)<br>
+Precision = 3/(3+2) = <b>3/5 = 0.6</b><br>
+Recall = 3/(3+0) = <b>3/3 = 1.0</b></div>
+<div class="exp-section-title">이 문제의 두 가지 함정 규칙</div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>중복 detection</b> — 같은 GT를 여러 번 맞혀도 TP는 한 번(confidence 최고)뿐, 나머지는 FP. P2를 TP로 세면 P=4/5로 틀린다.</span></div>
+<div class="exp-item no"><span class="mark">❌</span><span><b>IoU 미달</b> — GT와 겹치긴 해도 IoU &lt; threshold면 FP. P3을 TP로 세는 실수 주의.</span></div>
+<div class="exp-tip">💡 작년 기출 "IoU랑 confidence랑 주고 precision recall 계산"의 완전체 버전. 판정 순서: ① confidence 내림차순 ② IoU ≥ threshold? ③ 해당 GT 미매칭? — 둘 다 통과해야 TP.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.28~30</div>`
+},
+{
+  num: 109, week: "보충", type: "single", typeLabel: "틀린 것 고르기",
+  q: "Semantic segmentation 평가에 대한 설명 중 틀린 것은?",
+  opts: [
+    ["1","Pixel accuracy는 올바르게 분류된 픽셀의 비율이다."],
+    ["2","한 클래스가 전체 픽셀의 70%를 차지하면, 전부 그 클래스로 예측해도 70% pixel accuracy가 나온다."],
+    ["3","Mean IoU는 클래스별 IoU를 구한 뒤 전체 클래스에 대해 평균한다."],
+    ["4","Pixel accuracy는 클래스 불균형의 영향을 받지 않는 강건한 지표이다."]
+  ],
+  answer: "4",
+  exp: `<div class="exp-answer">✅ 정답: ④ (틀린 것)</div>
+<div class="exp-section-title">보기별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">⭕ ①</span><span>옳음. pixel accuracy = 올바르게 분류된 픽셀 수 / 전체 픽셀 수. 가장 직관적인 segmentation 지표.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ②</span><span>옳음 — 슬라이드의 예시 그대로. 클래스 A가 70%를 차지하면 <b>"전부 A"라고 찍는 무의미한 모델도 70%</b>가 나온다. 이것이 pixel accuracy의 맹점을 보여주는 사고 실험.</span></div>
+<div class="exp-item ok"><span class="mark">⭕ ③</span><span>옳음. <b>mean IoU</b> = 클래스별로 IoU(교집합/합집합)를 구해 전 클래스 평균. 클래스마다 동등한 가중치를 주므로 불균형에 강건 — macro-averaging(문제 97)과 같은 철학.</span></div>
+<div class="exp-item no"><span class="mark">❌ ④</span><span>틀림 — 정답. ②의 예시가 바로 pixel accuracy가 <b>불균형에 취약(biased)</b>하다는 증거다. 그래서 mean IoU를 함께 보는 것. ②와 ④는 서로 모순이므로 둘 중 하나는 반드시 틀린 보기 — 이런 내부 모순을 발견하면 빨리 풀 수 있다.</span></div>
+<div class="exp-tip">💡 대응 관계로 암기: <b>pixel accuracy ↔ (다중분류의) total accuracy</b> — 둘 다 불균형에 취약 / <b>mean IoU ↔ macro-average</b> — 둘 다 클래스 동등. Week14 평가지표 철학이 하나로 연결된다.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.33</div>`
+},
+{
+  num: 110, week: "보충", type: "match", typeLabel: "설명에 맞는 것 작성 (매칭)",
+  q: "주가 예측 모델의 평가지표를 해당 카테고리 보기에서 고르시오.\n보기: (a) Classification 지표  (b) Regression 지표  (c) Profit 지표",
+  choices: [["a","(a) Classification"],["b","(b) Regression"],["c","(c) Profit"]],
+  rows: [
+    "MAE, RMSE, MSE",
+    "Return, Maximum Drawdown(MDD), Sharpe Ratio",
+    "Accuracy, Precision, Recall, F1-score"
+  ],
+  answer: ["b","c","a"],
+  exp: `<div class="exp-answer">✅ 정답: (b), (c), (a)</div>
+<div class="exp-section-title">항목별 상세 해설</div>
+<div class="exp-item ok"><span class="mark">1️⃣</span><span><b class="opt-tag">(b) Regression 지표</b> — <b>MAE, RMSE, MSE</b>: 예측 수치와 실제 수치의 오차 크기. "내일 +2.3%"처럼 <b>수치를 예측</b>하는 regression 출력에 사용.</span></div>
+<div class="exp-item ok"><span class="mark">2️⃣</span><span><b class="opt-tag">(c) Profit 지표</b> — <b>Return</b>(수익률), <b>MDD</b>(Maximum Drawdown: 고점 대비 최대 낙폭 = 최악의 순간 얼마나 잃었나), <b>Sharpe Ratio</b>(위험 대비 수익). 모델이 아니라 <b>전략의 돈 관점</b> 평가.</span></div>
+<div class="exp-item ok"><span class="mark">3️⃣</span><span><b class="opt-tag">(a) Classification 지표</b> — <b>Accuracy/Precision/Recall/F1</b>: "오른다/내린다"처럼 <b>방향을 분류</b>하는 출력에 사용.</span></div>
+<div class="exp-item ok"><span class="mark">📌</span><span>이 분류가 중요한 이유 = "<b>High accuracy does not guarantee high profit</b>". 분류 지표가 좋아도 손익비(PnL)·거래 비용·파산 위험 때문에 profit 지표는 나쁠 수 있다 — 그래서 금융에서는 세 번째 카테고리(profit)가 별도로 존재한다.</span></div>
+<div class="exp-tip">💡 출력 형태→지표 매칭: 분류 출력→Acc/P/R/F1, 수치 출력→MAE/RMSE/MSE, 전략 평가→Return/MDD/Sharpe. MDD와 Sharpe는 이름만 나와도 "profit 지표"로 분류할 수 있게.</div>
+<div class="exp-src">📖 Week14 슬라이드 p.13</div>`
+}
+
+]; /* QUESTIONS 끝 — 전체 110문제 수록 완료 */
+
+/* ============================================================
+   렌더링 + 채점 엔진
+   ============================================================ */
+const quizEl = document.getElementById('quiz');
+const solved = {};
+
+function esc(s){ return s; }
+
+function render() {
+  // 탭
+  const weeks = [...new Set(QUESTIONS.map(q => q.week))];
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  const allTab = document.createElement('div');
+  allTab.className = 'tab active';
+  allTab.innerHTML = `전체 <span class="cnt">(${QUESTIONS.length})</span>`;
+  allTab.onclick = () => filterWeek(null, allTab);
+  tabsEl.appendChild(allTab);
+  weeks.forEach(w => {
+    const t = document.createElement('div');
+    t.className = 'tab';
+    const cnt = QUESTIONS.filter(q => q.week === w).length;
+    t.innerHTML = `${w} <span class="cnt">(${cnt})</span>`;
+    t.onclick = () => filterWeek(w, t);
+    tabsEl.appendChild(t);
+  });
+
+  // 문제 카드
+  quizEl.innerHTML = '';
+  QUESTIONS.forEach(q => quizEl.appendChild(buildCard(q)));
+  document.getElementById('total').textContent = QUESTIONS.length;
+}
+
+function buildCard(q) {
+  const card = document.createElement('div');
+  card.className = 'question-card';
+  card.dataset.qid = 'q' + q.num;
+  card.dataset.week = q.week;
+  card.dataset.type = q.type;
+
+  let metaStar = q.star ? `<span class="star">★${q.star}</span>` : '';
+  let html = `
+    <div class="q-meta">
+      <span class="q-num">문제 ${q.num}</span>
+      <span class="q-type">${q.typeLabel}</span>
+      <span class="q-week">${q.week}</span>
+      ${metaStar}
+    </div>
+    <div class="q-text">${q.q}</div>`;
+
+  if (q.type === 'multi' || q.type === 'single') {
+    const inputType = q.type === 'multi' ? 'checkbox' : 'radio';
+    html += `<div class="options">`;
+    q.opts.forEach(([val, text]) => {
+      const tag = q.type === 'multi' ? `(${val})` : circled(val);
+      html += `<label><input type="${inputType}" name="q${q.num}" value="${val}"> ${tag} ${text}</label>`;
+    });
+    html += `</div>`;
+  }
+  else if (q.type === 'match') {
+    html += `<div class="match-area">`;
+    q.rows.forEach(desc => {
+      let optsHtml = `<option value="">선택</option>`;
+      q.choices.forEach(([val, label]) => { optsHtml += `<option value="${val}">${label}</option>`; });
+      html += `<div class="match-row"><span class="desc">• ${desc}</span><select>${optsHtml}</select></div>`;
+    });
+    html += `</div>`;
+  }
+  else if (q.type === 'calc') {
+    if (q.hint) html += `<div class="calc-hint">💡 ${q.hint}</div>`;
+    q.rows.forEach(r => {
+      html += `<div class="calc-row"><span class="calc-label">${r.label}</span><input type="text" data-accept="${r.accept.join('|')}" placeholder="답 입력"></div>`;
+    });
+  }
+
+  html += `
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkQuestion('q${q.num}')">정답 확인</button>
+      <button class="btn-show" onclick="toggleExp('q${q.num}')">해설 보기</button>
+    </div>
+    <div class="result-badge"></div>
+    <div class="explanation">${q.exp}</div>`;
+
+  card.innerHTML = html;
+  return card;
+}
+
+function circled(v) {
+  const map = {"1":"①","2":"②","3":"③","4":"④","5":"⑤"};
+  return map[v] || `(${v})`;
+}
+
+function getCard(qid) { return document.querySelector(`.question-card[data-qid="${qid}"]`); }
+function getQ(qid) { return QUESTIONS.find(q => 'q' + q.num === qid); }
+function normalize(s) { return s.trim().toLowerCase().replace(/\s+/g, ''); }
+
+function checkQuestion(qid) {
+  const card = getCard(qid);
+  const q = getQ(qid);
+  let isCorrect = false, answered = false;
+
+  if (q.type === 'multi') {
+    const checked = [...card.querySelectorAll('input:checked')].map(i => i.value);
+    answered = checked.length > 0;
+    isCorrect = checked.sort().join(',') === [...q.answer].sort().join(',');
+    if (answered) markOptions(card, q.answer, checked);
+  }
+  else if (q.type === 'single') {
+    const sel = card.querySelector('input:checked');
+    answered = !!sel;
+    if (answered) {
+      isCorrect = sel.value === q.answer;
+      markOptions(card, [q.answer], [sel.value]);
+    }
+  }
+  else if (q.type === 'match') {
+    const selects = [...card.querySelectorAll('select')];
+    answered = selects.every(s => s.value !== '');
+    if (answered) {
+      isCorrect = true;
+      selects.forEach((s, i) => {
+        const ok = s.value === q.answer[i];
+        s.classList.add(ok ? 'sel-correct' : 'sel-wrong');
+        if (!ok) isCorrect = false;
+        s.disabled = true;
+      });
+    }
+  }
+  else if (q.type === 'calc') {
+    const inputs = [...card.querySelectorAll('input[type=text]')];
+    answered = inputs.every(i => i.value.trim() !== '');
+    if (answered) {
+      isCorrect = true;
+      inputs.forEach(inp => {
+        const accepts = inp.dataset.accept.split('|').map(normalize);
+        const ok = accepts.includes(normalize(inp.value));
+        inp.classList.add(ok ? 'sel-correct' : 'sel-wrong');
+        if (!ok) isCorrect = false;
+        inp.disabled = true;
+      });
+    }
+  }
+
+  const badge = card.querySelector('.result-badge');
+  if (!answered) {
+    badge.className = 'result-badge wrong';
+    badge.textContent = '⚠️ 모든 항목에 답을 입력/선택해 주세요.';
+    return;
+  }
+  badge.className = 'result-badge ' + (isCorrect ? 'correct' : 'wrong');
+  badge.textContent = isCorrect ? '⭕ 정답입니다!' : '❌ 오답입니다. 아래 해설을 확인해 보세요.';
+  card.querySelector('.btn-check').disabled = true;
+  if (!isCorrect) card.querySelector('.explanation').classList.add('show');
+
+  solved[qid] = isCorrect;
+  updateScore();
+}
+
+function markOptions(card, answerArr, chosenArr) {
+  card.querySelectorAll('.options label').forEach(label => {
+    const val = label.querySelector('input').value;
+    label.classList.add('disabled');
+    label.querySelector('input').disabled = true;
+    if (answerArr.includes(val)) label.classList.add('opt-correct');
+    else if (chosenArr.includes(val)) label.classList.add('opt-wrong');
+  });
+}
+
+function toggleExp(qid) { getCard(qid).querySelector('.explanation').classList.toggle('show'); }
+
+function updateScore() {
+  const vals = Object.values(solved);
+  document.getElementById('score').textContent = vals.filter(v => v).length;
+  document.getElementById('answered').textContent = vals.length;
+}
+
+let currentWeek = null;
+function filterWeek(week, tabEl) {
+  currentWeek = week;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.querySelectorAll('.question-card').forEach(c => {
+    c.style.display = (!week || c.dataset.week === week) ? '' : 'none';
+  });
+}
+
+function showWrongOnly() {
+  document.querySelectorAll('.question-card').forEach(c => {
+    const st = solved[c.dataset.qid];
+    const weekOk = !currentWeek || c.dataset.week === currentWeek;
+    c.style.display = (weekOk && st === false) ? '' : 'none';
+  });
+}
+
+render();
+</script>
+</body>
+</html>
